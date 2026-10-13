@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- El domini s'aplica amb: python tools/aplica-domini.py elmeudomini.cat (vegeu docs/DOMINI.md). -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://__DOMINI__/</loc></url>
+  <url><loc>https://__DOMINI__/legal/privadesa.html</loc></url>
+  <url><loc>https://__DOMINI__/legal/avis-legal.html</loc></url>
+  <url><loc>https://__DOMINI__/legal/condicions.html</loc></url>
+  <url><loc>https://__DOMINI__/legal/cookies.html</loc></url>
+</urlset>

@@ -1,0 +1,106 @@
+/* ==========================================================
+   MentA · L'ELEFANT (v1.9) · estils del personatge, el globus i l'anell d'assenyalar
+   Colors: gris del logo, verd MentA a la roba. Clar/fosc per variables. Res d'animar width/height/top/left.
+   ========================================================== */
+.el-wrap {
+  --el-cos: #a9b8c8; --el-cap: #b7c5d3; --el-fons: #8d9db0; --el-ombra: #76889c; --el-llum: #dbe4ec; --el-orella: #a0b1c3; --el-orella-int: #f1c3c6;
+  --el-trompa: #b7c5d3; --el-ullal: #f6f1e3; --el-ungla: #e6e9ee; --el-pupilla: #1f2a36; --el-blanc: #ffffff; --el-galta: #f19ea6;
+  --el-verd: #2e8b57; --el-verd-fosc: #1f6b43; --el-boca: #3b2f33; --el-linia: #55657a;
+  position: relative; display: block; width: var(--el-ample, 14rem); max-width: 100%; line-height: 0; user-select: none; -webkit-tap-highlight-color: transparent;
+}
+html[data-tema="fosc"] .el-wrap, .el-wrap[data-tema="fosc"] {
+  --el-cos: #b4c3d3; --el-cap: #c0cedc; --el-fons: #94a5b9; --el-ombra: #7d8fa4; --el-llum: #e3ebf2; --el-orella: #aab9ca; --el-orella-int: #f4c9cc; --el-trompa: #c0cedc; --el-ungla: #eef1f5; --el-linia: #3d4a5c; --el-verd: #3fae70; --el-verd-fosc: #2e8b57;
+}
+.el-wrap[data-tema="clar"] { --el-cos: #a9b8c8; --el-cap: #b7c5d3; --el-fons: #8d9db0; --el-ombra: #76889c; --el-llum: #dbe4ec; --el-orella: #a0b1c3; --el-trompa: #b7c5d3; }
+.el-wrap[data-mida="mini"] { --el-ample: 3rem; } .el-wrap[data-mida="mitjana"] { --el-ample: 7rem; } .el-wrap[data-mida="gran"] { --el-ample: 12rem; }
+.el-figura { display: block; width: 100%; }
+.el-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.el-svg *, .el-svg { transform-box: view-box; }
+.el-c-cos { fill: var(--el-cos); } .el-c-cap { fill: var(--el-cap); } .el-c-fons { fill: var(--el-fons); } .el-c-orella { fill: var(--el-orella); } .el-c-trompa { fill: var(--el-trompa); }
+.el-c-ombra, .el-trompa-ombra { fill: var(--el-ombra); } .el-trompa-ombra { opacity: .3; }
+.el-llum { fill: var(--el-llum); opacity: .55; } .el-orella-int { fill: var(--el-orella-int); opacity: .85; }
+.el-pota-cos, .el-c-trompa { stroke: var(--el-ombra); stroke-opacity: .3; stroke-width: 1.4; }
+.el-orella-int { fill: var(--el-orella-int); opacity: .7; } .el-c-orella { stroke: var(--el-ombra); stroke-opacity: .25; stroke-width: 1.5; }
+.el-arruga, .el-trompa-arrugues { fill: none; stroke: var(--el-ombra); stroke-width: 2; stroke-linecap: round; opacity: .45; } .el-trompa-arrugues { opacity: .38; }
+.el-ombra { fill: #000; opacity: .14; } .el-c-ungla { fill: var(--el-ungla); }
+.el-cua-cos { stroke: var(--el-cos); } .el-cua .el-c-ombra { opacity: .9; }
+.el-ullal { fill: var(--el-ullal); stroke: #d6cdb0; stroke-width: 1; }
+.el-blanc { fill: var(--el-blanc); stroke: rgba(0,0,0,.25); stroke-width: 1; } .el-c-pupilla { fill: var(--el-pupilla); }
+.el-parpella { stroke: rgba(0,0,0,.18); stroke-width: 1; }
+.el-cella { fill: none; stroke: var(--el-linia); stroke-width: 3.2; stroke-linecap: round; opacity: .75; }
+.el-galta { fill: var(--el-galta); }
+.el-boca path { stroke: var(--el-boca); } .el-boca-oberta, .el-boca-o { fill: var(--el-boca); stroke: none !important; } .el-llengua { fill: #d9777a; stroke: none !important; }
+.el-boca-neutra, .el-boca-oberta, .el-llengua, .el-boca-o, .el-boca-trista { display: none; }
+.el-verd { fill: var(--el-verd); } .el-verd-fosc { fill: var(--el-verd-fosc); } .el-franja { fill: none; stroke: #f6f0e5; stroke-width: 3; stroke-linecap: round; opacity: .85; }
+.el-aigua circle { fill: #7cc4ef; opacity: .85; }
+.el-escena, .el-cap, .el-orella-esq, .el-orella-dre, .el-cua, .el-pota, .el-cos { will-change: auto; }
+.el-wrap[data-estat="dorm"]::after { content: "z z"; position: absolute; right: 8%; top: 4%; font: 700 1.3rem/1 var(--font, system-ui); color: var(--text-suau, #6a6459); letter-spacing: .2rem; animation: el-zzz 3s ease-in-out infinite; }
+@keyframes el-zzz { 0% { opacity: 0; transform: translateY(6px); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(-12px); } }
+
+/* Globus de text (aria-live): mai dins d'un joc cronometrat si no és una pista */
+.el-globus { position: absolute; z-index: 5; max-width: min(17rem, 80vw); width: max-content; padding: .6rem .85rem; border-radius: 1rem; background: var(--superficie, #fff); color: var(--text, #1f2a24); border: 2px solid var(--vora-forta, #b9d5c4); box-shadow: 0 .4rem 1.2rem rgba(0,0,0,.14); font: 600 var(--t-s, 1rem)/1.35 var(--font, system-ui); line-height: 1.35; opacity: 0; transform: translateY(6px) scale(.97); transition: opacity .2s, transform .2s; }
+.el-globus.visible { opacity: 1; transform: none; }
+.el-globus[hidden] { display: none; }
+.el-globus-text { margin: 0; }
+.el-globus-accions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .55rem; }
+.el-globus-accions:empty { display: none; }
+.el-boto { min-height: 48px; min-width: 48px; padding: .4rem 1rem; border-radius: .8rem; font: 700 var(--t-s, 1rem) var(--font, system-ui); cursor: pointer; border: 2px solid var(--primari, #2e8b57); }
+.el-boto.principal { background: var(--primari, #2e8b57); color: var(--text-invers, #fff); } .el-boto.secundari { background: transparent; color: var(--primari-fosc, #1f6b43); }
+
+/* Anell pulsant sobre l'objectiu assenyalat */
+.el-anell { position: fixed; z-index: 60; translate: -50% -50%; border-radius: 50%; border: 4px solid var(--accent, #f2a65a); box-shadow: 0 0 0 4px rgba(255,255,255,.65), 0 0 18px 4px rgba(242,166,90,.55); pointer-events: none; animation: el-anell 1.1s ease-in-out infinite; }
+@keyframes el-anell { 0%, 100% { scale: .94; opacity: .95; } 50% { scale: 1.12; opacity: .7; } }
+@media (prefers-reduced-motion: reduce) { .el-anell { animation: none; } .el-globus { transition: none; } .el-wrap[data-estat="dorm"]::after { animation: none; opacity: 1; } }
+body.sense-animacions .el-anell { animation: none; } body.sense-animacions .el-globus { transition: none; }
+
+/* ---------- L'Elefantet: fix a baix a la dreta, petit i quiet ---------- */
+.elefant-flotant { position: fixed; right: max(.7rem, env(safe-area-inset-right)); bottom: calc(var(--alt-nav, 0px) + .6rem + env(safe-area-inset-bottom)); z-index: 40; width: 56px; transition: transform .38s cubic-bezier(.3,.8,.3,1), opacity .3s; }
+body.jugant .elefant-flotant { bottom: calc(.7rem + env(safe-area-inset-bottom)); }
+.elefant-flotant .el-wrap { --el-ample: 56px; line-height: 0; }
+.elefant-flotant .el-figura { cursor: pointer; border-radius: 1rem; width: 56px; min-height: 48px; filter: drop-shadow(0 2px 3px rgba(0,0,0,.18)); }
+.elefant-flotant .el-figura:focus-visible { outline: 3px solid var(--focus, #1f6feb); outline-offset: 3px; }
+.elefant-flotant.amagat { transform: translateX(calc(100% + 1.5rem)); opacity: 0; pointer-events: none; visibility: hidden; transition: transform .38s cubic-bezier(.3,.8,.3,1), opacity .3s, visibility 0s .4s; }
+.el-wrap[data-rol="flotant"] .el-globus { position: absolute; right: 0; bottom: calc(100% + .45rem); width: max-content; max-width: min(17rem, calc(100vw - 1.4rem)); z-index: 5; opacity: 0; translate: none; transform-origin: 90% 100%; }
+.el-wrap[data-rol="flotant"] .el-globus.visible { opacity: 1; }
+.el-wrap[data-rol="flotant"] .el-globus::after { content: ""; position: absolute; width: .9rem; height: .9rem; background: inherit; border: inherit; border-top: 0; border-left: 0; rotate: 45deg; bottom: -.5rem; right: 1.4rem; left: auto; top: auto; }
+body.focus .elefant-flotant { display: none; }
+@media print { .el-wrap, .elefant-flotant, .pista-targeta, .el-anell { display: none !important; } }
+@media (max-height: 520px) { .elefant-flotant { display: none; } }
+.barra-joc .el-slot-joc { color: var(--accent-fosc, #8a5200); }
+.barra-joc .el-slot-joc[hidden] { display: none; }
+
+/* Resalt d'un element amb ajuda de nivell 3 (no depèn només del color: contorn gruixut i ombra) */
+.pista-flash { outline: 5px solid var(--accent, #f2a65a) !important; outline-offset: 2px; box-shadow: 0 0 0 5px rgba(255,255,255,.7), 0 0 18px 6px rgba(242,166,90,.65) !important; z-index: 2; position: relative; animation: el-anell 1.1s ease-in-out infinite; }
+body.sense-animacions .pista-flash { animation: none; }
+.opcio.descartada { opacity: .38; text-decoration: line-through; }
+
+/* ---------- Configuració: nom, roba i vista prèvia ---------- */
+.ajust-elefant { display: grid; gap: .6rem; }
+.elefant-vestuari { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: .5rem; }
+.vestit { min-height: 56px; padding: .5rem .7rem; text-align: left; border-radius: .8rem; border: 2px solid var(--vora, #cfd8cf); background: var(--superficie, #fff); color: var(--text, #1f2a24); font: 600 var(--t-s, 1rem) var(--font, system-ui); cursor: pointer; display: grid; gap: .1rem; }
+.vestit small { font-weight: 500; color: var(--text-suau, #5b6560); font-size: .82em; }
+.vestit.sel { border-color: var(--primari, #2e8b57); background: var(--primari-suau, #e3f2e9); }
+.vestit.bloquejat { opacity: .6; cursor: default; }
+
+.onb-idioma { margin-top: .4rem; justify-content: center; } .onb-idioma button { min-height: 48px; min-width: 7rem; }
+.onboarding-card.compacte-2 .onb-idioma { display: none; }
+
+/* ---------- Còpia de seguretat i espai utilitzat ---------- */
+.avis-copia { align-items: center; flex-wrap: wrap; }
+.avis-copia.urgent { border: 2px solid var(--accent, #c9771f); }
+.avis-copia .text-r small { display: block; font-weight: 500; opacity: .85; }
+.avis-copia button { margin-left: auto; min-height: 48px; }
+.espai-utilitzat .barra-espai { height: .8rem; border-radius: 1rem; background: var(--vora, #d9d2c4); overflow: hidden; margin-bottom: .5rem; }
+.espai-utilitzat .barra-espai i { display: block; height: 100%; background: var(--primari, #2e8b57); }
+.llista-resum { margin: .4rem 0 .6rem 1.1rem; display: grid; gap: .25rem; }
+.confirm-tres { display: grid; grid-template-columns: 1fr; gap: .6rem; }
+.confirm-tres button { min-height: 52px; }
+
+/* ---------- Mode pilot: sense fotos ---------- */
+body.mode-pilot .foto-perfil-wrapper, body.mode-pilot .fila-accio[onclick*="album"], body.mode-pilot #memory-fotos, body.mode-pilot [data-foto-familia] { display: none !important; }
+.baner-pilot .avis-caixa { background: var(--accent-suau, #fdebd2); }
+.modal-sus { max-height: 92dvh; overflow-y: auto; }
+.sus-pregunta { border: 0; padding: 0; margin: 0 0 .8rem; } .sus-pregunta legend { font-weight: 600; margin-bottom: .3rem; }
+.sus-pregunta .segmentat button { min-width: 44px; min-height: 44px; }
+/* en amagar-lo per canvi de pantalla (cuidador, benvinguda, focus) desapareix a l'instant, sense recórrer la pantalla */
+.elefant-flotant.sense-trans, .elefant-flotant.sense-trans.amagat { transition: none !important; }

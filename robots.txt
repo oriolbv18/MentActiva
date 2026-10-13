@@ -1,0 +1,3 @@
+# La línia «Sitemap» la posa tools/aplica-domini.py quan s'aplica un domini (vegeu docs/DOMINI.md).
+User-agent: *
+Allow: /

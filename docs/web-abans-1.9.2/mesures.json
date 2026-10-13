@@ -1,0 +1,634 @@
+{
+ "390_clar_normal": {
+  "gutters": {
+   "#capcalera": 20,
+   "section.l-heroi": 20,
+   "section.l-banda": 20,
+   "#com-funciona": 20,
+   "#demo": 20,
+   "#jocs": 20,
+   "#per-a-qui": 20,
+   "#cuidador": 20,
+   "#residencies": 20,
+   "#enfocament": 20,
+   "#preguntes": 20,
+   "#equip": 20,
+   "#contacte": 20,
+   "section.l-final": 20,
+   "footer.l-peu": 20
+  },
+  "ample_contingut": 350,
+  "seccio_y": 59.5,
+  "paddings": {
+   "l-heroi": [
+    60,
+    60
+   ],
+   "l-banda": [
+    32,
+    32
+   ],
+   "#com-funciona": [
+    60,
+    60
+   ],
+   "#demo": [
+    60,
+    60
+   ],
+   "#jocs": [
+    60,
+    60
+   ],
+   "#per-a-qui": [
+    60,
+    60
+   ],
+   "#cuidador": [
+    60,
+    60
+   ],
+   "#residencies": [
+    60,
+    60
+   ],
+   "#enfocament": [
+    60,
+    60
+   ],
+   "#preguntes": [
+    60,
+    60
+   ],
+   "#equip": [
+    60,
+    60
+   ],
+   "#contacte": [
+    60,
+    60
+   ],
+   "l-final": [
+    60,
+    60
+   ]
+  },
+  "cap_alt": 64,
+  "h1_px": 34,
+  "html_px": 16,
+  "cls": 0.008
+ },
+ "390_fosc_normal": {
+  "gutters": {
+   "#capcalera": 20,
+   "section.l-heroi": 20,
+   "section.l-banda": 20,
+   "#com-funciona": 20,
+   "#demo": 20,
+   "#jocs": 20,
+   "#per-a-qui": 20,
+   "#cuidador": 20,
+   "#residencies": 20,
+   "#enfocament": 20,
+   "#preguntes": 20,
+   "#equip": 20,
+   "#contacte": 20,
+   "section.l-final": 20,
+   "footer.l-peu": 20
+  },
+  "ample_contingut": 350,
+  "seccio_y": 59.5,
+  "paddings": {
+   "l-heroi": [
+    60,
+    60
+   ],
+   "l-banda": [
+    32,
+    32
+   ],
+   "#com-funciona": [
+    60,
+    60
+   ],
+   "#demo": [
+    60,
+    60
+   ],
+   "#jocs": [
+    60,
+    60
+   ],
+   "#per-a-qui": [
+    60,
+    60
+   ],
+   "#cuidador": [
+    60,
+    60
+   ],
+   "#residencies": [
+    60,
+    60
+   ],
+   "#enfocament": [
+    60,
+    60
+   ],
+   "#preguntes": [
+    60,
+    60
+   ],
+   "#equip": [
+    60,
+    60
+   ],
+   "#contacte": [
+    60,
+    60
+   ],
+   "l-final": [
+    60,
+    60
+   ]
+  },
+  "cap_alt": 64,
+  "h1_px": 34,
+  "html_px": 16,
+  "cls": 0.008
+ },
+ "768_clar_normal": {
+  "gutters": {
+   "#capcalera": 30.7,
+   "section.l-heroi": 30.7,
+   "section.l-banda": 30.7,
+   "#com-funciona": 30.7,
+   "#demo": 30.7,
+   "#jocs": 30.7,
+   "#per-a-qui": 30.7,
+   "#cuidador": 30.7,
+   "#residencies": 30.7,
+   "#enfocament": 30.7,
+   "#preguntes": 30.7,
+   "#equip": 30.7,
+   "#contacte": 30.7,
+   "section.l-final": 30.7,
+   "footer.l-peu": 30.7
+  },
+  "ample_contingut": 707,
+  "seccio_y": 80.7,
+  "paddings": {
+   "l-heroi": [
+    81,
+    81
+   ],
+   "l-banda": [
+    34,
+    34
+   ],
+   "#com-funciona": [
+    81,
+    81
+   ],
+   "#demo": [
+    81,
+    81
+   ],
+   "#jocs": [
+    81,
+    81
+   ],
+   "#per-a-qui": [
+    81,
+    81
+   ],
+   "#cuidador": [
+    81,
+    81
+   ],
+   "#residencies": [
+    81,
+    81
+   ],
+   "#enfocament": [
+    81,
+    81
+   ],
+   "#preguntes": [
+    81,
+    81
+   ],
+   "#equip": [
+    81,
+    81
+   ],
+   "#contacte": [
+    81,
+    81
+   ],
+   "l-final": [
+    81,
+    81
+   ]
+  },
+  "cap_alt": 64,
+  "h1_px": 45,
+  "html_px": 16.92,
+  "cls": 0
+ },
+ "768_fosc_normal": {
+  "gutters": {
+   "#capcalera": 30.7,
+   "section.l-heroi": 30.7,
+   "section.l-banda": 30.7,
+   "#com-funciona": 30.7,
+   "#demo": 30.7,
+   "#jocs": 30.7,
+   "#per-a-qui": 30.7,
+   "#cuidador": 30.7,
+   "#residencies": 30.7,
+   "#enfocament": 30.7,
+   "#preguntes": 30.7,
+   "#equip": 30.7,
+   "#contacte": 30.7,
+   "section.l-final": 30.7,
+   "footer.l-peu": 30.7
+  },
+  "ample_contingut": 707,
+  "seccio_y": 80.7,
+  "paddings": {
+   "l-heroi": [
+    81,
+    81
+   ],
+   "l-banda": [
+    34,
+    34
+   ],
+   "#com-funciona": [
+    81,
+    81
+   ],
+   "#demo": [
+    81,
+    81
+   ],
+   "#jocs": [
+    81,
+    81
+   ],
+   "#per-a-qui": [
+    81,
+    81
+   ],
+   "#cuidador": [
+    81,
+    81
+   ],
+   "#residencies": [
+    81,
+    81
+   ],
+   "#enfocament": [
+    81,
+    81
+   ],
+   "#preguntes": [
+    81,
+    81
+   ],
+   "#equip": [
+    81,
+    81
+   ],
+   "#contacte": [
+    81,
+    81
+   ],
+   "l-final": [
+    81,
+    81
+   ]
+  },
+  "cap_alt": 64,
+  "h1_px": 45,
+  "html_px": 16.92,
+  "cls": 0
+ },
+ "1440_clar_normal": {
+  "gutters": {
+   "#capcalera": 120,
+   "section.l-heroi": 120,
+   "section.l-banda": 120,
+   "#com-funciona": 120,
+   "#demo": 120,
+   "#jocs": 120,
+   "#per-a-qui": 120,
+   "#cuidador": 120,
+   "#residencies": 120,
+   "#enfocament": 120,
+   "#preguntes": 120,
+   "#equip": 120,
+   "#contacte": 120,
+   "section.l-final": 120,
+   "footer.l-peu": 120
+  },
+  "ample_contingut": 1200,
+  "seccio_y": 117,
+  "paddings": {
+   "l-heroi": [
+    117,
+    117
+   ],
+   "l-banda": [
+    36,
+    36
+   ],
+   "#com-funciona": [
+    117,
+    117
+   ],
+   "#demo": [
+    117,
+    117
+   ],
+   "#jocs": [
+    117,
+    117
+   ],
+   "#per-a-qui": [
+    117,
+    117
+   ],
+   "#cuidador": [
+    117,
+    117
+   ],
+   "#residencies": [
+    117,
+    117
+   ],
+   "#enfocament": [
+    117,
+    117
+   ],
+   "#preguntes": [
+    117,
+    117
+   ],
+   "#equip": [
+    117,
+    117
+   ],
+   "#contacte": [
+    117,
+    117
+   ],
+   "l-final": [
+    117,
+    117
+   ]
+  },
+  "cap_alt": 64,
+  "h1_px": 63,
+  "html_px": 18,
+  "cls": 0.007
+ },
+ "1440_fosc_normal": {
+  "gutters": {
+   "#capcalera": 120,
+   "section.l-heroi": 120,
+   "section.l-banda": 120,
+   "#com-funciona": 120,
+   "#demo": 120,
+   "#jocs": 120,
+   "#per-a-qui": 120,
+   "#cuidador": 120,
+   "#residencies": 120,
+   "#enfocament": 120,
+   "#preguntes": 120,
+   "#equip": 120,
+   "#contacte": 120,
+   "section.l-final": 120,
+   "footer.l-peu": 120
+  },
+  "ample_contingut": 1200,
+  "seccio_y": 117,
+  "paddings": {
+   "l-heroi": [
+    117,
+    117
+   ],
+   "l-banda": [
+    36,
+    36
+   ],
+   "#com-funciona": [
+    117,
+    117
+   ],
+   "#demo": [
+    117,
+    117
+   ],
+   "#jocs": [
+    117,
+    117
+   ],
+   "#per-a-qui": [
+    117,
+    117
+   ],
+   "#cuidador": [
+    117,
+    117
+   ],
+   "#residencies": [
+    117,
+    117
+   ],
+   "#enfocament": [
+    117,
+    117
+   ],
+   "#preguntes": [
+    117,
+    117
+   ],
+   "#equip": [
+    117,
+    117
+   ],
+   "#contacte": [
+    117,
+    117
+   ],
+   "l-final": [
+    117,
+    117
+   ]
+  },
+  "cap_alt": 64,
+  "h1_px": 63,
+  "html_px": 18,
+  "cls": 0.007
+ },
+ "1920_clar_normal": {
+  "gutters": {
+   "#capcalera": 360,
+   "section.l-heroi": 360,
+   "section.l-banda": 360,
+   "#com-funciona": 360,
+   "#demo": 360,
+   "#jocs": 360,
+   "#per-a-qui": 360,
+   "#cuidador": 360,
+   "#residencies": 360,
+   "#enfocament": 360,
+   "#preguntes": 360,
+   "#equip": 360,
+   "#contacte": 360,
+   "section.l-final": 360,
+   "footer.l-peu": 360
+  },
+  "ample_contingut": 1200,
+  "seccio_y": 117,
+  "paddings": {
+   "l-heroi": [
+    117,
+    117
+   ],
+   "l-banda": [
+    36,
+    36
+   ],
+   "#com-funciona": [
+    117,
+    117
+   ],
+   "#demo": [
+    117,
+    117
+   ],
+   "#jocs": [
+    117,
+    117
+   ],
+   "#per-a-qui": [
+    117,
+    117
+   ],
+   "#cuidador": [
+    117,
+    117
+   ],
+   "#residencies": [
+    117,
+    117
+   ],
+   "#enfocament": [
+    117,
+    117
+   ],
+   "#preguntes": [
+    117,
+    117
+   ],
+   "#equip": [
+    117,
+    117
+   ],
+   "#contacte": [
+    117,
+    117
+   ],
+   "l-final": [
+    117,
+    117
+   ]
+  },
+  "cap_alt": 64,
+  "h1_px": 63,
+  "html_px": 18,
+  "cls": 0.003
+ },
+ "1920_fosc_normal": {
+  "gutters": {
+   "#capcalera": 360,
+   "section.l-heroi": 360,
+   "section.l-banda": 360,
+   "#com-funciona": 360,
+   "#demo": 360,
+   "#jocs": 360,
+   "#per-a-qui": 360,
+   "#cuidador": 360,
+   "#residencies": 360,
+   "#enfocament": 360,
+   "#preguntes": 360,
+   "#equip": 360,
+   "#contacte": 360,
+   "section.l-final": 360,
+   "footer.l-peu": 360
+  },
+  "ample_contingut": 1200,
+  "seccio_y": 117,
+  "paddings": {
+   "l-heroi": [
+    117,
+    117
+   ],
+   "l-banda": [
+    36,
+    36
+   ],
+   "#com-funciona": [
+    117,
+    117
+   ],
+   "#demo": [
+    117,
+    117
+   ],
+   "#jocs": [
+    117,
+    117
+   ],
+   "#per-a-qui": [
+    117,
+    117
+   ],
+   "#cuidador": [
+    117,
+    117
+   ],
+   "#residencies": [
+    117,
+    117
+   ],
+   "#enfocament": [
+    117,
+    117
+   ],
+   "#preguntes": [
+    117,
+    117
+   ],
+   "#equip": [
+    117,
+    117
+   ],
+   "#contacte": [
+    117,
+    117
+   ],
+   "l-final": [
+    117,
+    117
+   ]
+  },
+  "cap_alt": 64,
+  "h1_px": 63,
+  "html_px": 18,
+  "cls": 0.003
+ }
+}

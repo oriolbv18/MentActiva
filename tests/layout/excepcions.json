@@ -1,0 +1,5 @@
+{
+  "_nota": "Excepcions justificades. 'tactil': caselles i tecles de tauler (bingo, sopa, sudoku) i el botó CANTO! del bingo a 2 jugadors: en pantalles de 360 px d'alçada han de reduir-se perquè el joc no faci scroll; la resta d'objectius ja són ≥ 44 px.",
+  "elements": ["onb-cercle"],
+  "tactil": ["bingo-casella", "sopa-casella", "sudoku-num", "bingo-canto", "bingo-cartro > button.boto-principal"]
+}

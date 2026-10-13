@@ -1,0 +1,121 @@
+<svg class="el-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" focusable="false" style="--el-cos:#a9b8c8;--el-cap:#b7c5d3;--el-fons:#8d9db0;--el-ombra:#76889c;--el-llum:#dbe4ec;--el-orella:#a0b1c3;--el-orella-int:#f1c3c6;--el-trompa:#b7c5d3;--el-ullal:#f6f1e3;--el-ungla:#e6e9ee;--el-pupilla:#1f2a36;--el-blanc:#ffffff;--el-galta:#f19ea6;--el-verd:#2e8b57;--el-verd-fosc:#1f6b43;--el-boca:#3b2f33;--el-linia:#55657a" role="img" aria-label="L'Elefant de MentA"><style>[hidden]{display:none}
+.el-figura { display: block; width: 100%; }
+.el-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.el-svg *, .el-svg { transform-box: view-box; }
+.el-c-cos { fill: var(--el-cos); }
+.el-c-cap { fill: var(--el-cap); }
+.el-c-fons { fill: var(--el-fons); }
+.el-c-orella { fill: var(--el-orella); }
+.el-c-trompa { fill: var(--el-trompa); }
+.el-c-ombra, .el-trompa-ombra { fill: var(--el-ombra); }
+.el-trompa-ombra { opacity: 0.3; }
+.el-llum { fill: var(--el-llum); opacity: 0.55; }
+.el-orella-int { fill: var(--el-orella-int); opacity: 0.85; }
+.el-pota-cos, .el-c-trompa { stroke: var(--el-ombra); stroke-opacity: 0.3; stroke-width: 1.4; }
+.el-orella-int { fill: var(--el-orella-int); opacity: 0.7; }
+.el-c-orella { stroke: var(--el-ombra); stroke-opacity: 0.25; stroke-width: 1.5; }
+.el-arruga, .el-trompa-arrugues { fill: none; stroke: var(--el-ombra); stroke-width: 2; stroke-linecap: round; opacity: 0.45; }
+.el-trompa-arrugues { opacity: 0.38; }
+.el-ombra { fill: rgb(0, 0, 0); opacity: 0.14; }
+.el-c-ungla { fill: var(--el-ungla); }
+.el-cua-cos { stroke: var(--el-cos); }
+.el-cua .el-c-ombra { opacity: 0.9; }
+.el-ullal { fill: var(--el-ullal); stroke: rgb(214, 205, 176); stroke-width: 1; }
+.el-blanc { fill: var(--el-blanc); stroke: rgba(0, 0, 0, 0.25); stroke-width: 1; }
+.el-c-pupilla { fill: var(--el-pupilla); }
+.el-parpella { stroke: rgba(0, 0, 0, 0.18); stroke-width: 1; }
+.el-cella { fill: none; stroke: var(--el-linia); stroke-width: 3.2; stroke-linecap: round; opacity: 0.75; }
+.el-galta { fill: var(--el-galta); }
+.el-boca path { stroke: var(--el-boca); }
+.el-boca-oberta, .el-boca-o { fill: var(--el-boca); stroke: none !important; }
+.el-llengua { fill: rgb(217, 119, 122); stroke: none !important; }
+.el-boca-neutra, .el-boca-oberta, .el-llengua, .el-boca-o, .el-boca-trista { display: none; }
+.el-verd { fill: var(--el-verd); }
+.el-verd-fosc { fill: var(--el-verd-fosc); }
+.el-franja { fill: none; stroke: rgb(246, 240, 229); stroke-width: 3; stroke-linecap: round; opacity: 0.85; }
+.el-aigua circle { fill: rgb(124, 196, 239); opacity: 0.85; }
+.el-escena, .el-cap, .el-orella-esq, .el-orella-dre, .el-cua, .el-pota, .el-cos { will-change: auto; }
+</style>
+  <g class="el-escena" transform="translate(0.00 0.00)">
+    <ellipse class="el-ombra" cx="100" cy="188" rx="60" ry="6" transform="translate(100 0) scale(1.000 1) translate(-100 0)"></ellipse>
+    <g class="el-cua" transform="rotate(10.65 150 150)"><path class="el-cua-cos" d="M148,146 C166,148 170,164 164,174" fill="none" stroke-width="6" stroke-linecap="round"></path><circle class="el-c-ombra" cx="164" cy="175" r="5"></circle></g>
+    
+    <g class="el-pota lluny" data-pota="2" transform="rotate(0.00 68 158)">
+      <path class="el-pota-cos el-c-fons" d="M55,152 h26 v22 q0,12 -8,12 h-10 q-8,0 -8,-12z"></path>
+      <ellipse class="el-c-ungla" cx="62" cy="182" rx="3.6" ry="2.8"></ellipse><ellipse class="el-c-ungla" cx="74" cy="182" rx="3.6" ry="2.8"></ellipse>
+    </g>
+    <g class="el-pota lluny" data-pota="3" transform="rotate(0.00 132 158)">
+      <path class="el-pota-cos el-c-fons" d="M119,152 h26 v22 q0,12 -8,12 h-10 q-8,0 -8,-12z"></path>
+      <ellipse class="el-c-ungla" cx="126" cy="182" rx="3.6" ry="2.8"></ellipse><ellipse class="el-c-ungla" cx="138" cy="182" rx="3.6" ry="2.8"></ellipse>
+    </g>
+    <g class="el-pota" data-pota="0" transform="rotate(0.00 79 158)">
+      <path class="el-pota-cos el-c-cos" d="M66,152 h26 v22 q0,12 -8,12 h-10 q-8,0 -8,-12z"></path>
+      <ellipse class="el-c-ungla" cx="73" cy="182" rx="3.6" ry="2.8"></ellipse><ellipse class="el-c-ungla" cx="85" cy="182" rx="3.6" ry="2.8"></ellipse>
+    </g>
+    <g class="el-pota" data-pota="1" transform="rotate(0.00 121 158)">
+      <path class="el-pota-cos el-c-cos" d="M108,152 h26 v22 q0,12 -8,12 h-10 q-8,0 -8,-12z"></path>
+      <ellipse class="el-c-ungla" cx="115" cy="182" rx="3.6" ry="2.8"></ellipse><ellipse class="el-c-ungla" cx="127" cy="182" rx="3.6" ry="2.8"></ellipse>
+    </g>
+    <g class="el-cos" transform="translate(0 1.4144069886685973) scale(1 0.9882)"><path class="el-c-cos" d="M48,146 C46,108 70,96 100,96 C130,96 154,108 152,146 C150,176 128,186 100,186 C72,186 50,176 48,146Z"></path></g>
+    <g class="el-acc el-acc-cos" data-acc="bufanda" hidden="">
+      <path class="el-verd" d="M62,124 C80,140 120,140 138,124 l6,14 C122,156 78,156 56,138z"></path><path class="el-verd-fosc" d="M112,140 l16,3 l-3,28 l-16,-3z"></path>
+    </g>
+    <g class="el-cap" transform="translate(0.00 0.00) rotate(0.00 100 128)">
+      <g class="el-orella-esq" transform="rotate(1.44 64 66) translate(64 0) scale(1.000 1) translate(-64 0)">
+        <circle class="el-c-orella" cx="40" cy="84" r="34"></circle><circle class="el-orella-int" cx="40" cy="86" r="22"></circle>
+      </g>
+      <g class="el-orella-dre" transform="rotate(-1.15 136 66) translate(136 0) scale(1.000 1) translate(-136 0)">
+        <circle class="el-c-orella" cx="160" cy="84" r="34"></circle><circle class="el-orella-int" cx="160" cy="86" r="22"></circle>
+      </g>
+      <circle class="el-c-cap" cx="100" cy="84" r="48"></circle>
+      <path class="el-llum" d="M70,56 C82,46 106,44 124,52 C104,52 84,56 70,70Z"></path>
+      <ellipse class="el-galta" cx="66" cy="102" rx="9" ry="6" style="opacity: 0.25;"></ellipse><ellipse class="el-galta" cx="134" cy="102" rx="9" ry="6" style="opacity: 0.25;"></ellipse>
+      
+    <g class="el-ull" data-ull="esq">
+      <ellipse class="el-blanc" cx="80" cy="82" rx="8.5" ry="9.5"></ellipse>
+      <g class="el-pupilla" transform="translate(0.00 0.00)"><circle cx="80" cy="83" r="6.4" class="el-c-pupilla"></circle><circle cx="82.2" cy="80" r="2.2" fill="#fff"></circle></g>
+      <ellipse class="el-parpella el-c-cap" cx="80" cy="82" rx="9.5" ry="10.5" transform="translate(80 72.5) scale(1 0.000) translate(-80 -72.5) translate(0 0)"></ellipse>
+      <path class="el-cella" d="M72,67 q8,-5 16,-1" transform="translate(0 0.00) rotate(0 80 68)"></path>
+    </g>
+    <g class="el-ull" data-ull="dre">
+      <ellipse class="el-blanc" cx="120" cy="82" rx="8.5" ry="9.5"></ellipse>
+      <g class="el-pupilla" transform="translate(0.00 0.00)"><circle cx="120" cy="83" r="6.4" class="el-c-pupilla"></circle><circle cx="122.2" cy="80" r="2.2" fill="#fff"></circle></g>
+      <ellipse class="el-parpella el-c-cap" cx="120" cy="82" rx="9.5" ry="10.5" transform="translate(120 72.5) scale(1 0.000) translate(-120 -72.5) translate(0 0)"></ellipse>
+      <path class="el-cella" d="M112,67 q8,-5 16,-1" transform="translate(0 0.00) rotate(0 120 68)"></path>
+    </g>
+      <g class="el-boca" data-boca="somriure">
+        <path class="el-boca-neutra" d="M88,118 q12,7 24,0" fill="none" stroke-width="3" stroke-linecap="round" style="display: none;"></path>
+        <path class="el-boca-somriure" d="M84,115 q16,13 32,0" fill="none" stroke-width="3.2" stroke-linecap="round" style=""></path>
+        <path class="el-boca-oberta" d="M86,114 q14,20 28,0 q-14,6 -28,0z" style="display: none;"></path><path class="el-llengua" d="M93,121 q7,7 14,0 q-7,-3 -14,0z" style="display: none;"></path>
+        <ellipse class="el-boca-o" cx="100" cy="118" rx="5" ry="6" style="display: none;"></ellipse>
+        <path class="el-boca-trista" d="M89,122 q11,-8 22,0" fill="none" stroke-width="3" stroke-linecap="round" style="display: none;"></path>
+      </g>
+      <g class="el-trompa">
+        <path class="el-trompa-cos el-c-trompa" d="M89.6,99.0 C89.5,100.7 89.4,106.2 89.2,109.6 C89.0,113.1 88.7,116.5 88.2,119.8 C87.7,123.1 87.1,126.3 86.2,129.5 C85.3,132.6 84.2,135.7 82.8,138.5 C81.4,141.3 79.8,144.1 77.9,146.5 C76.0,148.9 73.9,151.0 71.3,152.8 C68.7,154.5 64.1,155.1 62.2,156.9 C60.2,158.7 58.8,162.1 59.5,163.8 C60.1,165.5 63.0,167.2 66.0,167.2 C69.0,167.2 73.8,165.4 77.5,163.6 C81.1,161.7 84.9,158.9 88.0,156.0 C91.0,153.1 93.7,149.7 96.0,146.2 C98.3,142.8 100.2,139.0 101.8,135.3 C103.5,131.5 104.8,127.6 105.9,123.8 C107.0,120.0 107.8,116.1 108.6,112.3 C109.4,108.5 110.1,102.9 110.4,101.0Z"></path>
+        <path class="el-trompa-ombra" d="M109.4,100.9 C109.1,102.8 108.4,108.4 107.6,112.1 C106.9,115.9 106.1,119.8 105.0,123.6 C103.9,127.4 102.7,131.3 101.1,135.0 C99.4,138.7 97.6,142.4 95.4,145.8 C93.1,149.3 90.5,152.7 87.5,155.5 C84.4,158.4 80.8,161.2 77.2,163.0 C73.6,164.9 67.9,166.6 65.8,166.7 C63.7,166.7 63.0,164.5 64.6,163.3 C66.1,162.1 71.9,161.3 75.1,159.5 C78.4,157.6 81.5,155.1 84.1,152.4 C86.8,149.7 89.0,146.5 91.0,143.3 C93.0,140.1 94.5,136.6 95.9,133.1 C97.2,129.6 98.3,125.9 99.2,122.3 C100.1,118.6 100.7,114.9 101.2,111.3 C101.8,107.6 102.3,102.1 102.5,100.3Z"></path>
+        <path class="el-trompa-arrugues" d="M90.0,120.2 L104.1,123.4 M87.7,130.0 L100.3,134.7 M84.1,139.3 L94.7,145.4 M78.9,147.4 L87.0,155.1 M71.9,153.9 L76.9,162.5 " fill="none" stroke-width="1.5" stroke-linecap="round"></path>
+        <g class="el-punta" transform="translate(64.1 162.1) rotate(249.3)"><g class="el-acc el-acc-punta" data-acc="paraigua" hidden="">
+          <path d="M0,-4 L0,-40" stroke="#5a4a3a" stroke-width="2.6" stroke-linecap="round"></path>
+          <path class="el-verd" d="M-30,-38 C-27,-60 27,-60 30,-38 C21,-44 15,-40 10,-45 C5,-40 -5,-40 -10,-45 C-15,-40 -21,-44 -30,-38z"></path>
+        </g></g>
+        <g class="el-aigua" hidden=""></g>
+      </g>
+      <g class="el-acc el-acc-cap" data-acc="ulleres" hidden="">
+        <circle cx="80" cy="82" r="13" fill="none" stroke="#3a3f3c" stroke-width="2.6"></circle><circle cx="120" cy="82" r="13" fill="none" stroke="#3a3f3c" stroke-width="2.6"></circle>
+        <path d="M93,82 q7,-4 14,0 M67,80 L58,76 M133,80 L142,76" fill="none" stroke="#3a3f3c" stroke-width="2.6" stroke-linecap="round"></path>
+      </g>
+      <g class="el-acc el-acc-cap" data-acc="barret" hidden="">
+        <ellipse cx="100" cy="42" rx="38" ry="8" fill="#264d36"></ellipse><path class="el-verd" d="M76,42 C76,14 124,14 124,42z"></path><path d="M76,37 h48" stroke="#f2a65a" stroke-width="4"></path>
+      </g>
+      <g class="el-acc el-acc-cap" data-acc="gorra" hidden="">
+        <path class="el-verd" d="M68,50 C68,22 132,22 132,50z"></path><path class="el-verd-fosc" d="M60,52 C48,52 48,60 62,60 L96,54 L96,48z"></path><circle cx="100" cy="27" r="3.6" fill="#f2a65a"></circle>
+      </g>
+      <g class="el-acc el-acc-cap" data-acc="llaçada" hidden="">
+        <path d="M128,44 l-18,-10 l2,20 z M128,44 l18,-12 l-2,22 z" fill="#d94f5c"></path><circle cx="128" cy="44" r="5" fill="#b83a47"></circle>
+      </g>
+      <g class="el-acc el-acc-cap" data-acc="barret-festa" hidden="">
+        <path d="M80,48 L100,6 L122,48z" fill="#f2a65a"></path><path d="M87,38 l24,-5 M91,26 l14,-4" stroke="#fff" stroke-width="3.4" opacity=".9"></path><circle cx="100" cy="6" r="5" fill="#d94f5c"></circle>
+      </g>
+    </g>
+  </g>
+</svg>

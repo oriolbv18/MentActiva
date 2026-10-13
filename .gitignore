@@ -1,0 +1,6 @@
+tests/node_modules/
+tests/_*.json
+docs/captures/prova/
+docs/captures/depura.png
+__pycache__/
+*.pyc

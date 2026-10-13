@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ca" data-tema="clar" data-arrel="">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' file:; script-src 'self' 'unsafe-inline' file:; style-src 'self' 'unsafe-inline' file:; img-src 'self' data: blob: file:; media-src 'self' data: blob: file:; font-src 'self' data: file:; connect-src 'self' blob: file:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>MentA · Jocs per mantenir la ment activa</title>
+<meta name="description" content="Jocs de memòria, atenció, llenguatge, càlcul i lògica, amb un espai a part per a qui cuida. Gratuïta, sense registre i sense connexió.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbefd9" media="(prefers-color-scheme: light)" id="themeClar">
+<meta name="theme-color" content="#231a10" media="(prefers-color-scheme: dark)" id="themeFosc">
+<link rel="canonical" href="" data-domini="/">
+<meta property="og:url" content="" data-domini="/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MentA · Jocs per mantenir la ment activa">
+<meta property="og:description" content="Simple per a l'avi, útil per a qui el cuida. Jocs de memòria, atenció, llenguatge, càlcul i lògica, bingo i jocs per fer amb algú.">
+<meta property="og:image" content="app/img/social-1200x630.png" data-domini="/app/img/social-1200x630.png" data-domini-rel="app/img/social-1200x630.png">
+<meta property="og:image:alt" content="L'Elefant de MentA al costat d'un mòbil amb l'app i el títol «Simple per a l'avi, útil per a qui el cuida»">
+<meta property="og:locale" content="ca_ES">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MentA · Jocs per mantenir la ment activa">
+<meta name="twitter:description" content="Jocs per a persones grans i un espai per a qui les cuida. Gratuïta, sense registre i sense connexió.">
+<meta name="twitter:image" content="app/img/social-1200x630.png" data-domini="/app/img/social-1200x630.png" data-domini-rel="app/img/social-1200x630.png">
+<!--LD--><!--/LD-->
+<link rel="icon" href="app/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="app/img/apple-touch-icon.png">
+<script>
+  /* Abans del primer pintat: marca que hi ha JavaScript (el contingut és visible sense) i resol el tema i el contrast. */
+  (function () {
+    var h = document.documentElement; h.classList.add('js');
+    var t = null; try { t = localStorage.getItem('mentA_web_tema'); } catch (e) { /* sense emmagatzematge */ }
+    if (t !== 'clar' && t !== 'fosc') t = (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'fosc' : 'clar';
+    h.setAttribute('data-tema', t);
+    if (window.matchMedia && matchMedia('(prefers-contrast: more)').matches) h.setAttribute('data-contrast', 'alt');
+  })();
+</script>
+<script>
+  /* Precàrrega de les dues tipografies llatines (només amb http/https: amb file:// el navegador la bloqueja per CORS i l'@font-face ja les carrega) */
+  if (/^https?:$/.test(location.protocol)) ['lexend-latin', 'atkinson-latin'].forEach(function (f) { var l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'app/fonts/' + f + '.woff2'; document.head.appendChild(l); });
+</script>
+<link rel="stylesheet" href="web/web.css">
+</head>
+<body>
+<!--SHELL:sprite-->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol><symbol id="i-usuari" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></symbol><symbol id="i-familia" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14c3 0 4.5 2 4.5 5"/></symbol><symbol id="i-casa" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></symbol><symbol id="i-jocs" viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="11" rx="4"/><path d="M7 10.5v4M5 12.5h4"/><circle cx="15.5" cy="11.5" r=".9" fill="currentColor"/><circle cx="18" cy="14" r=".9" fill="currentColor"/></symbol><symbol id="i-dos" viewBox="0 0 24 24"><circle cx="7" cy="8" r="3"/><circle cx="17" cy="8" r="3"/><path d="M2 20c0-3.3 2.2-5 5-5s5 1.7 5 5M12 20c0-3.3 2.2-5 5-5s5 1.7 5 5"/></symbol><symbol id="i-escut" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5L15.5 10"/></symbol><symbol id="i-cadenat" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol><symbol id="i-document" viewBox="0 0 24 24"><path d="M6 3h8l5 5v13H6z"/><path d="M14 3v5h5M9 13h7M9 17h7"/></symbol><symbol id="i-volum" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 9a4 4 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11"/></symbol><symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol><symbol id="i-tanca" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol><symbol id="i-sol" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></symbol><symbol id="i-lluna" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></symbol><symbol id="i-esq" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol><symbol id="i-dre" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol><symbol id="i-offline" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5.5 12.5a10 10 0 0 1 13 0M9 16a5 5 0 0 1 6 0"/><path d="M3 3l18 18"/></symbol><symbol id="i-lletra" viewBox="0 0 24 24"><path d="M3 19l5-13 5 13M5 14h6M15 19l3.5-8 3.5 8M16.5 16.5h4"/></symbol><symbol id="i-cor" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></symbol><symbol id="i-upc" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></symbol><symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></symbol><symbol id="i-pausa" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol></defs></svg>
+<!--/SHELL:sprite-->
+<a class="salta-contingut" href="#principal">Saltar al contingut</a>
+<!--SHELL:cap-->
+<header class="l-cap" id="capcalera"><div class="l-ample">
+<a class="l-marca" href="#"><img src="img/web/logo-76.webp" alt="" width="38" height="38"><span>MentA</span></a>
+<nav class="l-nav" aria-label="Principal"><a href="#com-funciona">Com funciona</a><a href="#jocs">Jocs</a><a href="#cuidador">Cuidadors</a><a href="#residencies">Residències</a><a href="#preguntes">Preguntes</a><a class="btn btn-accio" href="app/index.html">Prova l'app</a></nav>
+<div class="l-acc"><button type="button" class="btn-icona btn-tema" id="btnTema" aria-label="Canvia entre tema clar i fosc"><svg class="ico ico-lluna" aria-hidden="true"><use href="#i-lluna"/></svg><svg class="ico ico-sol" aria-hidden="true"><use href="#i-sol"/></svg></button>
+<button type="button" class="btn-icona btn-menu" id="btnMenu" aria-expanded="false" aria-controls="menuMobil" aria-label="Obre el menú"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg></button></div>
+</div></header>
+<div class="l-menu" id="menuMobil" role="dialog" aria-modal="true" aria-label="Menú de la web">
+<div class="l-menu-cap"><a class="l-marca" href="#"><img src="img/web/logo-76.webp" alt="" width="38" height="38"><span>MentA</span></a><button type="button" class="btn-icona" id="btnTancaMenu" aria-label="Tanca el menú"><svg class="ico" aria-hidden="true"><use href="#i-tanca"/></svg></button></div>
+<nav aria-label="Menú"><a href="#com-funciona">Com funciona</a><a href="#jocs">Jocs</a><a href="#cuidador">Cuidadors</a><a href="#residencies">Residències</a><a href="#preguntes">Preguntes</a><a href="#contacte">Contacte</a></nav>
+<div class="l-menu-peu"><a class="btn btn-accio" href="app/index.html">Prova l'app</a><a class="btn btn-sec" href="?motiu=residencia#contacte">Demana una demo per a residències</a></div>
+</div>
+<aside class="l-barra-cta" id="barraCta" aria-label="Accés ràpid a l'app"><a class="btn btn-accio" href="app/index.html">Prova l'app</a></aside>
+<!--/SHELL:cap-->
+<main id="principal">
+
+  <!-- 1. Hero: alba -->
+  <section class="l-heroi" data-hora="alba" aria-labelledby="titolHero">
+    <div class="l-ample">
+      <div class="l-text">
+        <h1 id="titolHero"><span class="par"><span style="--i:0">Simple</span></span> <span class="par"><span style="--i:1">per</span></span> <span class="par"><span style="--i:2">a</span></span> <span class="par"><span style="--i:3">l'avi,</span></span> <span class="par"><span style="--i:4">útil</span></span> <span class="par"><span style="--i:5">per</span></span> <span class="par"><span style="--i:6">a</span></span> <span class="par"><span style="--i:7">qui</span></span> <span class="par"><span style="--i:8">el</span></span> <span class="par"><span style="--i:9">cuida</span></span></h1>
+        <p class="lema">Jocs de memòria, atenció, llenguatge, càlcul i lògica. La persona gran comença amb un sol botó gran, <strong>JUGAR</strong>; qui la cuida té el seu espai a part.</p>
+        <div class="l-botons">
+          <a class="btn btn-accio" href="app/index.html">Prova l'app</a>
+          <a class="btn btn-sec" href="?motiu=residencia#contacte">Demana una demo</a>
+        </div>
+        <p class="l-estat-proves"><span class="punt" aria-hidden="true"></span>En fase de proves: busquem persones que la provin.</p>
+        <ul class="l-garanties">
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Dades al dispositiu</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Funciona sense internet</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Lletra gran i alt contrast</li>
+        </ul>
+      </div>
+      <div class="l-hero-visual">
+        <div class="llum-hero" aria-hidden="true"></div>
+        <div class="mobil gran" data-inclina>
+          <div class="mobil-pantalla">
+            <img class="poster" src="img/web/hero-poster.webp" width="540" height="1170" fetchpriority="high" alt="Pantalla d'inici de l'app MentA amb el botó JUGAR, «Jugar amb algú» i els accessos a «Els meus jocs» i «Els meus records»">
+            <video class="hero-video" muted loop playsinline preload="none" width="540" height="1170" aria-hidden="true" tabindex="-1" data-webm="img/web/hero.webm" data-mp4="img/web/hero.mp4"></video>
+          </div>
+        </div>
+        <div class="l-elefant" id="elefantHero" role="img" aria-label="L'Elefant, la mascota de MentA, assegut a sobre del mòbil">
+          <img class="el-cos" src="img/web/elefant-hero.svg" width="200" height="200" alt="">
+          <span class="el-ull" style="--x: 40%; --y: 41.5%"><i></i></span><span class="el-ull" style="--x: 60%; --y: 41.5%"><i></i></span>
+          <img class="el-saluda" src="img/web/elefant-saluda.svg" width="200" height="200" alt="" aria-hidden="true">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Quatre fets, en una sola línia -->
+  <section class="l-fets" data-hora="alba" aria-label="MentA en quatre fets">
+    <div class="l-ample">
+      <ul>
+        <li><strong><span data-num-jocs>17</span> jocs</strong><span>de memòria, atenció, llenguatge, càlcul i lògica</span></li>
+        <li><strong>4 mides de lletra</strong><span>fins a «Gegant», amb mode fosc i alt contrast</span></li>
+        <li><strong>0 comptes</strong><span>es juga com a convidat, sense correu ni contrasenya</span></li>
+        <li><strong>0 anuncis</strong><span>ni compres dins de l'app: és gratuïta</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3. Un dia amb MentA: el mòbil viu (alba → tarda → vespre) -->
+  <section class="dia" id="com-funciona" data-hora="dia" aria-labelledby="titolDia">
+    <div class="l-ample dia-graella">
+      <div class="dia-blocs">
+        <h2 id="titolDia" class="nomes-lectors">Un dia amb MentA</h2>
+        <article class="bloc on" data-pantalla="0" data-hora="alba">
+          <p class="bloc-hora">Bon dia</p>
+          <h3>Un botó gran. Tres jocs. Uns deu minuts.</h3>
+          <p>La persona gran obre l'app i veu el que cal: <strong>JUGAR</strong>. Sense registre ni contrasenyes. La primera vegada, una benvinguda breu l'ajuda a triar la mida de la lletra.</p>
+          <figure class="mobil bloc-mobil"><div class="mobil-pantalla"><img src="img/web/inici-360.webp" srcset="img/web/inici-360.webp 360w, img/web/inici.webp 720w" sizes="272px" width="360" height="780" loading="lazy" alt="Pantalla d'inici de l'app a primera hora, amb la salutació «Bon dia» i el botó JUGAR"></div></figure>
+        </article>
+        <article class="bloc" data-pantalla="1" data-hora="tarda">
+          <p class="bloc-hora">Bona tarda</p>
+          <h3>Una estona de jocs, a mida.</h3>
+          <p>17 jocs de 2 a 10 minuts. La dificultat s'adapta sola i la persona només veu reforç positiu. Entre joc i joc, un descans.</p>
+          <figure class="mobil bloc-mobil"><div class="mobil-pantalla"><img src="img/web/jocs/memory-360.webp" srcset="img/web/jocs/memory-360.webp 360w, img/web/jocs/memory.webp 480w" sizes="272px" width="480" height="862" loading="lazy" alt="El joc «Troba les parelles» en marxa, amb una parella trobada i una carta girada"></div></figure>
+        </article>
+        <article class="bloc" data-pantalla="2" data-hora="tarda">
+          <p class="bloc-hora">Quan visiten</p>
+          <h3>Quan arriba el nét, dos tocs.</h3>
+          <p>«Jugar amb algú»: dues persones i un sol dispositiu, per torns. Un contra l'altre, junts o amb joc just, perquè cadascú jugui al seu nivell.</p>
+          <figure class="mobil bloc-mobil"><div class="mobil-pantalla"><img src="img/web/jugar-amb-algu-360.webp" srcset="img/web/jugar-amb-algu-360.webp 360w, img/web/jugar-amb-algu.webp 720w" sizes="272px" width="360" height="780" loading="lazy" alt="Pantalla «Jugar amb algú» per triar dos jugadors i el mode de joc"></div></figure>
+        </article>
+        <article class="bloc" data-pantalla="3" data-hora="vespre">
+          <p class="bloc-hora">Bona nit</p>
+          <h3>Qui cuida, a la vista.</h3>
+          <p>L'espai del cuidador és amb PIN: la persona gran no hi entra per error. Hi ha el resum, l'evolució i les notes. Tot és orientatiu, mai un diagnòstic.</p>
+          <figure class="mobil bloc-mobil"><div class="mobil-pantalla"><img src="img/web/cuidador-mobil-360.webp" srcset="img/web/cuidador-mobil-360.webp 360w, img/web/cuidador-mobil.webp 720w" sizes="272px" width="360" height="780" loading="lazy" alt="Espai del cuidador al mòbil amb el resum d'una persona d'exemple"></div><figcaption>Dades fictícies de demostració.</figcaption></figure>
+        </article>
+      </div>
+      <div class="dia-fix" aria-hidden="true">
+        <div class="mobil gran" data-inclina>
+          <div class="mobil-pantalla">
+            <img class="capa on" data-capa="0" src="img/web/inici-360.webp" srcset="img/web/inici-360.webp 360w, img/web/inici.webp 720w" sizes="300px" width="360" height="780" alt="" loading="lazy">
+            <img class="capa" data-capa="1" src="img/web/jocs/memory-360.webp" srcset="img/web/jocs/memory-360.webp 360w, img/web/jocs/memory.webp 480w" sizes="300px" width="480" height="862" alt="" loading="lazy">
+            <img class="capa" data-capa="2" src="img/web/jugar-amb-algu-360.webp" srcset="img/web/jugar-amb-algu-360.webp 360w, img/web/jugar-amb-algu.webp 720w" sizes="300px" width="360" height="780" alt="" loading="lazy">
+            <img class="capa" data-capa="3" src="img/web/cuidador-mobil-360.webp" srcset="img/web/cuidador-mobil-360.webp 360w, img/web/cuidador-mobil.webp 720w" sizes="300px" width="360" height="780" alt="" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Demo interactiva: vespre -->
+  <section class="l-seccio l-demo" id="demo" data-hora="vespre" aria-labelledby="titolDemo">
+    <div class="l-ample l-fila">
+      <div class="l-text">
+        <h2 id="titolDemo">Ara, <span style="white-space:nowrap">prova-la</span> tu.</h2>
+        <p>Aquesta és l'app de debò, en mode demostració: res del que facis es desa.</p>
+        <ol class="l-demo-guia"><li>Prem <strong>JUGAR</strong> i prova un joc.</li><li>Obre «Jugar amb algú» per veure com juguen dues persones amb un sol dispositiu.</li><li>Mira «Com vaig» per veure com queden els resultats.</li></ol>
+        <div class="l-demo-accions"><a class="btn btn-sec" href="app/index.html?demo=1" id="demoPantallaCompleta">Obre-la a pantalla completa</a></div>
+      </div>
+      <div class="l-centre">
+        <div class="mobil gran"><div class="mobil-pantalla l-demo-pantalla" id="demoPantalla"><img src="img/web/inici-360.webp" srcset="img/web/inici-360.webp 360w, img/web/inici.webp 720w" sizes="300px" width="360" height="780" loading="lazy" alt="Portada de la demostració: pantalla d'inici de l'app"><button type="button" class="btn btn-accio l-demo-play" id="demoPlay" aria-controls="demoPantalla"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg>Prova-la aquí</button></div></div>
+        <button type="button" class="btn btn-sec" id="demoSurt" hidden>Surt de la demostració</button>
+        <noscript><a class="btn btn-sec" href="app/index.html?demo=1">Obre la demostració</a></noscript>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Aparador de jocs: vespre -->
+  <section class="l-seccio l-aparador" id="jocs" data-hora="vespre" aria-labelledby="titolJocs">
+    <div class="l-ample">
+      <div class="l-cap-aparador">
+        <h2 id="titolJocs"><span class="gegant"><span data-num-jocs>17</span> jocs</span> de memòria, atenció, llenguatge, càlcul i lògica.</h2>
+        <p>Captures reals de l'app, amb cada joc ja en marxa.</p>
+      </div>
+      <div class="l-filtres" id="filtresJocs" role="group" aria-label="Filtra els jocs per àrea" hidden></div>
+    </div>
+    <div class="l-carrusel" id="carrusel">
+<!--SHELL:jocs-->
+<div class="fila" data-sentit="1"><ul class="l-pista" id="galeriaJocs" aria-label="Jocs de la primera fila"><li class="l-joc" data-id="bingo" data-domini="atencio" data-dos="1"><div class="mobil baix"><div class="mobil-pantalla"><img src="img/web/jocs/bingo-360.webp" srcset="img/web/jocs/bingo-360.webp 360w, img/web/jocs/bingo.webp 480w" sizes="204px" alt="Captura del joc «Bingo» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>Bingo</strong><small>Línia i bingo, amb rivals</small><span class="xips"><span class="xip neutre">Atenció</span><span class="xip neutre">2 jugadors</span></span></div></li>
+<li class="l-joc" data-id="nback" data-domini="memoria" data-dos="0"><div class="mobil baix"><div class="mobil-pantalla"><img src="img/web/jocs/nback-360.webp" srcset="img/web/jocs/nback-360.webp 360w, img/web/jocs/nback.webp 480w" sizes="204px" alt="Captura del joc «Recorda la lletra» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>Recorda la lletra</strong><small>Recorda la lletra de fa uns instants</small><span class="xips"><span class="xip neutre">Memòria</span></span></div></li>
+<li class="l-joc" data-id="stroop" data-domini="atencio" data-dos="0"><div class="mobil baix"><div class="mobil-pantalla"><img src="img/web/jocs/stroop-360.webp" srcset="img/web/jocs/stroop-360.webp 360w, img/web/jocs/stroop.webp 480w" sizes="204px" alt="Captura del joc «Colors i paraules» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>Colors i paraules</strong><small>Toca el color de la tinta, no el de la paraula</small><span class="xips"><span class="xip neutre">Atenció</span></span></div></li>
+<li class="l-joc" data-id="span" data-domini="memoria" data-dos="0"><div class="mobil baix"><div class="mobil-pantalla"><img src="img/web/jocs/span-360.webp" srcset="img/web/jocs/span-360.webp 360w, img/web/jocs/span.webp 480w" sizes="204px" alt="Captura del joc «Quants en recordes?» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>Quants en recordes?</strong><small>Memoritza i repeteix números</small><span class="xips"><span class="xip neutre">Memòria</span></span></div></li>
+<li class="l-joc" data-id="fluidesa" data-domini="llenguatge" data-dos="0"><div class="mobil baix"><div class="mobil-pantalla"><img src="img/web/jocs/fluidesa-360.webp" srcset="img/web/jocs/fluidesa-360.webp 360w, img/web/jocs/fluidesa.webp 480w" sizes="204px" alt="Captura del joc «Digues paraules» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>Digues paraules</strong><small>Digues paraules d'una categoria en 60 segons</small><span class="xips"><span class="xip neutre">Llenguatge</span></span></div></li>
+<li class="l-joc" data-id="calcul" data-domini="calcul" data-dos="0"><div class="mobil baix"><div class="mobil-pantalla"><img src="img/web/jocs/calcul-360.webp" srcset="img/web/jocs/calcul-360.webp 360w, img/web/jocs/calcul.webp 480w" sizes="204px" alt="Captura del joc «Comptes de cada dia» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>Comptes de cada dia</strong><small>Comptes del dia a dia</small><span class="xips"><span class="xip neutre">Càlcul</span></span></div></li>
+<li class="l-joc" data-id="seqlog" data-domini="logica" data-dos="0"><div class="mobil baix"><div class="mobil-pantalla"><img src="img/web/jocs/seqlog-360.webp" srcset="img/web/jocs/seqlog-360.webp 360w, img/web/jocs/seqlog.webp 480w" sizes="204px" alt="Captura del joc «Quin número falta?» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>Quin número falta?</strong><small>Descobreix el número que falta</small><span class="xips"><span class="xip neutre">Lògica</span></span></div></li>
+<li class="l-joc" data-id="quefalta" data-domini="memoria" data-dos="0"><div class="mobil baix"><div class="mobil-pantalla"><img src="img/web/jocs/quefalta-360.webp" srcset="img/web/jocs/quefalta-360.webp 360w, img/web/jocs/quefalta.webp 480w" sizes="204px" alt="Captura del joc «Què falta aquí?» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>Què falta aquí?</strong><small>Memòria visual</small><span class="xips"><span class="xip neutre">Memòria</span></span></div></li>
+<li class="l-joc" data-id="sudoku" data-domini="logica" data-dos="0"><div class="mobil baix"><div class="mobil-pantalla"><img src="img/web/jocs/sudoku-360.webp" srcset="img/web/jocs/sudoku-360.webp 360w, img/web/jocs/sudoku.webp 480w" sizes="204px" alt="Captura del joc «Sudoku» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>Sudoku</strong><small>Completa la graella sense repetir números</small><span class="xips"><span class="xip neutre">Lògica</span></span></div></li></ul></div>
+<div class="fila" data-sentit="-1"><ul class="l-pista" aria-label="Jocs de la segona fila"><li class="l-joc" data-id="memory" data-domini="memoria" data-dos="1"><div class="mobil baix"><div class="mobil-pantalla"><img src="img/web/jocs/memory-360.webp" srcset="img/web/jocs/memory-360.webp 360w, img/web/jocs/memory.webp 480w" sizes="204px" alt="Captura del joc «Troba les parelles» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>Troba les parelles</strong><small>Troba les cartes iguals</small><span class="xips"><span class="xip neutre">Memòria</span><span class="xip neutre">2 jugadors</span></span></div></li>
+<li class="l-joc" data-id="sequencia" data-domini="memoria" data-dos="1"><div class="mobil baix"><div class="mobil-pantalla"><img src="img/web/jocs/sequencia-360.webp" srcset="img/web/jocs/sequencia-360.webp 360w, img/web/jocs/sequencia.webp 480w" sizes="204px" alt="Captura del joc «Recorda la seqüència» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>Recorda la seqüència</strong><small>Repeteix el patró de colors</small><span class="xips"><span class="xip neutre">Memòria</span><span class="xip neutre">2 jugadors</span></span></div></li>
+<li class="l-joc" data-id="sopa" data-domini="atencio" data-dos="0"><div class="mobil baix"><div class="mobil-pantalla"><img src="img/web/jocs/sopa-360.webp" srcset="img/web/jocs/sopa-360.webp 360w, img/web/jocs/sopa.webp 480w" sizes="204px" alt="Captura del joc «Sopa de lletres» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>Sopa de lletres</strong><small>Troba les paraules amagades</small><span class="xips"><span class="xip neutre">Atenció</span></span></div></li>
+<li class="l-joc" data-id="domino" data-domini="logica" data-dos="1"><div class="mobil baix"><div class="mobil-pantalla"><img src="img/web/jocs/domino-360.webp" srcset="img/web/jocs/domino-360.webp 360w, img/web/jocs/domino.webp 480w" sizes="204px" alt="Captura del joc «Dòmino» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>Dòmino</strong><small>Contra l'ordinador</small><span class="xips"><span class="xip neutre">Lògica</span><span class="xip neutre">2 jugadors</span></span></div></li>
+<li class="l-joc" data-id="dames" data-domini="logica" data-dos="1"><div class="mobil baix"><div class="mobil-pantalla"><img src="img/web/jocs/dames-360.webp" srcset="img/web/jocs/dames-360.webp 360w, img/web/jocs/dames.webp 480w" sizes="204px" alt="Captura del joc «Dames» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>Dames</strong><small>Contra l'ordinador</small><span class="xips"><span class="xip neutre">Lògica</span><span class="xip neutre">2 jugadors</span></span></div></li>
+<li class="l-joc" data-id="tertulia" data-domini="memoria" data-dos="1"><div class="mobil baix"><div class="mobil-pantalla"><img src="img/web/jocs/tertulia-360.webp" srcset="img/web/jocs/tertulia-360.webp 360w, img/web/jocs/tertulia.webp 480w" sizes="204px" alt="Captura del joc «La Tertúlia» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>La Tertúlia</strong><small>Cultura general</small><span class="xips"><span class="xip neutre">Memòria</span><span class="xip neutre">2 jugadors</span></span></div></li>
+<li class="l-joc" data-id="refranys" data-domini="llenguatge" data-dos="1"><div class="mobil baix"><div class="mobil-pantalla"><img src="img/web/jocs/refranys-360.webp" srcset="img/web/jocs/refranys-360.webp 360w, img/web/jocs/refranys.webp 480w" sizes="204px" alt="Captura del joc «Refranys populars» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>Refranys populars</strong><small>Completa les dites</small><span class="xips"><span class="xip neutre">Llenguatge</span><span class="xip neutre">2 jugadors</span></span></div></li>
+<li class="l-joc" data-id="paraules" data-domini="llenguatge" data-dos="1"><div class="mobil baix"><div class="mobil-pantalla"><img src="img/web/jocs/paraules-360.webp" srcset="img/web/jocs/paraules-360.webp 360w, img/web/jocs/paraules.webp 480w" sizes="204px" alt="Captura del joc «Endevina la paraula» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>Endevina la paraula</strong><small>Endevina la paraula amb pistes</small><span class="xips"><span class="xip neutre">Llenguatge</span><span class="xip neutre">2 jugadors</span></span></div></li></ul></div>
+<!--/SHELL:jocs-->
+      <div class="l-ample l-controls"><button type="button" class="btn-icona" id="jocPausa" aria-pressed="false" aria-label="Atura el moviment de les files de jocs" hidden><svg class="ico ico-pausa" aria-hidden="true"><use href="#i-pausa"/></svg><svg class="ico ico-play" aria-hidden="true"><use href="#i-play"/></svg></button></div>
+    </div>
+    <div class="l-ample l-especials">
+      <article class="peca-bingo" id="bingo">
+        <div class="peca-text"><h3 class="gran">Un bingo que sembla un bingo</h3>
+          <p>Bingo de 90 boles amb cartró de 3 files i 9 columnes, premi de <strong>línia</strong> i després <strong>bingo</strong>, i el taulell de l'1 al 90. Tu cantes <em>LÍNIA!</em> o <em>BINGO!</em> i l'app comprova que és veritat.</p>
+          <ul class="l-llista"><li>Tres nivells d'ajuda: marco tot, amb ajuda o automàtic.</li><li>Fins a 4 cartrons i rivals virtuals que canten línia i bingo.</li><li>Velocitat lenta, normal o ràpida, o bola manual.</li><li>Sense diners ni apostes: només per passar-ho bé.</li></ul></div>
+        <div class="mobil gran peca-mobil"><div class="mobil-pantalla"><img src="img/web/jocs/bingo.webp" width="480" height="862" loading="lazy" alt="Partida de Bingo amb el cartró, els botons LÍNIA i BINGO i la bola cantada"></div></div>
+      </article>
+      <article class="peca-algu" id="amb-algu">
+        <div class="peca-text"><h3 class="gran">Jugar amb algú</h3>
+          <p>Quan el nét arriba a casa de l'àvia: dos tocs i ja juguen, sense escriure res. Un sol dispositiu, per torns.</p></div>
+        <div class="l-modes"><div><strong>Un contra l'altre</strong><span>Partides de dos jugadors o «Duel de puntuació».</span></div><div><strong>Junts</strong><span>Sumen punts entre els dos, sense competir.</span></div><div><strong>Joc just</strong><span>Cadascú pot jugar a un nivell diferent perquè sigui just per als dos.</span></div></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 6. L'espai del cuidador i les residències (bento): vespre -->
+  <section class="l-seccio l-bento-sec" id="cuidador" data-hora="vespre" aria-labelledby="titolCuidador">
+    <div class="l-ample">
+      <div class="l-cap-bento">
+        <h2 id="titolCuidador">Informació clara, sense alarmes.</h2>
+        <p>Un espai amb PIN per veure com va cada persona. Tot és orientatiu, mai un diagnòstic.</p>
+      </div>
+      <div class="bento" data-viu>
+        <article class="peca peca-semafor">
+          <div class="peca-vis semafor" aria-hidden="true"><i class="llum verd"></i><i class="llum groc"></i><i class="llum vermell"></i>
+            <div class="comparacio"><span class="barra ant"><b>4 setmanes anteriors</b></span><span class="barra act"><b>Aquesta setmana</b></span></div></div>
+          <h3>Semàfor transparent</h3>
+          <p>Compara cada persona amb ella mateixa (les 4 setmanes anteriors), mai amb una norma. Només avisa si hi ha un canvi sostingut i prou dades. Les regles són visibles.</p>
+          <p class="fictici">Visualització amb dades fictícies.</p>
+        </article>
+        <article class="peca peca-evolucio">
+          <svg class="peca-vis grafic" viewBox="0 0 240 120" role="img" aria-label="Gràfic d'exemple amb la precisió setmanal durant 8 setmanes, dades fictícies"><g class="quadricula"><path d="M8 20H232M8 56H232M8 92H232"/></g><path class="linia" pathLength="1" d="M8 78 L40 66 L72 70 L104 54 L136 58 L168 40 L200 44 L232 28"/><g class="punts"><circle cx="8" cy="78" r="3"/><circle cx="40" cy="66" r="3"/><circle cx="72" cy="70" r="3"/><circle cx="104" cy="54" r="3"/><circle cx="136" cy="58" r="3"/><circle cx="168" cy="40" r="3"/><circle cx="200" cy="44" r="3"/><circle cx="232" cy="28" r="3.5"/></g></svg>
+          <h3>L'evolució, setmana a setmana</h3>
+          <p>Gràfics amb notes: anota «avui estava cansada» i surt sobre el gràfic.</p>
+          <p class="fictici">Dades fictícies.</p>
+        </article>
+        <article class="peca peca-pin">
+          <div class="peca-vis pin" aria-hidden="true"><span class="punts-pin"><i></i><i></i><i></i><i></i></span>
+            <svg class="cadenat" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path class="gra" d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+          <h3>Amb PIN</h3>
+          <p>La persona gran no hi entra per error. No és seguretat forta, i ho diem.</p>
+        </article>
+        <article class="peca peca-informe">
+          <div class="peca-vis fitxers" aria-hidden="true"><span class="fitxer pdf">PDF</span><span class="fitxer csv">CSV</span></div>
+          <h3>Informe i exportació</h3>
+          <p>Informe de progrés en PDF per compartir amb qui vulguis, i exportació en CSV.</p>
+        </article>
+        <article class="peca peca-consent">
+          <div class="peca-vis consent-vis" aria-hidden="true"><span class="casella"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="registre"><b>Registre d'accés</b><i></i><i></i></span></div>
+          <h3>Amb consentiment</h3>
+          <p>Una pantalla clara per demanar si la persona (o la família o tutor) hi està d'acord, i un registre de qui ha vist les dades.</p>
+        </article>
+        <article class="peca peca-residencies" id="residencies">
+          <div class="peca-text">
+            <h3 class="gran">Una tauleta, diversos residents</h3>
+            <p>Per a residències i centres de dia: cada resident toca la seva foto i juga amb el seu perfil, i el professional té una vista de tota la planta. Informes en PDF, exportació en CSV i mode quiosc a pantalla completa.</p>
+            <p class="fictici">Captures amb dades fictícies de demostració: cap persona és real.</p>
+            <p>Si el vostre centre té interès a provar-la en un pilot, parlem-ne. Sense preus ni compromís: volem aprendre de com es fa servir de debò.</p>
+            <a class="btn btn-accio" href="?motiu=residencia#contacte" id="ctaResidencia">Demana una demo</a>
+          </div>
+          <div class="escena-res">
+            <div class="vidre-escriptori"><img src="img/web/residencia-escriptori-640.webp" srcset="img/web/residencia-escriptori-640.webp 640w, img/web/residencia-escriptori.webp 1280w" sizes="(min-width: 1000px) 560px, 90vw" width="1280" height="860" loading="lazy" alt="Panell de planta d'una residència amb el semàfor de cada resident"></div>
+            <div class="vidre-tauleta"><img src="img/web/selector-residents-360.webp" srcset="img/web/selector-residents-360.webp 360w, img/web/selector-residents.webp 800w" sizes="200px" width="800" height="1151" loading="lazy" alt="Selector de residents a la tauleta: una icona i un nom per a cada resident d'exemple"></div>
+          </div>
+        </article>
+      </div>
+      <p class="l-avis"><svg class="ico" aria-hidden="true"><use href="#i-info"/></svg><span><strong>Això no és un diagnòstic.</strong> Els indicadors mesuren el rendiment en uns jocs, no la salut. MentA no és un dispositiu sanitari. Si observeu canvis que us preocupen, consulteu un professional de la salut.</span></p>
+    </div>
+  </section>
+
+  <!-- 7. Enfocament i preguntes: l'endemà -->
+  <section class="l-seccio l-enfocament" id="enfocament" data-hora="tarda" aria-labelledby="titolEnf">
+    <div class="l-ample l-enf-graella">
+      <h2 id="titolEnf">No prevé, no cura ni diagnostica.</h2>
+      <div class="l-enf-text">
+        <p>MentA <strong>estimula, exercita i ajuda a mantenir-se actiu</strong>. El que mesurem és com es juga, i només en comparació amb la mateixa persona.</p>
+        <p>Les dades de salut són especialment sensibles: per això no surten del dispositiu si no ho decideix qui les gestiona.</p>
+        <ul class="l-llista"><li>Sense comptes ni servidors: tot es queda al dispositiu.</li><li>Exportes o esborres les dades quan vulguis.</li><li>El text és Atkinson Hyperlegible, una tipografia del Braille Institute pensada per a la baixa visió.</li><li>Versió <span data-versio>1.9.3</span>, en fase de proves.</li></ul>
+        <a href="legal/privadesa.html">Llegeix la política de privadesa</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="l-seccio l-preguntes" id="preguntes" data-hora="tarda" aria-labelledby="titolFaq">
+    <div class="l-ample l-faq-graella">
+      <h2 id="titolFaq">Preguntes freqüents</h2>
+      <div class="l-faq">
+        <details><summary>Quant costa?</summary><p>MentA és gratuïta i no té publicitat.</p></details>
+        <details><summary>Cal registrar-se?</summary><p>No. Pots jugar com a convidat o crear perfils locals (un per a cada persona de casa) sense correu ni contrasenya.</p></details>
+        <details><summary>On es guarden les dades?</summary><p>Només al dispositiu. No hi ha servidor. Pots fer una còpia de seguretat i recuperar-la en un altre dispositiu.</p></details>
+        <details><summary>Funciona sense internet?</summary><p>Sí. Un cop oberta, funciona sense connexió. Si l'instal·les a la pantalla d'inici, s'obre com qualsevol altra app.</p></details>
+        <details><summary>Serveix per prevenir o diagnosticar res?</summary><p>No. MentA és una eina d'entreteniment i benestar cognitiu. No és un dispositiu sanitari ni fa diagnòstics. Si us preocupa la memòria, consulteu un professional de la salut.</p></details>
+        <details><summary>Com la instal·lo?</summary><p><strong>Android (Chrome):</strong> obre l'app i tria «Instal·la l'app». <strong>iPhone o iPad (Safari):</strong> botó «Comparteix» i «Afegeix a la pantalla d'inici». <strong>Ordinador:</strong> la icona d'instal·lació a la barra d'adreces. La instal·lació només funciona quan l'app està publicada amb un enllaç https.</p></details>
+        <details><summary>Qui hi ha darrere?</summary><p>És un projecte d'Empresa de la UPC (Castelldefels). Encara és una versió de proves: ens agradaria que la provessin persones grans i cuidadors reals i que ens diguessin què millorar.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Qui som i contacte -->
+  <section class="l-seccio l-contacte-sec" id="contacte" data-hora="tarda" aria-labelledby="titolContacte">
+    <div class="l-ample l-contacte-graella">
+      <div class="l-contacte-text" id="equip">
+        <h2 id="titolContacte">Parlem-ne.</h2>
+        <p>MentA és un projecte d'Empresa de la UPC (Castelldefels). Encara no hi ha dades d'ús ni opinions publicades, i no n'inventem. Busquem persones grans i cuidadors que la provin, i residències que vulguin una demo.</p>
+        <ul class="l-equip-noms" id="equipNoms" hidden></ul>
+        <ul class="l-xarxes" id="xarxesContacte" aria-label="Contacte i xarxes socials" hidden></ul>
+      </div>
+      <div>
+        <form class="l-contacte" id="formContacte" novalidate hidden>
+          <div><label for="fNom">Nom</label><input class="camp" id="fNom" name="nom" autocomplete="name" required maxlength="80"><p class="camp-error" id="eNom" hidden></p></div>
+          <div><label for="fCorreu">Correu</label><input class="camp" id="fCorreu" name="correu" type="email" inputmode="email" autocomplete="email" required maxlength="120"><p class="camp-error" id="eCorreu" hidden></p></div>
+          <div><label for="fMotiu">Motiu</label><select class="camp" id="fMotiu" name="motiu"><option value="prova">Vull provar l'app</option><option value="residencia">Demo per a una residència o centre</option><option value="suggeriment">Tinc un suggeriment</option><option value="altre">Un altre motiu</option></select></div>
+          <div><label for="fMissatge">Missatge</label><textarea class="camp" id="fMissatge" name="missatge" rows="4" maxlength="1000"></textarea></div>
+          <div class="honeypot" aria-hidden="true"><label>No ho omplis<input name="web2" tabindex="-1" autocomplete="off"></label></div>
+          <label class="consent"><input type="checkbox" name="consent" id="fConsent" required> <span>Accepto que feu servir aquestes dades només per respondre'm. <a href="legal/privadesa.html">Privadesa</a></span></label><p class="camp-error" id="eConsent" hidden></p>
+          <button type="submit" class="btn btn-primari">Envia</button>
+          <p class="l-estat" id="formMissatge" role="status" aria-live="polite"></p>
+          <p data-nomes-si-correu hidden>També per correu: <a data-correu href="#"></a></p>
+        </form>
+        <div class="l-contacte-sense" id="contacteSense">
+          <h3>Estem preparant el contacte</h3>
+          <p>Encara no tenim un correu públic. Mentrestant, pots enviar-nos el que en penses des de l'app.</p>
+          <a class="btn btn-primari" href="app/index.html#/feedback">Envia feedback des de l'app</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Tancament: nit -->
+  <section class="l-final" data-hora="vespre" aria-labelledby="titolFinal">
+    <div class="l-ample">
+      <img class="l-final-elefant" src="img/web/elefant-saluda.svg" width="200" height="200" alt="L'Elefant de MentA saludant" loading="lazy">
+      <h2 id="titolFinal">Cinc minuts són prou per començar.</h2>
+      <p>Sense registre i sense compromís.</p>
+      <a class="btn btn-final" href="app/index.html">Obre l'app</a>
+    </div>
+  </section>
+</main>
+<!--SHELL:peu-->
+<footer class="l-peu"><div class="l-ample">
+<div class="l-peu-graella">
+<div class="l-peu-marca"><a class="l-marca" href="#"><img src="img/web/logo-76.webp" alt="" width="38" height="38"><span>MentA</span></a>
+<p>Jocs per mantenir la ment activa i un espai a part per a qui cuida. Un projecte d'Empresa de la UPC (Castelldefels).</p><ul class="l-xarxes" id="xarxesPeu" aria-label="Xarxes socials" hidden></ul></div>
+<nav aria-label="Producte"><h2>Producte</h2><ul><li><a href="#com-funciona">Com funciona</a></li><li><a href="#jocs">Jocs</a></li><li><a href="#cuidador">Espai del cuidador</a></li><li><a href="app/index.html">Obrir l'app</a></li></ul></nav>
+<nav aria-label="Projecte"><h2>Projecte</h2><ul><li><a href="#residencies">Per a residències</a></li><li><a href="#equip">Qui som</a></li><li><a href="#preguntes">Preguntes freqüents</a></li><li><a href="#contacte">Contacte</a></li></ul></nav>
+<nav aria-label="Legal"><h2>Legal</h2><ul><li><a href="legal/privadesa.html">Privadesa</a></li><li><a href="legal/avis-legal.html">Avís legal</a></li><li><a href="legal/condicions.html">Condicions i no-diagnòstic</a></li><li><a href="legal/cookies.html">Cookies</a></li></ul></nav>
+</div>
+<div class="l-peu-fi"><p>MentA és una eina d'entreteniment i benestar cognitiu. No és un dispositiu sanitari, no fa diagnòstics i no substitueix un professional de la salut.</p>
+<p>MentA (MentActiva), versió <span data-versio>1.9.3</span>, <span data-any></span>.</p></div>
+</div></footer>
+<!--/SHELL:peu-->
+<script src="app/js/config.js" defer></script>
+<script src="web/mol.js" defer></script>
+<script src="web/web.js" defer></script>
+</body>
+</html>

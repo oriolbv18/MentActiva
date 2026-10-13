@@ -1,0 +1,25 @@
+{
+  "name": "MentA · MentActiva",
+  "short_name": "MentA",
+  "description": "Jocs de memòria, atenció, llenguatge, càlcul i lògica per mantenir la ment activa.",
+  "lang": "ca",
+  "dir": "ltr",
+  "id": "./index.html",
+  "start_url": "./index.html#/inici",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#faf7f2",
+  "theme_color": "#134a2c",
+  "categories": ["health", "games", "lifestyle"],
+  "icons": [
+    { "src": "img/icona-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "img/icona-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "img/icona-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "img/icona-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Jugar", "short_name": "Jugar", "description": "Obre el menú de jocs", "url": "./index.html#/menuJocs", "icons": [{ "src": "img/icona-192.png", "sizes": "192x192" }] },
+    { "name": "Estadístiques", "short_name": "Progrés", "description": "Mira el teu progrés", "url": "./index.html#/estadistiques", "icons": [{ "src": "img/icona-192.png", "sizes": "192x192" }] }
+  ]
+}

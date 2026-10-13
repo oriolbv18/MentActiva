@@ -1,0 +1,56 @@
+'use strict';
+// Diccionario ES · parte 4: tutoriales de los juegos (la clave es el HTML interior del párrafo, con sus <strong>)
+window.I18N_ES = window.I18N_ES || {};
+Object.assign(window.I18N_ES, {
+  "Surten <strong>boles</strong> amb un número. Si el tens al cartró, <strong>toca'l</strong> per marcar-lo.": "Salen <strong>bolas</strong> con un número. Si lo tienes en el cartón, <strong>tócalo</strong> para marcarlo.",
+  "Quan tinguis una <strong>fila</strong> sencera, prem <strong>LÍNIA!</strong>. Quan ho tinguis <strong>tot</strong>, prem <strong>BINGO!</strong>.": "Cuando tengas una <strong>fila</strong> entera, pulsa <strong>¡LÍNEA!</strong>. Cuando lo tengas <strong>todo</strong>, pulsa <strong>¡BINGO!</strong>.",
+  "Pots triar que et marqui els números tot sol. Sense diners: només per passar-ho bé.": "Puedes elegir que te marque los números él solo. Sin dinero: solo para pasarlo bien.",
+  "Resol petits problemes del dia a dia: preus, canvi, descomptes…": "Resuelve pequeños problemas del día a día: precios, cambio, descuentos…",
+  "Pensa-ho sense pressa i <strong>toca el resultat correcte</strong>.": "Piénsalo sin prisa y <strong>toca el resultado correcto</strong>.",
+  "Mou les teves peces <strong>blanques</strong> en diagonal cap endavant. Toca una peça i després la casella on vols anar.": "Mueve tus piezas <strong>blancas</strong> en diagonal hacia delante. Toca una pieza y después la casilla adonde quieres ir.",
+  "Una peça es mou una casella en diagonal cap endavant.": "Una pieza se mueve una casilla en diagonal hacia delante.",
+  "Si pots saltar una peça contrària, <strong>has de menjar</strong> (és obligatori) i pots encadenar salts.": "Si puedes saltar una pieza contraria, <strong>tienes que comer</strong> (es obligatorio) y puedes encadenar saltos.",
+  "Les peces no mengen cap enrere, però les dames sí.": "Las piezas no comen hacia atrás, pero las damas sí.",
+  "En arribar a l'últim costat, la peça es corona i es converteix en <strong>dama</strong>: es mou una casella en qualsevol diagonal.": "Al llegar al último lado, la pieza se corona y se convierte en <strong>dama</strong>: se mueve una casilla en cualquier diagonal.",
+  "Guanya qui deixa l'altre sense moviments o sense peces. Si passen 50 jugades sense menjar ni avançar, són taules.": "Gana quien deja al otro sin movimientos o sin piezas. Si pasan 50 jugadas sin comer ni avanzar, son tablas.",
+  "Nivells: <strong>fàcil</strong> mou a l'atzar (i et deixa desfer); <strong>mig</strong> pensa 2 jugades; <strong>difícil</strong> en pensa 5.": "Niveles: <strong>fácil</strong> mueve al azar (y te deja deshacer); <strong>medio</strong> piensa 2 jugadas; <strong>difícil</strong> piensa 5.",
+  "Regles que fem servir": "Reglas que usamos",
+  "Toca una fitxa de la teva mà que <strong>encaixi amb un dels extrems</strong> del tauler (el mateix nombre de punts).": "Toca una ficha de tu mano que <strong>encaje con uno de los extremos</strong> del tablero (el mismo número de puntos).",
+  "Cada jugador té 7 fitxes. Comença qui té el doble més alt.": "Cada jugador tiene 7 fichas. Empieza quien tiene el doble más alto.",
+  "Si no pots posar cap fitxa, <strong>robes</strong> del pou fins que en tinguis una que encaixi.": "Si no puedes poner ninguna ficha, <strong>robas</strong> del pozo hasta que tengas una que encaje.",
+  "Si el pou és buit i no pots jugar, <strong>passes</strong>.": "Si el pozo está vacío y no puedes jugar, <strong>pasas</strong>.",
+  "Guanya qui es queda sense fitxes. Si el joc es bloqueja, guanya qui té <strong>menys punts</strong> a la mà.": "Gana quien se queda sin fichas. Si el juego se bloquea, gana quien tiene <strong>menos puntos</strong> en la mano.",
+  "Nivells: <strong>fàcil</strong> juga a l'atzar (amb ajuda i desfer); <strong>mig</strong> posa la fitxa de més punts; <strong>difícil</strong> a més recorda els números que no has pogut posar i intenta bloquejar-te.": "Niveles: <strong>fácil</strong> juega al azar (con ayuda y deshacer); <strong>medio</strong> pone la ficha de más puntos; <strong>difícil</strong> además recuerda los números que no has podido poner e intenta bloquearte.",
+  "Et direm una categoria. Escriu <strong>tantes paraules com puguis</strong> en 60 segons i prem Enter (o «+») després de cadascuna.": "Te diremos una categoría. Escribe <strong>tantas palabras como puedas</strong> en 60 segundos y pulsa Enter (o «+») después de cada una.",
+  "L'objectiu és arribar a 10. No comprovem si és una paraula de la categoria: confiem en tu!": "El objetivo es llegar a 10. No comprobamos si es una palabra de la categoría: ¡confiamos en ti!",
+  "Gira les cartes de dues en dues i <strong>troba les parelles</strong>.": "Gira las cartas de dos en dos y <strong>encuentra las parejas</strong>.",
+  "Si no coincideixen, es tornen a tapar: recorda on eren! Com menys intents facis, més puntuació.": "Si no coinciden, se vuelven a tapar: ¡recuerda dónde estaban! Cuantos menos intentos hagas, más puntuación.",
+  "Veuràs lletres una a una. Prem <strong>SÍ</strong> si la lletra és igual a la de fa <em>N</em> posicions, i <strong>NO</strong> si és diferent.": "Verás letras una a una. Pulsa <strong>SÍ</strong> si la letra es igual a la de hace <em>N</em> posiciones, y <strong>NO</strong> si es diferente.",
+  "Al nivell fàcil compares amb l'anterior: aquí, la segona K és igual a l'anterior, així que és un <strong>SÍ</strong>.": "En el nivel fácil comparas con la anterior: aquí, la segunda K es igual a la anterior, así que es un <strong>SÍ</strong>.",
+  "Llegeix la <strong>pista</strong> i descobreix la paraula amagada tocant lletres.": "Lee la <strong>pista</strong> y descubre la palabra escondida tocando letras.",
+  "Tens fins a 6 errors per paraula.": "Tienes hasta 6 errores por palabra.",
+  "Mira bé els objectes durant uns segons. Després en <strong>amagarem un</strong>: toca quin era entre les opcions.": "Mira bien los objetos durante unos segundos. Después <strong>esconderemos uno</strong>: toca cuál era entre las opciones.",
+  "Et mostrarem el <strong>començament d'un refrany</strong>. Toca com acaba!": "Te mostraremos el <strong>principio de un refrán</strong>. ¡Toca cómo acaba!",
+  "Si el refrany et sona però no te'n recordes, no passa res: veuràs com acaba.": "Si el refrán te suena pero no lo recuerdas, no pasa nada: verás cómo acaba.",
+  "Hi ha una fila de números amb un <strong>«?»</strong>.": "Hay una fila de números con un <strong>«?»</strong>.",
+  "Descobreix la regla (aquí, de 2 en 2) i toca el número que hi falta: el <strong>8</strong>. Quan falles, t'expliquem la regla.": "Descubre la regla (aquí, de 2 en 2) y toca el número que falta: el <strong>8</strong>. Cuando falles, te explicamos la regla.",
+  "S'il·luminaran uns colors (amb un símbol i un so cadascun) en un ordre. <strong>Repeteix-lo</strong> tocant-los igual.": "Se iluminarán unos colores (con un símbolo y un sonido cada uno) en un orden. <strong>Repítelo</strong> tocándolos igual.",
+  "Cada ronda s'hi afegeix un color nou. Quan falles, s'acaba la partida.": "En cada ronda se añade un color nuevo. Cuando falles, se acaba la partida.",
+  "Busca les paraules de la llista. Pots <strong>arrossegar</strong> el dit sobre les lletres, o tocar la primera i l'última lletra.": "Busca las palabras de la lista. Puedes <strong>arrastrar</strong> el dedo sobre las letras, o tocar la primera y la última letra.",
+  "Les paraules poden estar escrites en diverses direccions (al nivell difícil, també al revés).": "Las palabras pueden estar escritas en varias direcciones (en el nivel difícil, también al revés).",
+  "Veuràs uns números un a un. <strong>Memoritza'ls</strong> i després toca'ls en el mateix ordre.": "Verás unos números uno a uno. <strong>Memorízalos</strong> y después tócalos en el mismo orden.",
+  "Cada vegada n'hi haurà un de més. Cap pressa: no hi ha límit de temps per respondre.": "Cada vez habrá uno más. Sin prisa: no hay límite de tiempo para responder.",
+  "Veuràs el nom d'un color escrit amb una tinta d'un altre color.": "Verás el nombre de un color escrito con una tinta de otro color.",
+  "Toca el botó del <strong>COLOR DE LA TINTA</strong> (aquí, blau), no el que diu la paraula. Cada botó porta escrit el nom del color.": "Toca el botón del <strong>COLOR DE LA TINTA</strong> (aquí, azul), no el que dice la palabra. Cada botón lleva escrito el nombre del color.",
+  "Omple la graella perquè <strong>cada fila, cada columna i cada regió</strong> tingui tots els números sense repetir-ne cap.": "Rellena la cuadrícula para que <strong>cada fila, cada columna y cada región</strong> tenga todos los números sin repetir ninguno.",
+  "Toca una casella i després un número (o fes servir el teclat). Tens 3 errors i 3 pistes.": "Toca una casilla y después un número (o usa el teclado). Tienes 3 errores y 3 pistas.",
+  "Llegeix la pregunta i <strong>toca la resposta correcta</strong>.": "Lee la pregunta y <strong>toca la respuesta correcta</strong>.",
+  "Si no ho saps, no passa res: veuràs la resposta i podràs repassar els errors al final. Les preguntes no es repeteixen fins que has vist les altres.": "Si no lo sabes, no pasa nada: verás la respuesta y podrás repasar los errores al final. Las preguntas no se repiten hasta que has visto las demás.",
+  "Per a qui és el Bingo": "Para quién es el Bingo"
+});
+Object.assign(window.I18N_ES, {
+  "Aquesta setmana encara no has jugat. Quan vulguis, comencem.": "Esta semana todavía no has jugado. Cuando quieras, empezamos.", "Si jugues uns dies més, la completaràs.": "Si juegas unos días más, la completarás.",
+  "Busca una fitxa amb un {a} (els extrems del tauler).": "Busca una ficha con un {a} (los extremos del tablero).", "Busca una fitxa amb un {a} o un {b} (els extrems del tauler).": "Busca una ficha con un {a} o un {b} (los extremos del tablero).",
+  "Fixa't en això: {t}": "Fíjate en esto: {t}"
+});
+if (typeof I18N !== "undefined" && I18N.afegeixRegles) I18N.afegeixRegles([[/([0-9]+) dies\b/g, '$1 días'], [/· actiu\b/g, '· activo']]);

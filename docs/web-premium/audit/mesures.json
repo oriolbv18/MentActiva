@@ -1,0 +1,1982 @@
+{
+ "320_clar_normal": {
+  "gutters": {
+   "section.l-heroi": 20,
+   "section.l-fets": 20,
+   "#com-funciona": 20,
+   "#demo": 20,
+   "#jocs": 20,
+   "#cuidador": 20,
+   "#enfocament": 20,
+   "#preguntes": 20,
+   "#contacte": 20,
+   "section.l-final": 20,
+   "footer.l-peu": 20
+  },
+  "ample_contingut": 280,
+  "seccio_y": 72,
+  "paddings": {
+   "l-heroi": [
+    104,
+    51
+   ],
+   "l-fets": [
+    48,
+    64
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    72,
+    72
+   ],
+   "#jocs": [
+    72,
+    72
+   ],
+   "#cuidador": [
+    72,
+    72
+   ],
+   "#enfocament": [
+    72,
+    72
+   ],
+   "#preguntes": [
+    72,
+    72
+   ],
+   "#contacte": [
+    72,
+    72
+   ],
+   "l-final": [
+    72,
+    72
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 43,
+  "html_px": 16,
+  "cls": 0.006,
+  "pes_kb": 42,
+  "lcp_ms": 116,
+  "tasques_llargues": 0
+ },
+ "320_fosc_normal": {
+  "gutters": {
+   "section.l-heroi": 20,
+   "section.l-fets": 20,
+   "#com-funciona": 20,
+   "#demo": 20,
+   "#jocs": 20,
+   "#cuidador": 20,
+   "#enfocament": 20,
+   "#preguntes": 20,
+   "#contacte": 20,
+   "section.l-final": 20,
+   "footer.l-peu": 20
+  },
+  "ample_contingut": 280,
+  "seccio_y": 72,
+  "paddings": {
+   "l-heroi": [
+    104,
+    51
+   ],
+   "l-fets": [
+    48,
+    64
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    72,
+    72
+   ],
+   "#jocs": [
+    72,
+    72
+   ],
+   "#cuidador": [
+    72,
+    72
+   ],
+   "#enfocament": [
+    72,
+    72
+   ],
+   "#preguntes": [
+    72,
+    72
+   ],
+   "#contacte": [
+    72,
+    72
+   ],
+   "l-final": [
+    72,
+    72
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 43,
+  "html_px": 16,
+  "cls": 0.006,
+  "pes_kb": 42,
+  "lcp_ms": 124,
+  "tasques_llargues": 0
+ },
+ "360_clar_normal": {
+  "gutters": {
+   "section.l-heroi": 20,
+   "section.l-fets": 20,
+   "#com-funciona": 20,
+   "#demo": 20,
+   "#jocs": 20,
+   "#cuidador": 20,
+   "#enfocament": 20,
+   "#preguntes": 20,
+   "#contacte": 20,
+   "section.l-final": 20,
+   "footer.l-peu": 20
+  },
+  "ample_contingut": 320,
+  "seccio_y": 73.2,
+  "paddings": {
+   "l-heroi": [
+    109,
+    59
+   ],
+   "l-fets": [
+    48,
+    64
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    73,
+    73
+   ],
+   "#jocs": [
+    73,
+    73
+   ],
+   "#cuidador": [
+    73,
+    73
+   ],
+   "#enfocament": [
+    73,
+    73
+   ],
+   "#preguntes": [
+    73,
+    73
+   ],
+   "#contacte": [
+    73,
+    73
+   ],
+   "l-final": [
+    73,
+    73
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 43,
+  "html_px": 16,
+  "cls": 0,
+  "pes_kb": 42,
+  "lcp_ms": 420,
+  "tasques_llargues": 0
+ },
+ "360_fosc_normal": {
+  "gutters": {
+   "section.l-heroi": 20,
+   "section.l-fets": 20,
+   "#com-funciona": 20,
+   "#demo": 20,
+   "#jocs": 20,
+   "#cuidador": 20,
+   "#enfocament": 20,
+   "#preguntes": 20,
+   "#contacte": 20,
+   "section.l-final": 20,
+   "footer.l-peu": 20
+  },
+  "ample_contingut": 320,
+  "seccio_y": 73.2,
+  "paddings": {
+   "l-heroi": [
+    109,
+    59
+   ],
+   "l-fets": [
+    48,
+    64
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    73,
+    73
+   ],
+   "#jocs": [
+    73,
+    73
+   ],
+   "#cuidador": [
+    73,
+    73
+   ],
+   "#enfocament": [
+    73,
+    73
+   ],
+   "#preguntes": [
+    73,
+    73
+   ],
+   "#contacte": [
+    73,
+    73
+   ],
+   "l-final": [
+    73,
+    73
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 43,
+  "html_px": 16,
+  "cls": 0.005,
+  "pes_kb": 42,
+  "lcp_ms": 112,
+  "tasques_llargues": 0
+ },
+ "390_clar_normal": {
+  "gutters": {
+   "section.l-heroi": 20,
+   "section.l-fets": 20,
+   "#com-funciona": 20,
+   "#demo": 20,
+   "#jocs": 20,
+   "#cuidador": 20,
+   "#enfocament": 20,
+   "#preguntes": 20,
+   "#contacte": 20,
+   "section.l-final": 20,
+   "footer.l-peu": 20
+  },
+  "ample_contingut": 350,
+  "seccio_y": 75.3,
+  "paddings": {
+   "l-heroi": [
+    114,
+    68
+   ],
+   "l-fets": [
+    48,
+    64
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    75,
+    75
+   ],
+   "#jocs": [
+    75,
+    75
+   ],
+   "#cuidador": [
+    75,
+    75
+   ],
+   "#enfocament": [
+    75,
+    75
+   ],
+   "#preguntes": [
+    75,
+    75
+   ],
+   "#contacte": [
+    75,
+    75
+   ],
+   "l-final": [
+    75,
+    75
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 43,
+  "html_px": 16,
+  "cls": 0.004,
+  "pes_kb": 42,
+  "lcp_ms": 120,
+  "tasques_llargues": 0
+ },
+ "390_fosc_normal": {
+  "gutters": {
+   "section.l-heroi": 20,
+   "section.l-fets": 20,
+   "#com-funciona": 20,
+   "#demo": 20,
+   "#jocs": 20,
+   "#cuidador": 20,
+   "#enfocament": 20,
+   "#preguntes": 20,
+   "#contacte": 20,
+   "section.l-final": 20,
+   "footer.l-peu": 20
+  },
+  "ample_contingut": 350,
+  "seccio_y": 75.3,
+  "paddings": {
+   "l-heroi": [
+    114,
+    68
+   ],
+   "l-fets": [
+    48,
+    64
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    75,
+    75
+   ],
+   "#jocs": [
+    75,
+    75
+   ],
+   "#cuidador": [
+    75,
+    75
+   ],
+   "#enfocament": [
+    75,
+    75
+   ],
+   "#preguntes": [
+    75,
+    75
+   ],
+   "#contacte": [
+    75,
+    75
+   ],
+   "l-final": [
+    75,
+    75
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 43,
+  "html_px": 16,
+  "cls": 0.004,
+  "pes_kb": 42,
+  "lcp_ms": 108,
+  "tasques_llargues": 0
+ },
+ "768_clar_normal": {
+  "gutters": {
+   "section.l-heroi": 30.7,
+   "section.l-fets": 30.7,
+   "#com-funciona": 30.7,
+   "#demo": 30.7,
+   "#jocs": 30.7,
+   "#cuidador": 30.7,
+   "#enfocament": 30.7,
+   "#preguntes": 30.7,
+   "#contacte": 30.7,
+   "section.l-final": 30.7,
+   "footer.l-peu": 30.7
+  },
+  "ample_contingut": 707,
+  "seccio_y": 104.5,
+  "paddings": {
+   "l-heroi": [
+    123,
+    82
+   ],
+   "l-fets": [
+    51,
+    68
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    105,
+    105
+   ],
+   "#jocs": [
+    105,
+    105
+   ],
+   "#cuidador": [
+    105,
+    105
+   ],
+   "#enfocament": [
+    105,
+    105
+   ],
+   "#preguntes": [
+    105,
+    105
+   ],
+   "#contacte": [
+    105,
+    105
+   ],
+   "l-final": [
+    105,
+    105
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 59,
+  "html_px": 16.92,
+  "cls": 0,
+  "pes_kb": 42,
+  "lcp_ms": 248,
+  "tasques_llargues": 0
+ },
+ "768_clar_gegant": {
+  "gutters": {
+   "section.l-heroi": 20,
+   "section.l-fets": 20,
+   "#com-funciona": 20,
+   "#demo": 20,
+   "#jocs": 20,
+   "#cuidador": 20,
+   "#enfocament": 20,
+   "#preguntes": 20,
+   "#contacte": 20,
+   "section.l-final": 20,
+   "footer.l-peu": 20
+  },
+  "ample_contingut": 344,
+  "seccio_y": 74.9,
+  "paddings": {
+   "l-heroi": [
+    98,
+    48
+   ],
+   "l-fets": [
+    48,
+    64
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    75,
+    75
+   ],
+   "#jocs": [
+    75,
+    75
+   ],
+   "#cuidador": [
+    75,
+    75
+   ],
+   "#enfocament": [
+    75,
+    75
+   ],
+   "#preguntes": [
+    75,
+    75
+   ],
+   "#contacte": [
+    75,
+    75
+   ],
+   "l-final": [
+    75,
+    75
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 43,
+  "html_px": 16,
+  "cls": 0.01,
+  "pes_kb": 42,
+  "lcp_ms": 104,
+  "tasques_llargues": 0
+ },
+ "768_fosc_normal": {
+  "gutters": {
+   "section.l-heroi": 30.7,
+   "section.l-fets": 30.7,
+   "#com-funciona": 30.7,
+   "#demo": 30.7,
+   "#jocs": 30.7,
+   "#cuidador": 30.7,
+   "#enfocament": 30.7,
+   "#preguntes": 30.7,
+   "#contacte": 30.7,
+   "section.l-final": 30.7,
+   "footer.l-peu": 30.7
+  },
+  "ample_contingut": 707,
+  "seccio_y": 104.5,
+  "paddings": {
+   "l-heroi": [
+    123,
+    82
+   ],
+   "l-fets": [
+    51,
+    68
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    105,
+    105
+   ],
+   "#jocs": [
+    105,
+    105
+   ],
+   "#cuidador": [
+    105,
+    105
+   ],
+   "#enfocament": [
+    105,
+    105
+   ],
+   "#preguntes": [
+    105,
+    105
+   ],
+   "#contacte": [
+    105,
+    105
+   ],
+   "l-final": [
+    105,
+    105
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 59,
+  "html_px": 16.92,
+  "cls": 0.004,
+  "pes_kb": 42,
+  "lcp_ms": 124,
+  "tasques_llargues": 0
+ },
+ "768_fosc_gegant": {
+  "gutters": {
+   "section.l-heroi": 20,
+   "section.l-fets": 20,
+   "#com-funciona": 20,
+   "#demo": 20,
+   "#jocs": 20,
+   "#cuidador": 20,
+   "#enfocament": 20,
+   "#preguntes": 20,
+   "#contacte": 20,
+   "section.l-final": 20,
+   "footer.l-peu": 20
+  },
+  "ample_contingut": 344,
+  "seccio_y": 74.9,
+  "paddings": {
+   "l-heroi": [
+    98,
+    48
+   ],
+   "l-fets": [
+    48,
+    64
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    75,
+    75
+   ],
+   "#jocs": [
+    75,
+    75
+   ],
+   "#cuidador": [
+    75,
+    75
+   ],
+   "#enfocament": [
+    75,
+    75
+   ],
+   "#preguntes": [
+    75,
+    75
+   ],
+   "#contacte": [
+    75,
+    75
+   ],
+   "l-final": [
+    75,
+    75
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 43,
+  "html_px": 16,
+  "cls": 0,
+  "pes_kb": 42,
+  "lcp_ms": 144,
+  "tasques_llargues": 0
+ },
+ "1024_clar_normal": {
+  "gutters": {
+   "section.l-heroi": 41,
+   "section.l-fets": 41,
+   "#com-funciona": 41,
+   "#demo": 41,
+   "#jocs": 41,
+   "#cuidador": 41,
+   "#enfocament": 41,
+   "#preguntes": 41,
+   "#contacte": 41,
+   "section.l-final": 41,
+   "footer.l-peu": 41
+  },
+  "ample_contingut": 942,
+  "seccio_y": 124.4,
+  "paddings": {
+   "l-heroi": [
+    110,
+    61
+   ],
+   "l-fets": [
+    53,
+    70
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    124,
+    124
+   ],
+   "#jocs": [
+    124,
+    124
+   ],
+   "#cuidador": [
+    124,
+    124
+   ],
+   "#enfocament": [
+    124,
+    124
+   ],
+   "#preguntes": [
+    124,
+    124
+   ],
+   "#contacte": [
+    124,
+    124
+   ],
+   "l-final": [
+    124,
+    124
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 72,
+  "html_px": 17.56,
+  "cls": 0.005,
+  "pes_kb": 42,
+  "lcp_ms": 976,
+  "tasques_llargues": 0
+ },
+ "1024_clar_gegant": {
+  "gutters": {
+   "section.l-heroi": 20.5,
+   "section.l-fets": 20.5,
+   "#com-funciona": 20.5,
+   "#demo": 20.5,
+   "#jocs": 20.5,
+   "#cuidador": 20.5,
+   "#enfocament": 20.5,
+   "#preguntes": 20.5,
+   "#contacte": 20.5,
+   "section.l-final": 20.5,
+   "footer.l-peu": 20.5
+  },
+  "ample_contingut": 471,
+  "seccio_y": 84.7,
+  "paddings": {
+   "l-heroi": [
+    96,
+    49
+   ],
+   "l-fets": [
+    49,
+    65
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    85,
+    85
+   ],
+   "#jocs": [
+    85,
+    85
+   ],
+   "#cuidador": [
+    85,
+    85
+   ],
+   "#enfocament": [
+    85,
+    85
+   ],
+   "#preguntes": [
+    85,
+    85
+   ],
+   "#contacte": [
+    85,
+    85
+   ],
+   "l-final": [
+    85,
+    85
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 46,
+  "html_px": 16.28,
+  "cls": 0,
+  "pes_kb": 42,
+  "lcp_ms": 228,
+  "tasques_llargues": 0
+ },
+ "1024_fosc_normal": {
+  "gutters": {
+   "section.l-heroi": 41,
+   "section.l-fets": 41,
+   "#com-funciona": 41,
+   "#demo": 41,
+   "#jocs": 41,
+   "#cuidador": 41,
+   "#enfocament": 41,
+   "#preguntes": 41,
+   "#contacte": 41,
+   "section.l-final": 41,
+   "footer.l-peu": 41
+  },
+  "ample_contingut": 942,
+  "seccio_y": 124.4,
+  "paddings": {
+   "l-heroi": [
+    110,
+    61
+   ],
+   "l-fets": [
+    53,
+    70
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    124,
+    124
+   ],
+   "#jocs": [
+    124,
+    124
+   ],
+   "#cuidador": [
+    124,
+    124
+   ],
+   "#enfocament": [
+    124,
+    124
+   ],
+   "#preguntes": [
+    124,
+    124
+   ],
+   "#contacte": [
+    124,
+    124
+   ],
+   "l-final": [
+    124,
+    124
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 72,
+  "html_px": 17.56,
+  "cls": 0,
+  "pes_kb": 42,
+  "lcp_ms": 992,
+  "tasques_llargues": 0
+ },
+ "1024_fosc_gegant": {
+  "gutters": {
+   "section.l-heroi": 20.5,
+   "section.l-fets": 20.5,
+   "#com-funciona": 20.5,
+   "#demo": 20.5,
+   "#jocs": 20.5,
+   "#cuidador": 20.5,
+   "#enfocament": 20.5,
+   "#preguntes": 20.5,
+   "#contacte": 20.5,
+   "section.l-final": 20.5,
+   "footer.l-peu": 20.5
+  },
+  "ample_contingut": 471,
+  "seccio_y": 84.7,
+  "paddings": {
+   "l-heroi": [
+    96,
+    49
+   ],
+   "l-fets": [
+    49,
+    65
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    85,
+    85
+   ],
+   "#jocs": [
+    85,
+    85
+   ],
+   "#cuidador": [
+    85,
+    85
+   ],
+   "#enfocament": [
+    85,
+    85
+   ],
+   "#preguntes": [
+    85,
+    85
+   ],
+   "#contacte": [
+    85,
+    85
+   ],
+   "l-final": [
+    85,
+    85
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 46,
+  "html_px": 16.28,
+  "cls": 0.014,
+  "pes_kb": 42,
+  "lcp_ms": 120,
+  "tasques_llargues": 0
+ },
+ "1280_clar_normal": {
+  "gutters": {
+   "section.l-heroi": 51.2,
+   "section.l-fets": 51.2,
+   "#com-funciona": 51.2,
+   "#demo": 51.2,
+   "#jocs": 51.2,
+   "#cuidador": 51.2,
+   "#enfocament": 51.2,
+   "#preguntes": 51.2,
+   "#contacte": 51.2,
+   "section.l-final": 51.2,
+   "footer.l-peu": 51.2
+  },
+  "ample_contingut": 1178,
+  "seccio_y": 143.6,
+  "paddings": {
+   "l-heroi": [
+    112,
+    64
+   ],
+   "l-fets": [
+    54,
+    72
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    144,
+    144
+   ],
+   "#jocs": [
+    144,
+    144
+   ],
+   "#cuidador": [
+    144,
+    144
+   ],
+   "#enfocament": [
+    144,
+    144
+   ],
+   "#preguntes": [
+    144,
+    144
+   ],
+   "#contacte": [
+    144,
+    144
+   ],
+   "l-final": [
+    144,
+    144
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 84,
+  "html_px": 18,
+  "cls": 0.007,
+  "pes_kb": 42,
+  "lcp_ms": 136,
+  "tasques_llargues": 0
+ },
+ "1280_clar_gegant": {
+  "gutters": {
+   "section.l-heroi": 25.6,
+   "section.l-fets": 25.6,
+   "#com-funciona": 25.6,
+   "#demo": 25.6,
+   "#jocs": 25.6,
+   "#cuidador": 25.6,
+   "#enfocament": 25.6,
+   "#preguntes": 25.6,
+   "#contacte": 25.6,
+   "section.l-final": 25.6,
+   "footer.l-peu": 25.6
+  },
+  "ample_contingut": 589,
+  "seccio_y": 94.6,
+  "paddings": {
+   "l-heroi": [
+    97,
+    50
+   ],
+   "l-fets": [
+    50,
+    66
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    95,
+    95
+   ],
+   "#jocs": [
+    95,
+    95
+   ],
+   "#cuidador": [
+    95,
+    95
+   ],
+   "#enfocament": [
+    95,
+    95
+   ],
+   "#preguntes": [
+    95,
+    95
+   ],
+   "#contacte": [
+    95,
+    95
+   ],
+   "l-final": [
+    95,
+    95
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 53,
+  "html_px": 16.6,
+  "cls": 0.013,
+  "pes_kb": 42,
+  "lcp_ms": 120,
+  "tasques_llargues": 0
+ },
+ "1280_fosc_normal": {
+  "gutters": {
+   "section.l-heroi": 51.2,
+   "section.l-fets": 51.2,
+   "#com-funciona": 51.2,
+   "#demo": 51.2,
+   "#jocs": 51.2,
+   "#cuidador": 51.2,
+   "#enfocament": 51.2,
+   "#preguntes": 51.2,
+   "#contacte": 51.2,
+   "section.l-final": 51.2,
+   "footer.l-peu": 51.2
+  },
+  "ample_contingut": 1178,
+  "seccio_y": 143.6,
+  "paddings": {
+   "l-heroi": [
+    112,
+    64
+   ],
+   "l-fets": [
+    54,
+    72
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    144,
+    144
+   ],
+   "#jocs": [
+    144,
+    144
+   ],
+   "#cuidador": [
+    144,
+    144
+   ],
+   "#enfocament": [
+    144,
+    144
+   ],
+   "#preguntes": [
+    144,
+    144
+   ],
+   "#contacte": [
+    144,
+    144
+   ],
+   "l-final": [
+    144,
+    144
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 84,
+  "html_px": 18,
+  "cls": 0.007,
+  "pes_kb": 42,
+  "lcp_ms": 132,
+  "tasques_llargues": 0
+ },
+ "1280_fosc_gegant": {
+  "gutters": {
+   "section.l-heroi": 25.6,
+   "section.l-fets": 25.6,
+   "#com-funciona": 25.6,
+   "#demo": 25.6,
+   "#jocs": 25.6,
+   "#cuidador": 25.6,
+   "#enfocament": 25.6,
+   "#preguntes": 25.6,
+   "#contacte": 25.6,
+   "section.l-final": 25.6,
+   "footer.l-peu": 25.6
+  },
+  "ample_contingut": 589,
+  "seccio_y": 94.6,
+  "paddings": {
+   "l-heroi": [
+    97,
+    50
+   ],
+   "l-fets": [
+    50,
+    66
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    95,
+    95
+   ],
+   "#jocs": [
+    95,
+    95
+   ],
+   "#cuidador": [
+    95,
+    95
+   ],
+   "#enfocament": [
+    95,
+    95
+   ],
+   "#preguntes": [
+    95,
+    95
+   ],
+   "#contacte": [
+    95,
+    95
+   ],
+   "l-final": [
+    95,
+    95
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 53,
+  "html_px": 16.6,
+  "cls": 0.013,
+  "pes_kb": 42,
+  "lcp_ms": 108,
+  "tasques_llargues": 0
+ },
+ "1440_clar_normal": {
+  "gutters": {
+   "section.l-heroi": 120,
+   "section.l-fets": 120,
+   "#com-funciona": 120,
+   "#demo": 120,
+   "#jocs": 120,
+   "#cuidador": 120,
+   "#enfocament": 120,
+   "#preguntes": 120,
+   "#contacte": 120,
+   "section.l-final": 120,
+   "footer.l-peu": 120
+  },
+  "ample_contingut": 1200,
+  "seccio_y": 154.8,
+  "paddings": {
+   "l-heroi": [
+    117,
+    72
+   ],
+   "l-fets": [
+    54,
+    72
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    155,
+    155
+   ],
+   "#jocs": [
+    155,
+    155
+   ],
+   "#cuidador": [
+    155,
+    155
+   ],
+   "#enfocament": [
+    155,
+    155
+   ],
+   "#preguntes": [
+    155,
+    155
+   ],
+   "#contacte": [
+    155,
+    155
+   ],
+   "l-final": [
+    155,
+    155
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 91,
+  "html_px": 18,
+  "cls": 0.006,
+  "pes_kb": 42,
+  "lcp_ms": 992,
+  "tasques_llargues": 0
+ },
+ "1440_clar_gegant": {
+  "gutters": {
+   "section.l-heroi": 28.8,
+   "section.l-fets": 28.8,
+   "#com-funciona": 28.8,
+   "#demo": 28.8,
+   "#jocs": 28.8,
+   "#cuidador": 28.8,
+   "#enfocament": 28.8,
+   "#preguntes": 28.8,
+   "#contacte": 28.8,
+   "section.l-final": 28.8,
+   "footer.l-peu": 28.8
+  },
+  "ample_contingut": 662,
+  "seccio_y": 100.8,
+  "paddings": {
+   "l-heroi": [
+    97,
+    50
+   ],
+   "l-fets": [
+    50,
+    67
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    101,
+    101
+   ],
+   "#jocs": [
+    101,
+    101
+   ],
+   "#cuidador": [
+    101,
+    101
+   ],
+   "#enfocament": [
+    101,
+    101
+   ],
+   "#preguntes": [
+    101,
+    101
+   ],
+   "#contacte": [
+    101,
+    101
+   ],
+   "l-final": [
+    101,
+    101
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 57,
+  "html_px": 16.8,
+  "cls": 0,
+  "pes_kb": 42,
+  "lcp_ms": 128,
+  "tasques_llargues": 0
+ },
+ "1440_fosc_normal": {
+  "gutters": {
+   "section.l-heroi": 120,
+   "section.l-fets": 120,
+   "#com-funciona": 120,
+   "#demo": 120,
+   "#jocs": 120,
+   "#cuidador": 120,
+   "#enfocament": 120,
+   "#preguntes": 120,
+   "#contacte": 120,
+   "section.l-final": 120,
+   "footer.l-peu": 120
+  },
+  "ample_contingut": 1200,
+  "seccio_y": 154.8,
+  "paddings": {
+   "l-heroi": [
+    117,
+    72
+   ],
+   "l-fets": [
+    54,
+    72
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    155,
+    155
+   ],
+   "#jocs": [
+    155,
+    155
+   ],
+   "#cuidador": [
+    155,
+    155
+   ],
+   "#enfocament": [
+    155,
+    155
+   ],
+   "#preguntes": [
+    155,
+    155
+   ],
+   "#contacte": [
+    155,
+    155
+   ],
+   "l-final": [
+    155,
+    155
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 91,
+  "html_px": 18,
+  "cls": 0,
+  "pes_kb": 42,
+  "lcp_ms": 192,
+  "tasques_llargues": 0
+ },
+ "1440_fosc_gegant": {
+  "gutters": {
+   "section.l-heroi": 28.8,
+   "section.l-fets": 28.8,
+   "#com-funciona": 28.8,
+   "#demo": 28.8,
+   "#jocs": 28.8,
+   "#cuidador": 28.8,
+   "#enfocament": 28.8,
+   "#preguntes": 28.8,
+   "#contacte": 28.8,
+   "section.l-final": 28.8,
+   "footer.l-peu": 28.8
+  },
+  "ample_contingut": 662,
+  "seccio_y": 100.8,
+  "paddings": {
+   "l-heroi": [
+    97,
+    50
+   ],
+   "l-fets": [
+    50,
+    67
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    101,
+    101
+   ],
+   "#jocs": [
+    101,
+    101
+   ],
+   "#cuidador": [
+    101,
+    101
+   ],
+   "#enfocament": [
+    101,
+    101
+   ],
+   "#preguntes": [
+    101,
+    101
+   ],
+   "#contacte": [
+    101,
+    101
+   ],
+   "l-final": [
+    101,
+    101
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 57,
+  "html_px": 16.8,
+  "cls": 0.011,
+  "pes_kb": 42,
+  "lcp_ms": 120,
+  "tasques_llargues": 0
+ },
+ "1920_clar_normal": {
+  "gutters": {
+   "section.l-heroi": 360,
+   "section.l-fets": 360,
+   "#com-funciona": 360,
+   "#demo": 360,
+   "#jocs": 360,
+   "#cuidador": 360,
+   "#enfocament": 360,
+   "#preguntes": 360,
+   "#contacte": 360,
+   "section.l-final": 360,
+   "footer.l-peu": 360
+  },
+  "ample_contingut": 1200,
+  "seccio_y": 162,
+  "paddings": {
+   "l-heroi": [
+    126,
+    86
+   ],
+   "l-fets": [
+    54,
+    72
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    162,
+    162
+   ],
+   "#jocs": [
+    162,
+    162
+   ],
+   "#cuidador": [
+    162,
+    162
+   ],
+   "#enfocament": [
+    162,
+    162
+   ],
+   "#preguntes": [
+    162,
+    162
+   ],
+   "#contacte": [
+    162,
+    162
+   ],
+   "l-final": [
+    162,
+    162
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 97,
+  "html_px": 18,
+  "cls": 0.003,
+  "pes_kb": 42,
+  "lcp_ms": 140,
+  "tasques_llargues": 0
+ },
+ "1920_clar_gegant": {
+  "gutters": {
+   "section.l-heroi": 38.4,
+   "section.l-fets": 38.4,
+   "#com-funciona": 38.4,
+   "#demo": 38.4,
+   "#jocs": 38.4,
+   "#cuidador": 38.4,
+   "#enfocament": 38.4,
+   "#preguntes": 38.4,
+   "#contacte": 38.4,
+   "section.l-final": 38.4,
+   "footer.l-peu": 38.4
+  },
+  "ample_contingut": 883,
+  "seccio_y": 119.4,
+  "paddings": {
+   "l-heroi": [
+    99,
+    52
+   ],
+   "l-fets": [
+    52,
+    70
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    119,
+    119
+   ],
+   "#jocs": [
+    119,
+    119
+   ],
+   "#cuidador": [
+    119,
+    119
+   ],
+   "#enfocament": [
+    119,
+    119
+   ],
+   "#preguntes": [
+    119,
+    119
+   ],
+   "#contacte": [
+    119,
+    119
+   ],
+   "l-final": [
+    119,
+    119
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 69,
+  "html_px": 17.4,
+  "cls": 0.007,
+  "pes_kb": 42,
+  "lcp_ms": 112,
+  "tasques_llargues": 0
+ },
+ "1920_fosc_normal": {
+  "gutters": {
+   "section.l-heroi": 360,
+   "section.l-fets": 360,
+   "#com-funciona": 360,
+   "#demo": 360,
+   "#jocs": 360,
+   "#cuidador": 360,
+   "#enfocament": 360,
+   "#preguntes": 360,
+   "#contacte": 360,
+   "section.l-final": 360,
+   "footer.l-peu": 360
+  },
+  "ample_contingut": 1200,
+  "seccio_y": 162,
+  "paddings": {
+   "l-heroi": [
+    126,
+    86
+   ],
+   "l-fets": [
+    54,
+    72
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    162,
+    162
+   ],
+   "#jocs": [
+    162,
+    162
+   ],
+   "#cuidador": [
+    162,
+    162
+   ],
+   "#enfocament": [
+    162,
+    162
+   ],
+   "#preguntes": [
+    162,
+    162
+   ],
+   "#contacte": [
+    162,
+    162
+   ],
+   "l-final": [
+    162,
+    162
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 97,
+  "html_px": 18,
+  "cls": 0.003,
+  "pes_kb": 42,
+  "lcp_ms": 148,
+  "tasques_llargues": 0
+ },
+ "1920_fosc_gegant": {
+  "gutters": {
+   "section.l-heroi": 38.4,
+   "section.l-fets": 38.4,
+   "#com-funciona": 38.4,
+   "#demo": 38.4,
+   "#jocs": 38.4,
+   "#cuidador": 38.4,
+   "#enfocament": 38.4,
+   "#preguntes": 38.4,
+   "#contacte": 38.4,
+   "section.l-final": 38.4,
+   "footer.l-peu": 38.4
+  },
+  "ample_contingut": 883,
+  "seccio_y": 119.4,
+  "paddings": {
+   "l-heroi": [
+    99,
+    52
+   ],
+   "l-fets": [
+    52,
+    70
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    119,
+    119
+   ],
+   "#jocs": [
+    119,
+    119
+   ],
+   "#cuidador": [
+    119,
+    119
+   ],
+   "#enfocament": [
+    119,
+    119
+   ],
+   "#preguntes": [
+    119,
+    119
+   ],
+   "#contacte": [
+    119,
+    119
+   ],
+   "l-final": [
+    119,
+    119
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 69,
+  "html_px": 17.4,
+  "cls": 0.007,
+  "pes_kb": 42,
+  "lcp_ms": 128,
+  "tasques_llargues": 0
+ },
+ "2560_clar_normal": {
+  "gutters": {
+   "section.l-heroi": 680,
+   "section.l-fets": 680,
+   "#com-funciona": 680,
+   "#demo": 680,
+   "#jocs": 680,
+   "#cuidador": 680,
+   "#enfocament": 680,
+   "#preguntes": 680,
+   "#contacte": 680,
+   "section.l-final": 680,
+   "footer.l-peu": 680
+  },
+  "ample_contingut": 1200,
+  "seccio_y": 162,
+  "paddings": {
+   "l-heroi": [
+    135,
+    108
+   ],
+   "l-fets": [
+    54,
+    72
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    162,
+    162
+   ],
+   "#jocs": [
+    162,
+    162
+   ],
+   "#cuidador": [
+    162,
+    162
+   ],
+   "#enfocament": [
+    162,
+    162
+   ],
+   "#preguntes": [
+    162,
+    162
+   ],
+   "#contacte": [
+    162,
+    162
+   ],
+   "l-final": [
+    162,
+    162
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 97,
+  "html_px": 18,
+  "cls": 0.001,
+  "pes_kb": 42,
+  "lcp_ms": 172,
+  "tasques_llargues": 0
+ },
+ "2560_clar_gegant": {
+  "gutters": {
+   "section.l-heroi": 51.2,
+   "section.l-fets": 51.2,
+   "#com-funciona": 51.2,
+   "#demo": 51.2,
+   "#jocs": 51.2,
+   "#cuidador": 51.2,
+   "#enfocament": 51.2,
+   "#preguntes": 51.2,
+   "#contacte": 51.2,
+   "section.l-final": 51.2,
+   "footer.l-peu": 51.2
+  },
+  "ample_contingut": 1178,
+  "seccio_y": 143.6,
+  "paddings": {
+   "l-heroi": [
+    108,
+    58
+   ],
+   "l-fets": [
+    54,
+    72
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    144,
+    144
+   ],
+   "#jocs": [
+    144,
+    144
+   ],
+   "#cuidador": [
+    144,
+    144
+   ],
+   "#enfocament": [
+    144,
+    144
+   ],
+   "#preguntes": [
+    144,
+    144
+   ],
+   "#contacte": [
+    144,
+    144
+   ],
+   "l-final": [
+    144,
+    144
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 84,
+  "html_px": 18,
+  "cls": 0,
+  "pes_kb": 42,
+  "lcp_ms": 356,
+  "tasques_llargues": 0
+ },
+ "2560_fosc_normal": {
+  "gutters": {
+   "section.l-heroi": 680,
+   "section.l-fets": 680,
+   "#com-funciona": 680,
+   "#demo": 680,
+   "#jocs": 680,
+   "#cuidador": 680,
+   "#enfocament": 680,
+   "#preguntes": 680,
+   "#contacte": 680,
+   "section.l-final": 680,
+   "footer.l-peu": 680
+  },
+  "ample_contingut": 1200,
+  "seccio_y": 162,
+  "paddings": {
+   "l-heroi": [
+    135,
+    108
+   ],
+   "l-fets": [
+    54,
+    72
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    162,
+    162
+   ],
+   "#jocs": [
+    162,
+    162
+   ],
+   "#cuidador": [
+    162,
+    162
+   ],
+   "#enfocament": [
+    162,
+    162
+   ],
+   "#preguntes": [
+    162,
+    162
+   ],
+   "#contacte": [
+    162,
+    162
+   ],
+   "l-final": [
+    162,
+    162
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 97,
+  "html_px": 18,
+  "cls": 0.001,
+  "pes_kb": 42,
+  "lcp_ms": 164,
+  "tasques_llargues": 0
+ },
+ "2560_fosc_gegant": {
+  "gutters": {
+   "section.l-heroi": 51.2,
+   "section.l-fets": 51.2,
+   "#com-funciona": 51.2,
+   "#demo": 51.2,
+   "#jocs": 51.2,
+   "#cuidador": 51.2,
+   "#enfocament": 51.2,
+   "#preguntes": 51.2,
+   "#contacte": 51.2,
+   "section.l-final": 51.2,
+   "footer.l-peu": 51.2
+  },
+  "ample_contingut": 1178,
+  "seccio_y": 143.6,
+  "paddings": {
+   "l-heroi": [
+    108,
+    58
+   ],
+   "l-fets": [
+    54,
+    72
+   ],
+   "#com-funciona": [
+    0,
+    0
+   ],
+   "#demo": [
+    144,
+    144
+   ],
+   "#jocs": [
+    144,
+    144
+   ],
+   "#cuidador": [
+    144,
+    144
+   ],
+   "#enfocament": [
+    144,
+    144
+   ],
+   "#preguntes": [
+    144,
+    144
+   ],
+   "#contacte": [
+    144,
+    144
+   ],
+   "l-final": [
+    144,
+    144
+   ]
+  },
+  "cap_alt": 72,
+  "h1_px": 84,
+  "html_px": 18,
+  "cls": 0.007,
+  "pes_kb": 42,
+  "lcp_ms": 124,
+  "tasques_llargues": 0
+ }
+}

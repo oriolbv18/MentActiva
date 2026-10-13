@@ -23,7 +23,12 @@ def main():
         nav = p.chromium.launch()
         ctx = nav.new_context(viewport={'width': 1440, 'height': 900}); pg = ctx.new_page(); pg.on('pageerror', lambda e: errors.append(str(e)))
         pg.add_init_script("window.__long = []; try { new PerformanceObserver(l => { for (const e of l.getEntries()) window.__long.push(Math.round(e.duration)); }).observe({ type: 'longtask', buffered: true }); } catch (e) {}")
-        pg.goto(url); pg.wait_for_timeout(1500); pg.evaluate("document.documentElement.style.scrollBehavior = 'auto'; document.getElementById('jocs').scrollIntoView()"); pg.wait_for_timeout(1800)
+        pg.add_init_script("window.__cls = 0; try { new PerformanceObserver(l => { for (const e of l.getEntries()) if (!e.hadRecentInput) window.__cls += e.value; }).observe({ type: 'layout-shift', buffered: true }); } catch (e) {}")
+        pg.goto(url); pg.wait_for_timeout(1500); pg.evaluate("document.documentElement.style.scrollBehavior = 'auto'")
+        y = 0
+        while y < 5200: pg.evaluate(f'window.scrollTo(0,{y})'); pg.wait_for_timeout(110); y += 384        # scroll com el de l'auditoria, fins a l'aparador
+        pg.evaluate("document.getElementById('jocs').scrollIntoView()"); pg.wait_for_timeout(2200)
+        comprova(pg.evaluate("window.__cls") <= 0.02, f"la invitació de l'aparador no suma CLS ({pg.evaluate('window.__cls'):.3f} ≤ 0,02)")
         total = pg.evaluate("document.querySelectorAll('#carrusel .l-joc:not(.clon)').length"); comprova(total == 17, f'hi ha 17 jocs ({total})')
         files = pg.evaluate("document.querySelectorAll('#carrusel .fila').length"); comprova(files == 1, f"una sola fila (no dues en sentits oposats) ({files})")
         # --- cap moviment automàtic sostingut: la fila no es mou sola després de la invitació inicial

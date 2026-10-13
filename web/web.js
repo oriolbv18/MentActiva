@@ -219,14 +219,13 @@
         });
       }
       mesura();
-      // Invitació: UNA vegada, en arribar-hi, un petit desplaçament cap a la dreta i tornada (només si l'usuari no ha tocat res)
-      if (IO && moll && !reduit() && maxim() > 4) {
-        const oi = new IntersectionObserver(es => {
-          if (!es.some(x => x.isIntersecting)) return; oi.disconnect(); if (interactuat || fila.scrollLeft > 2) return;
-          fila.classList.add('arrossega'); moll.fixa(0); moll.cap(130); setTimeout(() => { if (!interactuat) moll.cap(0); setTimeout(() => fila.classList.remove('arrossega'), 900); }, 750);
-        }, { threshold: .6 });
+      // Invitació: UNA vegada, en arribar-hi, la pista es desplaça uns píxels cap a l'esquerra i torna (amb la propietat `translate`, que no compta com a canvi de maquetat:
+      // fer-ho amb scrollLeft sumava ≈ 0,07 de CLS). Només amb cursor fi, i qualsevol interacció la fa tornar a zero amb un moll.
+      if (IO && fina && !reduit() && maxim() > 4 && window.Mol) {
+        const nm = Mol(v => { pista.style.translate = Math.abs(v) < .3 ? '' : `${v.toFixed(1)}px 0`; }, { rigidesa: 150, amortiment: 22 });
+        const oi = new IntersectionObserver(es => { if (!es.some(x => x.isIntersecting)) return; oi.disconnect(); if (interactuat) return; nm.fixa(0); nm.cap(-110); setTimeout(() => nm.cap(0), 750); }, { threshold: .6 });
         oi.observe(fila);
-        ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach(ev => fila.addEventListener(ev, () => { moll.fixa(fila.scrollLeft); fila.classList.remove('arrossega'); }, { passive: true, once: true }));
+        ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach(ev => fila.addEventListener(ev, () => nm.cap(0), { passive: true, once: true }));
       }
     };
     const sec = $('jocs'); if (sec && IO) { const oa = new IntersectionObserver(es => { if (es.some(x => x.isIntersecting)) { oa.disconnect(); iniciaAparador(); } }, { rootMargin: '900px 0px' }); oa.observe(sec); } else iniciaAparador();
@@ -234,7 +233,7 @@
     // ---------- Nombre gegant de l'aparador: compte 0 → N una vegada en arribar-hi (el valor final ja és al HTML) ----------
     const gran = q1('#titolJocs [data-num-jocs]');
     if (gran && IO && !reduit()) {
-      const og = new IntersectionObserver(es => { if (!es.some(x => x.isIntersecting)) return; og.disconnect(); const N = parseInt(gran.textContent, 10) || 17, t0 = performance.now();
+      const og = new IntersectionObserver(es => { if (!es.some(x => x.isIntersecting)) return; og.disconnect(); const N = parseInt(gran.textContent, 10) || 17, t0 = performance.now(); { const cs = getComputedStyle(gran), cx = document.createElement('canvas').getContext('2d'); cx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`; if ('letterSpacing' in cx) cx.letterSpacing = cs.letterSpacing; let m = 0; for (let i = 0; i <= N; i++) m = Math.max(m, cx.measureText(String(i)).width); gran.style.minWidth = Math.ceil(m + 1) + 'px'; }       // l'ample és el del número més ample (les xifres de Lexend no són tabulars): el «jocs» no es mou
         const pas = ara => { const p = Math.min(1, (ara - t0) / 900); gran.textContent = p < 1 ? Math.round(N * (1 - Math.pow(2, -10 * p))) : N; if (p < 1) requestAnimationFrame(pas); }; gran.textContent = 0; requestAnimationFrame(pas); }, { threshold: .2 });
       og.observe(gran);
     }

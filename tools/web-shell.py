@@ -18,7 +18,7 @@ ICONES_WEB = {
     'cor': '<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>',
     'upc': '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/>',
     'play': '<path d="M8 5l11 7-11 7z"/>',
-    'pausa': '<path d="M8 5v14M16 5v14"/>',
+    'amunt': '<path d="M12 19V5M5 12l7-7 7 7"/>',
 }
 NAV = [('com-funciona', 'Com funciona'), ('jocs', 'Jocs'), ('cuidador', 'Cuidadors'), ('residencies', 'Residències'), ('preguntes', 'Preguntes')]
 
@@ -45,7 +45,7 @@ def jocs_html():
     def carta(j):
         src = f'img/web/jocs/{j["id"]}'
         return (f'<li class="l-joc" tabindex="-1" data-id="{j["id"]}" data-domini="{j["domini"]}" data-dos="{1 if j["dos"] else 0}"><div class="mobil baix"><div class="mobil-pantalla"><img src="{src}-360.webp" srcset="{src}-360.webp 360w, {src}.webp 480w" sizes="204px" '
-                f'alt="Captura del joc «{esc(j["nom"])}» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>{esc(j["nom"])}</strong><small>{esc(j["desc"])}</small>'
+                f'alt="Captura del joc «{esc(j["nom"])}» en marxa" loading="lazy" decoding="async" width="480" height="862"></div></div><div class="l-joc-text"><strong>{esc(j["nom"])}</strong><small>{esc(j["desc"])}</small>'
                 f'<span class="xips"><span class="xip neutre">{esc(j["dominiNom"])}</span>{"<span class=\"xip neutre\">2 jugadors</span>" if j["dos"] else ""}</span></div></li>')
     return '<div class="fila" id="filaJocs" tabindex="0" role="region" aria-label="Aparador dels 17 jocs: llisca en horitzontal, arrossega o fes servir les fletxes ← →"><ul class="l-pista" id="galeriaJocs">' + chr(10).join(carta(j) for j in jocs) + '</ul></div>'
 

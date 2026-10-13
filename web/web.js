@@ -11,6 +11,7 @@
   const IO = 'IntersectionObserver' in window;
 
   // ---------- Dades comunes ----------
+  const hh = new Date().getHours(); qa('[data-salutacio]').forEach(e => { e.textContent = hh >= 6 && hh < 13 ? 'Bon dia' : hh >= 13 && hh < 20 ? 'Bona tarda' : 'Bona nit'; });       // com l'app (1-nucli.js: saludaSegonsHora)
   qa('[data-versio]').forEach(e => { if (typeof VERSIO_CURTA !== 'undefined') e.textContent = VERSIO_CURTA; });
   qa('[data-any]').forEach(e => { e.textContent = new Date().getFullYear(); });
   qa('[data-titular]').forEach(e => { e.textContent = CONF.titular || 'El projecte MentA (titular pendent d\'indicar a config.js)'; });
@@ -245,6 +246,13 @@
         anims = [sal.animate(fi, { duration: ms, easing: 'cubic-bezier(.23,1,.32,1)' }), ...ulls.map(u => u.animate(ofi, { duration: ms, easing: 'cubic-bezier(.23,1,.32,1)' }))];
         if (!reduit()) anims.push(eh.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-8px)', offset: .3 }, { transform: 'translateY(0)' }], { duration: 440, easing: 'cubic-bezier(.23,1,.32,1)' }));
       });
+    }
+
+    // ---------- «Torna a dalt»: només es mostra en arribar al peu ----------
+    const dalt = $('aDalt'), peu = q1('body > footer');
+    if (dalt && peu && IO) {
+      dalt.hidden = false; new IntersectionObserver(es => es.forEach(x => dalt.classList.toggle('visible', x.isIntersecting)), { threshold: .12 }).observe(peu);
+      dalt.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: reduit() ? 'auto' : 'smooth' }); });
     }
 
     // ---------- Bento: les micro-visuals s'encenen una sola vegada, quan es veuen ----------

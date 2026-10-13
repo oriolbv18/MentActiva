@@ -458,6 +458,12 @@ html[data-tema="fosc"] .camp-error { color: #ff8f86; }
 .l-final-elefant { width: clamp(7rem, 20vw, 10rem); filter: drop-shadow(0 10px 14px rgba(0, 0, 0, .4)); }
 .l-final .btn { margin-top: var(--e-3); min-height: 3.75rem; padding-inline: 2.2rem; font-size: 1.15rem; }
 
+.a-dalt { position: fixed; right: max(var(--web-gutter), env(safe-area-inset-right)); bottom: max(var(--e-5), env(safe-area-inset-bottom)); z-index: 50; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: var(--marca); color: #0e2e1d; border: 2px solid rgba(255, 255, 255, .5); box-shadow: var(--ombra-2); opacity: 0; transform: translateY(8px); visibility: hidden; transition: opacity var(--d-normal) var(--ease-out), transform var(--d-normal) var(--ease-out), visibility 0s var(--d-normal); touch-action: manipulation; }
+.a-dalt.visible { opacity: 1; transform: none; visibility: visible; transition-delay: 0s; }
+.a-dalt:active { transform: scale(.94); }
+.a-dalt .ico { width: 1.4rem; height: 1.4rem; stroke-width: 2.4; }
+@media (prefers-reduced-motion: reduce) { .a-dalt { transform: none; transition: opacity 200ms linear, visibility 0s 200ms; } }
+
 /* ---------- 16. Peu ---------- */
 .l-peu { padding-block: var(--e-8) var(--e-6); background: var(--vespre-fons); color: #c5d6ca; font-size: 1rem; border-top: 1px solid rgba(244, 241, 232, .14); }
 .l-peu .l-marca { color: #f4f1e8; }

@@ -108,6 +108,16 @@ def main():
         pg.goto(f'http://127.0.0.1:{srv.server_address[1]}/index.html'); pg.wait_for_timeout(1200); pg.click('footer a[href$="privadesa.html"]'); pg.wait_for_timeout(1500)
         comprova(pg.url.endswith('privadesa.html') and pg.evaluate("sessionStorage.getItem('vt_swap')") == '1' and pg.evaluate("sessionStorage.getItem('vt_reveal')") == '1', 'navegació index → legal: el navegador fa servir la transició de pàgina (@view-transition)')
         ctx.close(); srv.shutdown()
+        # --- F5: salutació segons l'hora i «Torna a dalt» només al final
+        for hora, esperat in (('2026-10-13T08:30:00', 'Bon dia'), ('2026-10-13T16:10:00', 'Bona tarda'), ('2026-10-13T22:30:00', 'Bona nit')):
+            ctx = nav.new_context(viewport={'width': 1280, 'height': 800}); pg = ctx.new_page(); pg.clock.set_fixed_time(hora); pg.goto(url); pg.wait_for_timeout(600)
+            comprova(pg.inner_text('[data-salutacio]') == esperat, f"hero: a les {hora[11:16]} la salutació és «{esperat}» (com l'app)"); ctx.close()
+        ctx = nav.new_context(viewport={'width': 1280, 'height': 800}); pg = ctx.new_page(); pg.goto(url); pg.wait_for_timeout(1200); pg.evaluate("document.documentElement.style.scrollBehavior = 'auto'")
+        comprova(not pg.evaluate("document.getElementById('aDalt').classList.contains('visible')"), '«Torna a dalt»: no es veu a dalt de tot')
+        pg.evaluate("window.scrollTo(0, document.documentElement.scrollHeight)"); pg.wait_for_timeout(700)
+        comprova(pg.evaluate("document.getElementById('aDalt').classList.contains('visible')") and pg.evaluate("document.getElementById('aDalt').getBoundingClientRect().width") >= 44, '«Torna a dalt»: apareix en arribar al peu (≥ 44 px)')
+        pg.click('#aDalt'); pg.wait_for_timeout(2800); comprova(pg.evaluate("scrollY") < 5, "«Torna a dalt»: porta a l'inici")
+        ctx.close()
         # --- tema fosc amb View Transitions: no peta i queda desat
         ctx = nav.new_context(viewport={'width': 1280, 'height': 800}); pg = ctx.new_page(); pg.on('pageerror', lambda e: errors.append(str(e))); pg.goto(url); pg.wait_for_timeout(800)
         pg.click('#btnTema'); pg.wait_for_timeout(900); comprova(pg.evaluate("document.documentElement.dataset.tema") == 'fosc' and pg.evaluate("document.querySelector('meta[name=theme-color]').content") in ('#241b11', '#15120e', '#0b2417'), 'tema: el canvi clar/fosc (amb revelació circular) funciona i canvia el theme-color')

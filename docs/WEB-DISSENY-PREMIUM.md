@@ -1,4 +1,4 @@
-# MentA · Disseny premium de la web (v1.9.2) «Un dia amb MentA»
+# MentA · Disseny premium de la web (v1.9.2, actualitzat a la 1.9.3) «Un dia amb MentA»
 
 > Document generat per `tools/genera-doc-premium.py` a partir de `docs/_premium-plantilla.md` (les línies de la taula es calculen cada vegada).
 > Lliurable del pla 1.9.2: (a) pla de tokens i revisió contra els defectes per defecte, (b) taula **Decisió → skill → fitxer:línia**, (c) oportunitats d'animació acceptades i rebutjades.
@@ -21,7 +21,7 @@
 | **Forma** | dos radis amb significat (gran per a superfícies, petit per a controls), **ombres tintades de verd** (mai grises), vora d'1 px de llum (`inset`) al vidre |
 | **Moviment** | corbes `cubic-bezier(.23,1,.32,1)` (sortida) i `(.77,0,.175,1)` (moviment a la pantalla); molls amb `web/mol.js` i `linear()` de CSS; durades 140 / 220 / 480 ms |
 
-**Disposició.** Hero a dues columnes (text a l'esquerra, mòbil amb vídeo a la dreta, l'Elefant assegut al marc superior). Tira de quatre fets. *Un dia amb MentA*: blocs de ≥ 100 svh a l'esquerra i mòbil *sticky* a la dreta. Demo en mode demostració. Aparador de 17 jocs en dues files que es mouen en sentits oposats (sobre el verd bosc, on els mòbils clars brillen). Bento asimètric del cuidador. «L'endemà» (enfocament, preguntes, contacte) sobre Paper i tancament en Bosc.
+**Disposició.** Hero a dues columnes (text a l'esquerra, mòbil amb vídeo a la dreta, l'Elefant assegut al marc superior). Tira de quatre fets. *Un dia amb MentA*: blocs de ≥ 100 svh a l'esquerra i mòbil *sticky* a la dreta. Demo en mode demostració. Aparador de 17 jocs en **una sola fila que és un scroller natiu** (des de la 1.9.3; abans eren dues files en moviment automàtic), sobre el verd bosc, on els mòbils clars brillen. Bento asimètric del cuidador. «L'endemà» (enfocament, preguntes, contacte) sobre Paper i tancament en Bosc.
 
 ## 2. Revisió contra els defectes per defecte (pas 2)
 
@@ -36,54 +36,64 @@
 | «→» a tots els botons? | No. | Els botons diuen l'acció («Prova l'app», «Demana una demo»). |
 | *Fade-up* a cada secció? | No. | Hi ha **una** seqüència d'entrada (hero) i moviment només on ajuda; res més s'anima en carregar. |
 
-## 3. Taula Decisió → skill → fitxer:línia (44 decisions)
+## 3. Taula Decisió → skill → fitxer:línia (54 decisions)
 
 | # | Decisió | Skill de `skills-main` | Fitxer:línia |
 |---|---|---|---|
 | 1 | El fil del dia: cada secció declara `data-hora` i en pren fons, text i vores (alba → tarda → vespre) | frontend-design | `web/web.css:66` |
 | 2 | Tokens finals de color per hora, en clar i en fosc, amb la mateixa estructura de variables | design:design-system | `web/web.css:21` |
 | 3 | Titulars enormes amb *tracking* que s'estreny a mesura que creixen (`-.035em` al h1, `-.028em` al h2) | apple-design (§15 tipografia) | `web/web.css:78` |
-| 4 | Línies de lectura ≤ 62 caràcters (`max-width: 31rem` amb Atkinson Hyperlegible) | frontend-design | `web/web.css:241` |
-| 5 | Capçalera «píndola» translúcida flotant (`backdrop-filter`, vora de llum superior) | apple-design (§12 materials) | `web/web.css:161` |
-| 6 | La capçalera es compacta en fer scroll amb `transform` (no amb alçada), amb origen al centre | emil-design-eng (només transform) | `web/web.css:162` |
-| 7 | `prefers-reduced-transparency` i `prefers-contrast: more` → vidre sòlid | apple-design (§14) | `web/web.css:521` |
+| 4 | Línies de lectura ≤ 62 caràcters (`max-width: 31rem` amb Atkinson Hyperlegible) | frontend-design | `web/web.css:255` |
+| 5 | Capçalera «píndola» translúcida flotant (`backdrop-filter`, vora de llum superior) | apple-design (§12 materials) | `web/web.css:170` |
+| 6 | La capçalera es compacta en fer scroll amb `transform` (no amb alçada), amb origen al centre | emil-design-eng (només transform) | `web/web.css:171` |
+| 7 | `prefers-reduced-transparency` i `prefers-contrast: more` → vidre sòlid | apple-design (§14) | `web/web.css:553` |
 | 8 | Premuda en *pointer-down*: `:active { scale(.97) }`, mai `scale(0)`, mai `transition: all` | emil-design-eng | `web/web.css:114` |
-| 9 | Brillantor del botó que segueix el cursor, limitada per `requestAnimationFrame` | animate + animation-performance | `web/web.js:117` |
-| 10 | Imant de ≤ 6 px als botons grans amb un moll, amb la propietat `translate` (compon amb l'`:active`) | apple-design (§4 molls) | `web/web.js:120` |
+| 9 | Brillantor del botó que segueix el cursor, limitada per `requestAnimationFrame` | animate + animation-performance | `web/web.js:118` |
+| 10 | Imant de ≤ 6 px als botons grans amb un moll, amb la propietat `translate` (compon amb l'`:active`) | apple-design (§4 molls) | `web/web.js:121` |
 | 11 | Integrador de moll de 0,7 KB (rigidesa/amortiment, parteix del valor i la velocitat actuals: interrompible) | apple-design (§3, §4, §5) | `web/mol.js:4` |
 | 12 | Mòbil fet amb CSS: bisell, vora de metall, reflex diagonal i ombra tintada de verd (cap PNG de marc) | apple-design (materials i profunditat) | `web/web.css:145` |
 | 13 | L'illa dinàmica ocupa una franja pròpia: la captura queda a sota i mai es tapa el títol de l'app | design:design-critique | `web/web.css:153` |
-| 14 | Inclinació 3D del mòbil amb dos molls, només amb `(hover:hover) and (pointer:fine)` i sense moviment reduït | emil-design-eng (molls decoratius) | `web/web.js:97` |
-| 15 | Les pupil·les de l'Elefant segueixen el cursor dins d'un rang limitat; a tàctil miren el mòbil | animate (mouse-tracking decoratiu amb moll) | `web/web.js:107` |
-| 16 | L'Elefant saluda una sola vegada: *crossfade* entre la pose en repòs i la que aixeca la trompa | animation-vocabulary | `web/web.css:481` |
-| 17 | Entrada única del hero: paraules que baixen dins d'una màscara, amb *stagger* de 45 ms | find-animation-opportunities | `web/web.css:469` |
-| 18 | El mòbil viu: `position: sticky` només amb JS i ≥ 56 em; sense JS cada bloc porta el seu mòbil | frontend-design + mobile-native | `web/web.css:257` |
-| 19 | Canvi de pantalla del mòbil: *crossfade* + escala .97 + *blur* de 2 px amb transicions (s'interromp netament) | emil-design-eng (blur per amagar fusions) | `web/web.css:259` |
-| 20 | El bloc que és al centre decideix la pantalla (`IntersectionObserver`): el scroll és el del navegador | animate (cap scroll-jacking) | `web/web.js:130` |
-| 21 | Fons contínu alba → tarda → vespre com a un sol degradat (cap animació de color) | frontend-design | `web/web.css:234` |
-| 22 | Aparador: dues files de mòbils en sentits oposats, *marquee* lineal (moviment constant = `linear`) | animation-vocabulary | `web/web.css:290` |
-| 23 | El moviment es pot aturar (WCAG 2.2.2) i es pausa a `:hover`, `:focus-within` i fora de vista | animation-performance + design:accessibility-review | `web/web.js:160` |
-| 24 | Tàctil i moviment reduït: les files no es mouen soles, es llisquen amb `scroll-snap` | mobile-native | `web/web.css:323` |
-| 25 | Filtres per àrea: entrada escalonada amb WAAPI (`element.animate`), sense salts de maquetat | emil-design-eng (stagger 30–80 ms) | `web/web.js:155` |
-| 26 | Bento asimètric de 6 columnes (4+2, 2+2, 6, 6): mai tres targetes iguals | frontend-design | `web/web.css:337` |
-| 27 | Micro-visual del gràfic: una línia que es dibuixa (`stroke-dashoffset`), una sola vegada | animation-vocabulary (line drawing) | `web/web.css:494` |
-| 28 | Les micro-visuals s'encenen quan es veuen i es queden en l'estat final (sense bucles infinits) | animation-performance | `web/web.js:167` |
-| 29 | Fitxers PDF/CSV que arriben amb un moll curt escrit amb `linear()` (un petit rebot, sense llibreria) | apple-design (§4 només rebot amb impuls) | `web/web.css:46` |
-| 30 | Canvi clar/fosc amb View Transitions (revelació circular des del botó) i canvi instantani si no hi ha suport | apple-design (§14 evitar salts de brillantor) | `web/web.js:33` |
-| 31 | El que cau fora de pantalla no es maqueta ni es pinta (`content-visibility`, només amb JS) | animation-performance | `web/web.css:504` |
-| 32 | Tot el que és decoració s'inicialitza en repòs (`requestIdleCallback`); l'aparador, quan s'hi arriba | animation-performance | `web/web.js:78` |
-| 33 | El vídeo es carrega després de la càrrega i en repòs, es pausa fora de vista i no es baixa amb *Save-Data* | animation-performance + mobile-native | `web/web.js:85` |
-| 34 | Moviment reduït = menys i més suau (es manté el *fade*; surten el desplaçament, la inclinació i el vídeo) | emil-design-eng + apple-design (§14) | `web/web.css:507` |
-| 35 | Objectius tàctils ≥ 44 px, `touch-action: manipulation`, camps ≥ 16 px, cap *tap highlight* | mobile-native | `web/web.css:83` |
-| 36 | Zones segures i teclat: `viewport-fit=cover`, `env(safe-area-inset-*)` i `interactive-widget` | mobile-native | `web/web.css:39` |
-| 37 | `theme-color` que segueix l'hora del dia visible (alba, tarda, vespre) en clar i fosc | mobile-native | `web/web.js:26` |
-| 38 | Titulars concrets i curts («Un botó gran. Tres jocs. Uns deu minuts.»; «Informació clara, sense alarmes.») | design:ux-copy | `index.html:220` |
-| 39 | L'avís de no-diagnòstic es veu sempre, amb to tranquil (bloc informatiu, no lletra petita) | design:ux-copy + design:accessibility-review | `web/web.css:128` |
-| 40 | Pluralització del filtre («1 joc», «6 jocs») i noms/correus molt llargs sense desbordar | break-ui | `web/web.js:154` |
-| 41 | La demo entra amb una transició i `@starting-style` (no amb *keyframes*): es pot interrompre | emil-design-eng (@starting-style) | `web/web.css:268` |
-| 42 | Xifres tabulars als fets («17 jocs», «4 mides de lletra») | apple-design (§15) + break-ui | `web/web.css:229` |
-| 43 | Retirada de la barra de progrés de lectura (era un accessori: el degradat i la capçalera ja orienten) | design:design-critique + frontend-design («treu un accessori») | `docs/WEB-DISSENY-PREMIUM.md` |
-| 44 | Sense color d'èmfasi en una paraula dels titulars; sense etiquetes en majúscules; sense «→» als botons | frontend-design (defectes per defecte) | `web/web.css:140` |
+| 14 | Inclinació 3D del mòbil amb dos molls, només amb `(hover:hover) and (pointer:fine)` i sense moviment reduït | emil-design-eng (molls decoratius) | `web/web.js:98` |
+| 15 | Les pupil·les de l'Elefant segueixen el cursor dins d'un rang limitat; a tàctil miren el mòbil | animate (mouse-tracking decoratiu amb moll) | `web/web.js:108` |
+| 16 | L'Elefant saluda una sola vegada: *crossfade* entre la pose en repòs i la que aixeca la trompa | animation-vocabulary | `web/web.css:511` |
+| 17 | Entrada única del hero: paraules que baixen dins d'una màscara, amb *stagger* de 45 ms | find-animation-opportunities | `web/web.css:499` |
+| 18 | El mòbil viu: `position: sticky` només amb JS i ≥ 56 em; sense JS cada bloc porta el seu mòbil | frontend-design + mobile-native | `web/web.css:271` |
+| 19 | Canvi de pantalla del mòbil: *crossfade* + escala .97 + *blur* de 2 px amb transicions (s'interromp netament) | emil-design-eng (blur per amagar fusions) | `web/web.css:273` |
+| 20 | El bloc que és al centre decideix la pantalla (`IntersectionObserver`): el scroll és el del navegador | animate (cap scroll-jacking) | `web/web.js:131` |
+| 21 | Fons contínu alba → tarda → vespre com a un sol degradat (cap animació de color) | frontend-design | `web/web.css:248` |
+| 22 | Tàctil: el dit ja és el control (scroller natiu amb `scroll-snap`); es veu un tros de la carta següent i no hi ha fletxes | mobile-native | `web/web.css:347` |
+| 23 | Filtres per àrea: entrada escalonada amb WAAPI (`element.animate`), sense salts de maquetat | emil-design-eng (stagger 30–80 ms) | `web/web.js:218` |
+| 24 | Bento asimètric de 6 columnes (4+2, 2+2, 6, 6): mai tres targetes iguals | frontend-design | `web/web.css:361` |
+| 25 | Micro-visual del gràfic: una línia que es dibuixa (`stroke-dashoffset`), una sola vegada | animation-vocabulary (line drawing) | `web/web.css:524` |
+| 26 | Les micro-visuals s'encenen quan es veuen i es queden en l'estat final (sense bucles infinits) | animation-performance | `web/web.js:258` |
+| 27 | Fitxers PDF/CSV que arriben amb un moll curt escrit amb `linear()` (un petit rebot, sense llibreria) | apple-design (§4 només rebot amb impuls) | `web/web.css:46` |
+| 28 | Canvi clar/fosc amb View Transitions (revelació circular des del botó) i canvi instantani si no hi ha suport | apple-design (§14 evitar salts de brillantor) | `web/web.js:34` |
+| 29 | El que cau fora de pantalla no es maqueta ni es pinta (`content-visibility`, només amb JS) | animation-performance | `web/web.css:534` |
+| 30 | Tot el que és decoració s'inicialitza en repòs (`requestIdleCallback`); l'aparador, quan s'hi arriba | animation-performance | `web/web.js:79` |
+| 31 | [1.9.3] Aparador: UNA fila ordenada per àrea, scroller natiu amb `scroll-snap` (roda, trackpad, tecles i dit funcionen sols); cap moviment automàtic ni res que s'aturi amb el hover | emil-design-eng + apple-design (§1 resposta, §3 interruptibilitat) | `web/web.css:305` |
+| 32 | [1.9.3] Arrossegar amb el ratolí: 1:1 amb el punter (*pointer capture*, llindar de 6 px), impuls en deixar anar amb projecció de la velocitat i goma als extrems | apple-design (§2, §5, §6, §9) | `web/web.js:180` |
+| 33 | [1.9.3] Fletxes de 48 px amb estat als extrems i teclat ←/→ carta a carta amb `scrollIntoView` (la carta enfocada es veu sempre) | emil-design-eng + design:accessibility-review | `web/web.js:173` |
+| 34 | [1.9.3] Hover = elevació (`translateY(-6px)` + ombra per opacitat), no pausa; només amb `(hover:hover) and (pointer:fine)` | emil-design-eng | `web/web.css:316` |
+| 35 | [1.9.3] Una sola invitació en arribar a l'aparador (cursor fi): la pista es desplaça 110 px amb `translate` i torna; la primera interacció la fa tornar a zero (amb `scrollLeft` sumava ≈ 0,07 de CLS) | animate + animation-performance | `web/web.js:226` |
+| 36 | [1.9.3] Compte 0 → 17 (*number ticker*, 900 ms); l'ample es fixa al número més ample mesurat amb canvas: CLS 0 | animation-vocabulary + break-ui | `web/web.js:236` |
+| 37 | [1.9.3] Fets amb entrada escalonada (0 / 60 / 120 / 180 ms) amb el mateix sistema `data-viu` que el bento (un sol sistema) | find-animation-opportunities + animate | `web/web.css:241` |
+| 38 | [1.9.3] Mòbil viu amb direcció: les pantalles «passades» marxen cap amunt i les «futures» esperen a sota | animation-vocabulary (direction-aware transition) | `web/web.css:274` |
+| 39 | [1.9.3] Transició entre pàgines amb `@view-transition` (200 ms); la revelació circular del tema només viu sota `html.tema-vt` i no la trepitja | apple-design (§7 coherència espacial) | `web/web.css:199` |
+| 40 | [1.9.3] L'Elefant reacciona al toc: un sol cicle de saludar amb un salt de 8 px (només el canvi de pose amb moviment reduït) | emil-design-eng (delit, rar) | `web/web.js:240` |
+| 41 | [1.9.3] «Torna a dalt» discret, només en arribar al peu (*fade* de 220 ms) | design:design-critique (restraint) | `web/web.css:462` |
+| 42 | [1.9.3] Salutació del hero segons l'hora real (6–13 Bon dia, 13–20 Bona tarda, la resta Bona nit), com fa l'app | design:ux-copy | `web/web.js:14` |
+| 43 | El vídeo es carrega després de la càrrega i en repòs, es pausa fora de vista i no es baixa amb *Save-Data* | animation-performance + mobile-native | `web/web.js:86` |
+| 44 | Moviment reduït = menys i més suau (es manté el *fade*; surten el desplaçament, la inclinació i el vídeo) | emil-design-eng + apple-design (§14) | `web/web.css:466` |
+| 45 | Objectius tàctils ≥ 44 px, `touch-action: manipulation`, camps ≥ 16 px, cap *tap highlight* | mobile-native | `web/web.css:83` |
+| 46 | Zones segures i teclat: `viewport-fit=cover`, `env(safe-area-inset-*)` i `interactive-widget` | mobile-native | `web/web.css:39` |
+| 47 | `theme-color` que segueix l'hora del dia visible (alba, tarda, vespre) en clar i fosc | mobile-native | `web/web.js:27` |
+| 48 | Titulars concrets i curts («Un botó gran. Tres jocs. Uns deu minuts.»; «Informació clara, sense alarmes.») | design:ux-copy | `index.html:221` |
+| 49 | L'avís de no-diagnòstic es veu sempre, amb to tranquil (bloc informatiu, no lletra petita) | design:ux-copy + design:accessibility-review | `web/web.css:128` |
+| 50 | Pluralització del filtre («1 joc», «6 jocs») i noms/correus molt llargs sense desbordar | break-ui | `web/web.js:217` |
+| 51 | La demo entra amb una transició i `@starting-style` (no amb *keyframes*): es pot interrompre | emil-design-eng (@starting-style) | `web/web.css:283` |
+| 52 | Xifres tabulars als fets («17 jocs», «4 mides de lletra») | apple-design (§15) + break-ui | `web/web.css:243` |
+| 53 | Retirada de la barra de progrés de lectura (era un accessori: el degradat i la capçalera ja orienten) | design:design-critique + frontend-design («treu un accessori») | `docs/WEB-DISSENY-PREMIUM.md` |
+| 54 | Sense color d'èmfasi en una paraula dels titulars; sense etiquetes en majúscules; sense «→» als botons | frontend-design (defectes per defecte) | `web/web.css:140` |
 
 ## 4. Skills de `skills-main`: com s'han fet servir
 
@@ -118,7 +128,7 @@ Cada candidat ha passat la porta *freqüència → propòsit → velocitat → f
 | 2 | Canvi de pantalla del mòbil viu | Continuïtat espacial | Ocasional | Transicions de 320 ms `--ease-out`: opacitat, `scale(.97)`, `blur(2px)`; interrompible | ✅ Cor de la web |
 | 3 | Premuda dels botons | *Feedback* | Desenes/dia | `:active{scale(.97)}` 140 ms | ✅ |
 | 4 | Micro-visuals del bento | Explicació | Rara | Una sola vegada en entrar a la vista: llums 520 ms (*stagger* 380 ms), línia que es dibuixa 1,4 s, punts del PIN, fitxers amb moll | ✅ Només 4–5 peces, sense bucles |
-| 5 | Aparador de jocs | Explicació (mostrar 17 jocs) | Ocasional | `translateX(-50%)` en bucle 76–90 s, `linear`; es pot aturar, es pausa a `:hover`/focus/fora de vista; estàtic a tàctil i moviment reduït | ✅ |
+| 5 | Aparador de jocs | Explicació (mostrar 17 jocs) | Ocasional | **1.9.3:** scroller natiu amb `scroll-snap`, arrossegar amb moll, fletxes i teclat; cap moviment automàtic. Una sola invitació (`translate` −110 px i torna) | ✅ (redissenyat a la 1.9.3: vegeu `docs/web-premium/MOVIMENT-1.9.3.md`) |
 | 6 | Canvi de tema | Evitar un canvi brusc | Rara | Revelació circular amb View Transitions, 520 ms `--ease-out`; instantani si no hi ha suport | ✅ |
 | 7 | Ulls i inclinació (cursor) | Delit decoratiu | Constant mentre es mou | Molls (rigidesa 120–260, amortiment crític o gairebé); només amb cursor fi; rang limitat | ✅ Només al hero i al mòbil viu |
 | 8 | Salutació de l'Elefant | Delit | Rara (un cop) | *Crossfade* 2,2 s entre dues poses, sense bucle | ✅ |
@@ -136,7 +146,7 @@ Cada candidat ha passat la porta *freqüència → propòsit → velocitat → f
 | Les paraules del titular baixen dins d'una màscara | **Reveal** amb **stagger** (part d'una **orchestration** única) |
 | El mòbil sticky canvia de pantalla | **Crossfade** amb **blur** i **scale in** (continuïtat espacial) |
 | El mòbil s'inclina amb el cursor | **3D tilt** amb **spring**, sota una **perspective** de 900 px |
-| Les files de jocs que es desplacen | **Marquee** (**linear**), en sentits oposats |
+| L'aparador (1.9.3) | **Drag** amb **momentum** i **rubber-banding** sobre un scroller natiu amb *scroll-snap*; **interruptible animation** |
 | Filtrar jocs | **Stagger** de **scale in** amb **fade** |
 | La línia del gràfic | **Line drawing** |
 | Els punts i els llums del bento | **Pop in** amb **stagger** |
@@ -204,7 +214,7 @@ Mapa de valors que la web mostra: nom/correu/missatge del formulari (límits `ma
 |---|---|
 | 1.4.3 / 1.4.11 contrast | ✅ Calculat per hora, clar, fosc i alt contrast |
 | 2.1.1 teclat | ✅ Cap element atrapa el teclat; el menú mòbil atrapa el focus només mentre és obert (i Escape el tanca) |
-| 2.2.2 pausar moviment | ✅ Botó «Atura el moviment» a l'aparador; el vídeo és mut, decoratiu i `aria-hidden` |
+| 2.2.2 pausar moviment | ✅ Des de la 1.9.3 l'aparador no té cap moviment automàtic sostingut (no cal botó de pausa); el vídeo és mut, decoratiu i `aria-hidden` |
 | 2.3.3 / moviment | ✅ `prefers-reduced-motion` desactiva entrada, inclinació, ulls, vídeo i files |
 | 2.4.7 focus visible | ✅ Anell de 3 px (groc sobre el fons bosc) |
 | 2.5.5 objectius | ✅ ≥ 44 px (comprovat per `tools/audit-web.py` a ≤ 768 px) |
@@ -230,13 +240,14 @@ Mapa de valors que la web mostra: nom/correu/missatge del formulari (límits `ma
 
 **Captures abans/després:** `docs/web-abans-1.9.2/` (la 1.9.1) i `docs/web-premium/` (la 1.9.2, 390 i 1440 px, clar i fosc).
 
-## 12. Mesures
+## 12. 1.9.3 «Aparador lliure i moviment amb sentit» (addenda)
+El diagnòstic de l'Oriol era correcte: el *marquee* anava a ≈ 26 px/s (veure els 17 jocs costava > 1 minut), el hover aturava la fila sense deixar-la moure i dues files en sentits oposats es disputaven l'atenció. Principi nou: **l'usuari mana, el moviment només convida.** Les decisions de la 1.9.3 són a la taula de la secció 3 (files marcades `[1.9.3]`), l'inventari amb la porta *freqüència → propòsit → velocitat → funció* a `docs/web-premium/MOVIMENT-1.9.3.md` i les mesures a `CHANGELOG-1.9.3.md`.
 
-- **Auditoria de marges i maquetat** (`tools/audit-web.py`, 9 amplades de 320 a 2560 px × clar/fosc × zoom 100 % i 200 %, 30 combinacions): **0 incidències** (cap desbordament, gutters iguals —20 px al mòbil, 120 px a 1440—, contingut ≤ 1200 px, àncores ≥ 16 px sota la capçalera, cap fila òrfena, objectius ≥ 44 px, **cap imatge trencada**, CLS màxim 0,014, **0 tasques llargues** (> 50 ms) en fer scroll). A la 1.9.1 el mateix control en donava 0; abans de la 1.9.1, 448.
-- **Proves de la web** (`tests/web/`): `test_web` (menú, aparador, formulari, tema, demo, moviment reduït, sense JS, CSP), `test_premium` (mòbil viu, vídeo, ulls, bento, rendiment, vídeo que no carrega, *Save-Data*), `test_accessibilitat` (axe-core WCAG 2.1 AA: **0 violacions** a la landing, la 404 i les legals, en clar i fosc, mòbil i escriptori; 320 px, 2560 px, zoom 200/300/400 %, lletra al 200 %, formulari amb valors llargs, alt contrast, xarxa tallada, teclat) i `test_domini_web`: **totes verdes**.
-- **Contrast** (`tools/contrast-web.py`, per hora del dia, clar, fosc i alt contrast, amb el vidre compost sobre el fons real): **0 parells sota AA** (`docs/web-premium/CONTRAST.md`).
-- **Regressió de l'app** (16 conjunts: viatge18, parella, bingo, onboarding, regles, cuidador, PWA, contrast, usuaris, Elefant, pistes, còpia, pilot, CSP, i18n i `test_menta`): **tots verds**, 0 errors de JS.
-- **Lighthouse mòbil** (Chromium local, servidor amb gzip, 5 tandes): Accessibilitat **100**, Bones pràctiques **100**, SEO **100**, CLS **0**, pes **213 KB** comprimit sense el vídeo. **Rendiment: 74, 76, 81, 85 i 95 (mediana 81).** No arriba de manera estable al 90 del pla.
-- **Rastres reals** (Playwright, sense Lighthouse): primera pintura a ≈ 150 ms; amb la CPU ×4 hi ha una sola tasca llarga (el primer maquetat, ≈ 250–340 ms) i res més per sobre dels 50 ms.
-- **JS:** 21 KB (8 KB en gzip) + moll 1 KB; **vídeo del hero:** 454 KB (WebM) / 367 KB (MP4); poster 28 KB.
+## 13. Mesures
+
+- **1.9.3 · Auditoria de marges i maquetat** (`tools/audit-web.py`, 30 combinacions): **0 incidències** (CLS màxim 0,022 amb zoom 200 %; 0 tasques > 50 ms en fer scroll).
+- **1.9.3 · Lighthouse mòbil** (5 tandes): rendiment 71 · 73 · 95 · 95 · 97 (mediana 95; bimodal per soroll de l'entorn); Accessibilitat, Bones pràctiques i SEO 100; CLS 0; 217 KB sense vídeo. (1.9.2: 74 · 76 · 81 · 85 · 95, mediana 81.)
+- **1.9.3 · Proves:** `tests/web/*` (incloent `test_aparador_control`, `test_moviment_reduit` i `test_sense_js`) i axe-core: verds; contrast: 0 parells sota AA; regressió de l'app (16 conjunts): verda.
+- **1.9.3 · Rastre amb CPU ×4:** 10 tasques > 50 ms en una sessió completa (les majors són maquetats: 250 ms el primer); amb l'aparador en ús, tres de 57–63 ms; fotogrames: mediana 16,7 ms, p95 33 ms.
+- **JS:** 30 KB (10,7 KB gzip) + moll 1 KB; **vídeo del hero:** 454 KB (WebM) / 367 KB (MP4).
 

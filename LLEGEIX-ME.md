@@ -1,4 +1,6 @@
-# MentA v1.9.2 · Llegeix-me
+# MentA v1.9.3 · Llegeix-me
+
+**Novetat de la 1.9.3 (només la web, «aparador lliure i moviment amb sentit»):** l'aparador de jocs ja no és un *marquee* que es mou sol: és **una fila que es controla** (roda, arrossegar amb el ratolí, fletxes, teclat, dit) i el hover només eleva la carta. A més, set moviments amb propòsit (fets escalonats, compte del «17 jocs», mòbil viu amb direcció, premuda i subratllat, transició entre pàgines, l'Elefant reacciona al toc), la salutació del hero segons l'hora i un «Torna a dalt». Vegeu `CHANGELOG-1.9.3.md`, `docs/web-premium/MOVIMENT-1.9.3.md`, `docs/web-premium/BASE-1.9.2.md` i `docs/MESURA-US.md`.
 
 **Novetat de la 1.9.2 (només la web, «web premium»):** la web explica **«Un dia amb MentA»**: el fons va d'alba a tarda i a vespre mentre un **mòbil viu** (sticky) canvia de pantalla (Inici → joc → «Jugar amb algú» → Espai del cuidador); **vídeo real de l'app** al hero amb l'Elefant assegut al mòbil (els ulls segueixen el cursor i saluda una vegada); aparador de 17 jocs en dues files; **bento** del cuidador amb micro-visuals; capçalera «píndola» translúcida; molls (`web/mol.js`); canvi clar/fosc amb revelació circular; correu i Instagram reals (`menta.app.upc@gmail.com`, `@menta.upc`). L'app només canvia de versió i de contacte. Vegeu `CHANGELOG-1.9.2.md`, **`docs/WEB-DISSENY-PREMIUM.md`** (decisions lligades a les skills de `skills-main`), `docs/ACTIUS.md` i `docs/WEB-AFIRMACIONS.md`.
 
@@ -103,6 +105,9 @@ python tests/layout/auditoria-botons.py  # 0 incidències (MENTA_IDIOMA=es per a
 ## La web d'aterratge (1.9.2): com treballar-hi
 ```
 python tools/audit-web.py --sortida docs/web-premium/audit   # a més: LCP, tasques llargues en fer scroll, pes de la pàgina, imatges trencades
+python tests/web/test_aparador_control.py              # aparador: 17 jocs en < 10 s, hover sense efecte, teclat, tàctil, CLS (MENTA_ARREL=<ruta> per provar una altra versió)
+python tests/web/test_moviment_reduit.py               # prefers-reduced-motion: cap animació que es mogui
+python tests/web/test_sense_js.py                      # sense JavaScript: pàgina completa i legible
 python tests/web/test_premium.py                       # mòbil viu, vídeo, ulls de l'Elefant, bento, rendiment, break-ui (vídeo que no carrega, Save-Data)
 python tools/grava-video.py                            # vídeo real del hero (+ poster) amb Playwright i ffmpeg (docs/ACTIUS.md)
 python tools/grava-scroll.py                           # recorregut de scroll de 20-30 s: docs/web-premium-scroll.webm

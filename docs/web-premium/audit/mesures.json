@@ -60,9 +60,9 @@
   "cap_alt": 72,
   "h1_px": 43,
   "html_px": 16,
-  "cls": 0.032,
+  "cls": 0.008,
   "pes_kb": 43,
-  "lcp_ms": 108,
+  "lcp_ms": 124,
   "tasques_llargues": 0
  },
  "320_fosc_normal": {
@@ -126,9 +126,9 @@
   "cap_alt": 72,
   "h1_px": 43,
   "html_px": 16,
-  "cls": 0.032,
+  "cls": 0.008,
   "pes_kb": 43,
-  "lcp_ms": 112,
+  "lcp_ms": 116,
   "tasques_llargues": 0
  },
  "360_clar_normal": {
@@ -192,9 +192,9 @@
   "cap_alt": 72,
   "h1_px": 43,
   "html_px": 16,
-  "cls": 0.029,
+  "cls": 0.007,
   "pes_kb": 43,
-  "lcp_ms": 108,
+  "lcp_ms": 112,
   "tasques_llargues": 0
  },
  "360_fosc_normal": {
@@ -258,7 +258,7 @@
   "cap_alt": 72,
   "h1_px": 43,
   "html_px": 16,
-  "cls": 0.029,
+  "cls": 0.007,
   "pes_kb": 43,
   "lcp_ms": 116,
   "tasques_llargues": 0
@@ -324,9 +324,9 @@
   "cap_alt": 72,
   "h1_px": 43,
   "html_px": 16,
-  "cls": 0.024,
+  "cls": 0.005,
   "pes_kb": 43,
-  "lcp_ms": 112,
+  "lcp_ms": 124,
   "tasques_llargues": 0
  },
  "390_fosc_normal": {
@@ -390,9 +390,9 @@
   "cap_alt": 72,
   "h1_px": 43,
   "html_px": 16,
-  "cls": 0.024,
+  "cls": 0.005,
   "pes_kb": 43,
-  "lcp_ms": 132,
+  "lcp_ms": 124,
   "tasques_llargues": 0
  },
  "768_clar_normal": {
@@ -456,9 +456,9 @@
   "cap_alt": 72,
   "h1_px": 59,
   "html_px": 16.92,
-  "cls": 0.042,
+  "cls": 0.006,
   "pes_kb": 43,
-  "lcp_ms": 120,
+  "lcp_ms": 128,
   "tasques_llargues": 0
  },
  "768_clar_gegant": {
@@ -522,9 +522,9 @@
   "cap_alt": 72,
   "h1_px": 43,
   "html_px": 16,
-  "cls": 0.029,
+  "cls": 0.012,
   "pes_kb": 43,
-  "lcp_ms": 112,
+  "lcp_ms": 108,
   "tasques_llargues": 0
  },
  "768_fosc_normal": {
@@ -588,9 +588,9 @@
   "cap_alt": 72,
   "h1_px": 59,
   "html_px": 16.92,
-  "cls": 0.042,
+  "cls": 0.006,
   "pes_kb": 43,
-  "lcp_ms": 128,
+  "lcp_ms": 136,
   "tasques_llargues": 0
  },
  "768_fosc_gegant": {
@@ -654,10 +654,10 @@
   "cap_alt": 72,
   "h1_px": 43,
   "html_px": 16,
-  "cls": 0.029,
+  "cls": 0.012,
   "pes_kb": 43,
-  "lcp_ms": 156,
-  "tasques_llargues": 1
+  "lcp_ms": 112,
+  "tasques_llargues": 0
  },
  "1024_clar_normal": {
   "gutters": {
@@ -720,9 +720,9 @@
   "cap_alt": 72,
   "h1_px": 72,
   "html_px": 17.56,
-  "cls": 0.071,
+  "cls": 0.009,
   "pes_kb": 43,
-  "lcp_ms": 980,
+  "lcp_ms": 992,
   "tasques_llargues": 0
  },
  "1024_clar_gegant": {
@@ -786,9 +786,9 @@
   "cap_alt": 72,
   "h1_px": 46,
   "html_px": 16.28,
-  "cls": 0.126,
+  "cls": 0.022,
   "pes_kb": 43,
-  "lcp_ms": 128,
+  "lcp_ms": 116,
   "tasques_llargues": 0
  },
  "1024_fosc_normal": {
@@ -852,7 +852,7 @@
   "cap_alt": 72,
   "h1_px": 72,
   "html_px": 17.56,
-  "cls": 0.071,
+  "cls": 0.009,
   "pes_kb": 43,
   "lcp_ms": 976,
   "tasques_llargues": 0
@@ -918,9 +918,9 @@
   "cap_alt": 72,
   "h1_px": 46,
   "html_px": 16.28,
-  "cls": 0.126,
+  "cls": 0.022,
   "pes_kb": 43,
-  "lcp_ms": 112,
+  "lcp_ms": 120,
   "tasques_llargues": 0
  },
  "1280_clar_normal": {
@@ -984,7 +984,7 @@
   "cap_alt": 72,
   "h1_px": 84,
   "html_px": 18,
-  "cls": 0.058,
+  "cls": 0.01,
   "pes_kb": 43,
   "lcp_ms": 136,
   "tasques_llargues": 0
@@ -1050,9 +1050,9 @@
   "cap_alt": 72,
   "h1_px": 53,
   "html_px": 16.6,
-  "cls": 0.078,
+  "cls": 0.017,
   "pes_kb": 43,
-  "lcp_ms": 108,
+  "lcp_ms": 116,
   "tasques_llargues": 0
  },
  "1280_fosc_normal": {
@@ -1116,7 +1116,7 @@
   "cap_alt": 72,
   "h1_px": 84,
   "html_px": 18,
-  "cls": 0.058,
+  "cls": 0.01,
   "pes_kb": 43,
   "lcp_ms": 136,
   "tasques_llargues": 0
@@ -1182,9 +1182,9 @@
   "cap_alt": 72,
   "h1_px": 53,
   "html_px": 16.6,
-  "cls": 0.078,
+  "cls": 0.017,
   "pes_kb": 43,
-  "lcp_ms": 108,
+  "lcp_ms": 104,
   "tasques_llargues": 0
  },
  "1440_clar_normal": {
@@ -1248,9 +1248,9 @@
   "cap_alt": 72,
   "h1_px": 91,
   "html_px": 18,
-  "cls": 0.059,
+  "cls": 0.009,
   "pes_kb": 43,
-  "lcp_ms": 972,
+  "lcp_ms": 976,
   "tasques_llargues": 0
  },
  "1440_clar_gegant": {
@@ -1314,9 +1314,9 @@
   "cap_alt": 72,
   "h1_px": 57,
   "html_px": 16.8,
-  "cls": 0.115,
+  "cls": 0.02,
   "pes_kb": 43,
-  "lcp_ms": 120,
+  "lcp_ms": 132,
   "tasques_llargues": 0
  },
  "1440_fosc_normal": {
@@ -1380,9 +1380,9 @@
   "cap_alt": 72,
   "h1_px": 91,
   "html_px": 18,
-  "cls": 0.059,
+  "cls": 0.009,
   "pes_kb": 43,
-  "lcp_ms": 984,
+  "lcp_ms": 980,
   "tasques_llargues": 0
  },
  "1440_fosc_gegant": {
@@ -1446,9 +1446,9 @@
   "cap_alt": 72,
   "h1_px": 57,
   "html_px": 16.8,
-  "cls": 0.115,
+  "cls": 0.02,
   "pes_kb": 43,
-  "lcp_ms": 128,
+  "lcp_ms": 108,
   "tasques_llargues": 0
  },
  "1920_clar_normal": {
@@ -1512,9 +1512,9 @@
   "cap_alt": 72,
   "h1_px": 97,
   "html_px": 18,
-  "cls": 0.026,
+  "cls": 0.004,
   "pes_kb": 43,
-  "lcp_ms": 136,
+  "lcp_ms": 144,
   "tasques_llargues": 0
  },
  "1920_clar_gegant": {
@@ -1578,9 +1578,9 @@
   "cap_alt": 72,
   "h1_px": 69,
   "html_px": 17.4,
-  "cls": 0.055,
+  "cls": 0.01,
   "pes_kb": 43,
-  "lcp_ms": 120,
+  "lcp_ms": 116,
   "tasques_llargues": 0
  },
  "1920_fosc_normal": {
@@ -1644,9 +1644,9 @@
   "cap_alt": 72,
   "h1_px": 97,
   "html_px": 18,
-  "cls": 0.026,
+  "cls": 0.004,
   "pes_kb": 43,
-  "lcp_ms": 148,
+  "lcp_ms": 132,
   "tasques_llargues": 0
  },
  "1920_fosc_gegant": {
@@ -1710,9 +1710,9 @@
   "cap_alt": 72,
   "h1_px": 69,
   "html_px": 17.4,
-  "cls": 0.055,
+  "cls": 0.01,
   "pes_kb": 43,
-  "lcp_ms": 132,
+  "lcp_ms": 112,
   "tasques_llargues": 0
  },
  "2560_clar_normal": {
@@ -1776,7 +1776,7 @@
   "cap_alt": 72,
   "h1_px": 97,
   "html_px": 18,
-  "cls": 0.012,
+  "cls": 0.002,
   "pes_kb": 43,
   "lcp_ms": 180,
   "tasques_llargues": 0
@@ -1842,9 +1842,9 @@
   "cap_alt": 72,
   "h1_px": 84,
   "html_px": 18,
-  "cls": 0.088,
+  "cls": 0.013,
   "pes_kb": 43,
-  "lcp_ms": 124,
+  "lcp_ms": 128,
   "tasques_llargues": 0
  },
  "2560_fosc_normal": {
@@ -1908,9 +1908,9 @@
   "cap_alt": 72,
   "h1_px": 97,
   "html_px": 18,
-  "cls": 0.012,
+  "cls": 0.002,
   "pes_kb": 43,
-  "lcp_ms": 164,
+  "lcp_ms": 184,
   "tasques_llargues": 0
  },
  "2560_fosc_gegant": {
@@ -1974,9 +1974,9 @@
   "cap_alt": 72,
   "h1_px": 84,
   "html_px": 18,
-  "cls": 0.088,
+  "cls": 0.013,
   "pes_kb": 43,
-  "lcp_ms": 136,
+  "lcp_ms": 140,
   "tasques_llargues": 0
  }
 }

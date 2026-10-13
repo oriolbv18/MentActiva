@@ -1,13 +1,11 @@
 # Informe de la web (index.html)
 
-Combinacions: 30 · incidències: 17
+Combinacions: 30 · incidències: 0
 
 ## Incidències per tipus
 
 | Tipus | n | Exemples |
 |---|---|---|
-| cls | 16 | `1024_clar_normal` CLS 0.071<br>`1024_clar_gegant` CLS 0.126<br>`1024_fosc_normal` CLS 0.071 |
-| tasques-llargues | 1 | `768_fosc_gegant` 1 tasques > 50 ms en fer scroll: [59] |
 
 ## Mesures (tema clar, lletra normal)
 

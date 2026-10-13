@@ -1,4 +1,4 @@
-# MentA · Disseny premium de la web (v1.9.2) «Un dia amb MentA»
+# MentA · Disseny premium de la web (v1.9.2, actualitzat a la 1.9.3) «Un dia amb MentA»
 
 > Document generat per `tools/genera-doc-premium.py` a partir de `docs/_premium-plantilla.md` (les línies de la taula es calculen cada vegada).
 > Lliurable del pla 1.9.2: (a) pla de tokens i revisió contra els defectes per defecte, (b) taula **Decisió → skill → fitxer:línia**, (c) oportunitats d'animació acceptades i rebutjades.
@@ -21,7 +21,7 @@
 | **Forma** | dos radis amb significat (gran per a superfícies, petit per a controls), **ombres tintades de verd** (mai grises), vora d'1 px de llum (`inset`) al vidre |
 | **Moviment** | corbes `cubic-bezier(.23,1,.32,1)` (sortida) i `(.77,0,.175,1)` (moviment a la pantalla); molls amb `web/mol.js` i `linear()` de CSS; durades 140 / 220 / 480 ms |
 
-**Disposició.** Hero a dues columnes (text a l'esquerra, mòbil amb vídeo a la dreta, l'Elefant assegut al marc superior). Tira de quatre fets. *Un dia amb MentA*: blocs de ≥ 100 svh a l'esquerra i mòbil *sticky* a la dreta. Demo en mode demostració. Aparador de 17 jocs en dues files que es mouen en sentits oposats (sobre el verd bosc, on els mòbils clars brillen). Bento asimètric del cuidador. «L'endemà» (enfocament, preguntes, contacte) sobre Paper i tancament en Bosc.
+**Disposició.** Hero a dues columnes (text a l'esquerra, mòbil amb vídeo a la dreta, l'Elefant assegut al marc superior). Tira de quatre fets. *Un dia amb MentA*: blocs de ≥ 100 svh a l'esquerra i mòbil *sticky* a la dreta. Demo en mode demostració. Aparador de 17 jocs en **una sola fila que és un scroller natiu** (des de la 1.9.3; abans eren dues files en moviment automàtic), sobre el verd bosc, on els mòbils clars brillen. Bento asimètric del cuidador. «L'endemà» (enfocament, preguntes, contacte) sobre Paper i tancament en Bosc.
 
 ## 2. Revisió contra els defectes per defecte (pas 2)
 
@@ -73,7 +73,7 @@ Cada candidat ha passat la porta *freqüència → propòsit → velocitat → f
 | 2 | Canvi de pantalla del mòbil viu | Continuïtat espacial | Ocasional | Transicions de 320 ms `--ease-out`: opacitat, `scale(.97)`, `blur(2px)`; interrompible | ✅ Cor de la web |
 | 3 | Premuda dels botons | *Feedback* | Desenes/dia | `:active{scale(.97)}` 140 ms | ✅ |
 | 4 | Micro-visuals del bento | Explicació | Rara | Una sola vegada en entrar a la vista: llums 520 ms (*stagger* 380 ms), línia que es dibuixa 1,4 s, punts del PIN, fitxers amb moll | ✅ Només 4–5 peces, sense bucles |
-| 5 | Aparador de jocs | Explicació (mostrar 17 jocs) | Ocasional | `translateX(-50%)` en bucle 76–90 s, `linear`; es pot aturar, es pausa a `:hover`/focus/fora de vista; estàtic a tàctil i moviment reduït | ✅ |
+| 5 | Aparador de jocs | Explicació (mostrar 17 jocs) | Ocasional | **1.9.3:** scroller natiu amb `scroll-snap`, arrossegar amb moll, fletxes i teclat; cap moviment automàtic. Una sola invitació (`translate` −110 px i torna) | ✅ (redissenyat a la 1.9.3: vegeu `docs/web-premium/MOVIMENT-1.9.3.md`) |
 | 6 | Canvi de tema | Evitar un canvi brusc | Rara | Revelació circular amb View Transitions, 520 ms `--ease-out`; instantani si no hi ha suport | ✅ |
 | 7 | Ulls i inclinació (cursor) | Delit decoratiu | Constant mentre es mou | Molls (rigidesa 120–260, amortiment crític o gairebé); només amb cursor fi; rang limitat | ✅ Només al hero i al mòbil viu |
 | 8 | Salutació de l'Elefant | Delit | Rara (un cop) | *Crossfade* 2,2 s entre dues poses, sense bucle | ✅ |
@@ -91,7 +91,7 @@ Cada candidat ha passat la porta *freqüència → propòsit → velocitat → f
 | Les paraules del titular baixen dins d'una màscara | **Reveal** amb **stagger** (part d'una **orchestration** única) |
 | El mòbil sticky canvia de pantalla | **Crossfade** amb **blur** i **scale in** (continuïtat espacial) |
 | El mòbil s'inclina amb el cursor | **3D tilt** amb **spring**, sota una **perspective** de 900 px |
-| Les files de jocs que es desplacen | **Marquee** (**linear**), en sentits oposats |
+| L'aparador (1.9.3) | **Drag** amb **momentum** i **rubber-banding** sobre un scroller natiu amb *scroll-snap*; **interruptible animation** |
 | Filtrar jocs | **Stagger** de **scale in** amb **fade** |
 | La línia del gràfic | **Line drawing** |
 | Els punts i els llums del bento | **Pop in** amb **stagger** |
@@ -159,7 +159,7 @@ Mapa de valors que la web mostra: nom/correu/missatge del formulari (límits `ma
 |---|---|
 | 1.4.3 / 1.4.11 contrast | ✅ Calculat per hora, clar, fosc i alt contrast |
 | 2.1.1 teclat | ✅ Cap element atrapa el teclat; el menú mòbil atrapa el focus només mentre és obert (i Escape el tanca) |
-| 2.2.2 pausar moviment | ✅ Botó «Atura el moviment» a l'aparador; el vídeo és mut, decoratiu i `aria-hidden` |
+| 2.2.2 pausar moviment | ✅ Des de la 1.9.3 l'aparador no té cap moviment automàtic sostingut (no cal botó de pausa); el vídeo és mut, decoratiu i `aria-hidden` |
 | 2.3.3 / moviment | ✅ `prefers-reduced-motion` desactiva entrada, inclinació, ulls, vídeo i files |
 | 2.4.7 focus visible | ✅ Anell de 3 px (groc sobre el fons bosc) |
 | 2.5.5 objectius | ✅ ≥ 44 px (comprovat per `tools/audit-web.py` a ≤ 768 px) |
@@ -185,6 +185,9 @@ Mapa de valors que la web mostra: nom/correu/missatge del formulari (límits `ma
 
 **Captures abans/després:** `docs/web-abans-1.9.2/` (la 1.9.1) i `docs/web-premium/` (la 1.9.2, 390 i 1440 px, clar i fosc).
 
-## 12. Mesures
+## 12. 1.9.3 «Aparador lliure i moviment amb sentit» (addenda)
+El diagnòstic de l'Oriol era correcte: el *marquee* anava a ≈ 26 px/s (veure els 17 jocs costava > 1 minut), el hover aturava la fila sense deixar-la moure i dues files en sentits oposats es disputaven l'atenció. Principi nou: **l'usuari mana, el moviment només convida.** Les decisions de la 1.9.3 són a la taula de la secció 3 (files marcades `[1.9.3]`), l'inventari amb la porta *freqüència → propòsit → velocitat → funció* a `docs/web-premium/MOVIMENT-1.9.3.md` i les mesures a `CHANGELOG-1.9.3.md`.
+
+## 13. Mesures
 
 {{MESURES}}

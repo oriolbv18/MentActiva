@@ -1,4 +1,4 @@
-/* MentA · integrador de moll (≈ 0,7 KB). Mol(alCanviar, { rigidesa, amortiment }) → { cap(x), fixa(x), ara() }
+/* MentA · integrador de moll (≈ 0,7 KB). Mol(alCanviar, { rigidesa, amortiment }) → { cap(x, velocitatInicial), fixa(x), ara() }
    Es parteix sempre del valor i la velocitat actuals: es pot invertir a mig camí sense salts (interrompible). Amortiment crític = 2·√rigidesa (sense rebot). */
 (function () {
   function Mol(cb, o) {
@@ -8,7 +8,7 @@
       if (Math.abs(v) < .02 && Math.abs(t - p) < .02) { p = t; v = 0; id = 0; cb(p); } else id = requestAnimationFrame(pas);
     }
     return {
-      cap: function (x) { t = x; if (!id) { l = performance.now(); id = requestAnimationFrame(pas); } },
+      cap: function (x, w) { t = x; if (w !== undefined) v = w; if (!id) { l = performance.now(); id = requestAnimationFrame(pas); } },
       fixa: function (x) { if (id) cancelAnimationFrame(id); id = 0; p = t = x; v = 0; cb(p); },
       ara: function () { return p; }
     };

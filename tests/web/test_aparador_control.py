@@ -41,24 +41,29 @@ def main():
             if pg.evaluate("document.getElementById('jocSeg').disabled"): break
             pg.click('#jocSeg'); clics += 1; pg.wait_for_timeout(700); vistos |= set(pg.evaluate(VISIBLES))
         comprova(len(vistos) == 17 and time.time() - t0 < 10, f'amb les fletxes es veuen els 17 jocs en {time.time() - t0:.1f} s ({len(vistos)}/17, {clics} clics)')
+        for _ in range(3):
+            if not pg.evaluate("document.getElementById('jocSeg').disabled"): pg.click('#jocSeg'); pg.wait_for_timeout(700)
         comprova(pg.evaluate("document.getElementById('jocSeg').disabled") and not pg.evaluate("document.getElementById('jocAnt').disabled"), 'a l\'extrem final la fletxa «següent» queda desactivada i l\'«anterior» activa')
         comprova(pg.evaluate("['jocAnt','jocSeg'].every(id => { const r = document.getElementById(id).getBoundingClientRect(); return r.width >= 44 && r.height >= 44 && document.getElementById(id).getAttribute('aria-label'); })"), 'fletxes de ≥ 44 px amb aria-label')
         comprova('de 17' in pg.inner_text('#jocPos'), f"indicador de posició: «{pg.inner_text('#jocPos').strip()}»")
         # --- roda del ratolí / trackpad (horitzontal)
         pg.click('#jocAnt'); pg.wait_for_timeout(200)
         for _ in range(4): pg.click('#jocAnt'); pg.wait_for_timeout(500)
-        pg.mouse.move(700, 600); t0 = time.time(); vistos = set(pg.evaluate(VISIBLES))
+        pg.evaluate("document.querySelector('#carrusel .fila').scrollIntoView({ block: 'center' })"); pg.wait_for_timeout(500)
+        cy = pg.evaluate("(() => { const r = document.querySelector('#carrusel .l-joc .mobil').getBoundingClientRect(); return r.top + r.height / 2; })()"); pg.mouse.move(700, cy); t0 = time.time(); vistos = set(pg.evaluate(VISIBLES))
         for _ in range(14):
             pg.mouse.wheel(600, 0); pg.wait_for_timeout(120); vistos |= set(pg.evaluate(VISIBLES))
         comprova(len(vistos) == 17 and time.time() - t0 < 10, f'amb la roda (horitzontal) es veuen els 17 jocs en {time.time() - t0:.1f} s ({len(vistos)}/17)')
         # --- arrossegar amb el ratolí
         pg.evaluate("document.querySelector('#carrusel .fila').scrollLeft = 0"); pg.wait_for_timeout(400); vistos = set(pg.evaluate(VISIBLES)); t0 = time.time()
         for _ in range(10):
-            pg.mouse.move(1200, 640); pg.mouse.down(); pg.mouse.move(300, 640, steps=14); pg.mouse.up(); pg.wait_for_timeout(450); vistos |= set(pg.evaluate(VISIBLES))
+            pg.mouse.move(1100, cy); pg.mouse.down()
+            for k in range(1, 13): pg.mouse.move(1100 - k * 34, cy); pg.wait_for_timeout(30)           # ≈ 400 px a ≈ 1.100 px/s: un gest humà
+            pg.mouse.up(); pg.wait_for_timeout(900); vistos |= set(pg.evaluate(VISIBLES))
             if len(vistos) == 17: break
         comprova(len(vistos) == 17 and time.time() - t0 < 10, f'arrossegant amb el ratolí es veuen els 17 jocs en {time.time() - t0:.1f} s ({len(vistos)}/17)')
         pg.evaluate("document.querySelector('#carrusel .fila').scrollLeft = 0"); pg.wait_for_timeout(300); a = pg.evaluate("document.querySelector('#carrusel .fila').scrollLeft")
-        pg.mouse.move(600, 640); pg.mouse.down(); pg.mouse.move(603, 641); pg.mouse.up(); pg.wait_for_timeout(300)
+        pg.mouse.move(600, cy); pg.mouse.down(); pg.mouse.move(603, cy + 1); pg.mouse.up(); pg.wait_for_timeout(300)
         comprova(pg.evaluate("document.querySelector('#carrusel .fila').scrollLeft") == a, 'un clic curt (< 6 px) no compta com a arrossegament')
         # --- després d'interactuar, res es mou sol
         pg.wait_for_timeout(1500); y0 = pg.evaluate("document.querySelector('#carrusel .fila').scrollLeft"); pg.wait_for_timeout(3000); y1 = pg.evaluate("document.querySelector('#carrusel .fila').scrollLeft")

@@ -40,14 +40,14 @@ def sprite():
 def jocs_html():
     """Aparador de jocs en HTML estàtic: dues files (es mouen en sentits oposats amb JS; sense JS es llisquen). Font: web/jocs.js (generat de l'app)."""
     t = (ARREL / 'web' / 'jocs.js').read_text(encoding='utf-8'); jocs = json.loads(t[t.index('['):t.rindex(']') + 1])
-    jocs.sort(key=lambda j: j['id'] != 'bingo'); esc = lambda x: x.replace('&', '&amp;').replace('<', '&lt;').replace('"', '&quot;')
+    ordre = ['memoria', 'atencio', 'llenguatge', 'calcul', 'logica']; jocs.sort(key=lambda j: ordre.index(j['domini']) if j['domini'] in ordre else 99)     # una sola fila, ordenada per àrea
+    esc = lambda x: x.replace('&', '&amp;').replace('<', '&lt;').replace('"', '&quot;')
     def carta(j):
         src = f'img/web/jocs/{j["id"]}'
-        return (f'<li class="l-joc" data-id="{j["id"]}" data-domini="{j["domini"]}" data-dos="{1 if j["dos"] else 0}"><div class="mobil baix"><div class="mobil-pantalla"><img src="{src}-360.webp" srcset="{src}-360.webp 360w, {src}.webp 480w" sizes="204px" '
+        return (f'<li class="l-joc" tabindex="-1" data-id="{j["id"]}" data-domini="{j["domini"]}" data-dos="{1 if j["dos"] else 0}"><div class="mobil baix"><div class="mobil-pantalla"><img src="{src}-360.webp" srcset="{src}-360.webp 360w, {src}.webp 480w" sizes="204px" '
                 f'alt="Captura del joc «{esc(j["nom"])}» en marxa" loading="lazy" width="480" height="862"></div></div><div class="l-joc-text"><strong>{esc(j["nom"])}</strong><small>{esc(j["desc"])}</small>'
                 f'<span class="xips"><span class="xip neutre">{esc(j["dominiNom"])}</span>{"<span class=\"xip neutre\">2 jugadors</span>" if j["dos"] else ""}</span></div></li>')
-    mig = (len(jocs) + 1) // 2; files = [jocs[:mig], jocs[mig:]]
-    return chr(10).join(f'<div class="fila" data-sentit="{1 if i == 0 else -1}"><ul class="l-pista"{" id=\"galeriaJocs\" aria-label=\"Jocs de la primera fila\"" if i == 0 else " aria-label=\"Jocs de la segona fila\""}>' + chr(10).join(carta(j) for j in f) + '</ul></div>' for i, f in enumerate(files))
+    return '<div class="fila" id="filaJocs" tabindex="0" role="region" aria-label="Aparador dels 17 jocs: llisca en horitzontal, arrossega o fes servir les fletxes ← →"><ul class="l-pista" id="galeriaJocs">' + chr(10).join(carta(j) for j in jocs) + '</ul></div>'
 
 
 def elefant_inline():

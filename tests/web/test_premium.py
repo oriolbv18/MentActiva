@@ -52,10 +52,6 @@ def main():
         comprova(pg.evaluate("document.querySelectorAll('.bento .fictici').length") >= 2 and 'fictícies' in pg.inner_text('.bento'), 'bento: les dades dels gràfics diuen que són fictícies')
         # --- progrés de lectura
         comprova(pg.evaluate("document.querySelector('.progres-lectura')") is None, "crítica de disseny: la barra de progrés de lectura és un accessori i s'ha retirat")
-        # --- aparador: pausa per hover/focus i fora de vista
-        pg.evaluate("document.getElementById('jocs').scrollIntoView()"); pg.wait_for_timeout(500)
-        pg.evaluate("window.scrollTo(0, document.documentElement.scrollHeight)"); pg.wait_for_timeout(500)
-        comprova(pg.evaluate("document.querySelector('.fila').classList.contains('fora')"), 'aparador: les files es pausen quan són fora de la vista')
         # --- rendiment: tasques llargues i errors
         long = pg.evaluate("window.__long.filter(d => d > 50)"); comprova(len(long) == 0, f'rendiment: cap tasca llarga (> 50 ms) durant la càrrega i el scroll ({long[:3]})')
         ctx.close()

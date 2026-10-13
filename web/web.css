@@ -188,7 +188,6 @@ html.menu-obert { overflow: hidden; }
 
 ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 ::view-transition-new(root) { z-index: 9999; }
-.fila.fora .l-pista { animation-play-state: paused; }
 
 /* ---------- 8. Hero (alba) ---------- */
 .l-heroi { position: relative; padding-top: calc(var(--cap-alt) + clamp(1.5rem, 5vh, 3.5rem)); padding-bottom: clamp(3rem, 8vh, 6rem); background: radial-gradient(60rem 38rem at 76% 44%, rgba(255, 214, 150, .55), transparent 70%), var(--fons); }
@@ -283,13 +282,21 @@ html.js .el-saluda { opacity: 0; }
 .l-filtres button { min-height: 44px; padding: 0 var(--e-4); border-radius: var(--radi-pill); border: 2px solid var(--vora-forta); font-weight: 700; color: var(--text); background: transparent; transition: background-color var(--d-normal) var(--ease-out), border-color var(--d-normal) var(--ease-out), transform var(--d-rapida) var(--ease-out); touch-action: manipulation; }
 .l-filtres button:active { transform: scale(.97); }
 .l-filtres button[aria-pressed="true"] { background: var(--accio); border-color: var(--accio); color: var(--accio-text); }
-.l-carrusel { position: relative; display: grid; gap: var(--e-5); margin-top: var(--e-4); }
-.fila { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
-.l-pista { display: flex; gap: var(--e-5); width: max-content; padding: var(--e-2) var(--e-5) var(--e-2) 0; animation: marquee 90s linear infinite; }
-.fila[data-sentit="-1"] .l-pista { animation-direction: reverse; animation-duration: 76s; }
-@keyframes marquee { to { transform: translateX(-50%); } }
-.l-joc { flex: none; width: 12.75rem; display: grid; grid-template-rows: auto 1fr; gap: var(--e-3); }
-.l-joc .mobil { --mw: 100%; padding: .32rem; border-radius: 1.7rem; box-shadow: 0 0 0 1px rgba(255, 255, 255, .16), 0 20px 36px -18px rgba(0, 0, 0, .7); }
+/* Aparador: UNA fila, ordenada per àrea, que és un scroller natiu (roda, trackpad, tecles i dit funcionen sols). Arrossegar amb el ratolí, fletxes i teclat s'hi afegeixen amb JS.
+   «L'usuari mana, el moviment només convida»: no hi ha cap moviment automàtic sostingut ni res que s'aturi amb el hover. */
+.l-carrusel { position: relative; display: grid; gap: var(--e-4); margin-top: var(--e-4); --lat: calc((100% - min(100% - 2 * var(--web-gutter), var(--web-max))) / 2); }
+.fila { position: relative; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity; scroll-padding-inline: var(--lat); overscroll-behavior-x: contain; scrollbar-width: thin; scrollbar-color: var(--vora-forta) transparent; -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
+.fila:focus-visible { outline-offset: -3px; border-radius: var(--radi-l); }
+@media (pointer: fine) { .fila { cursor: grab; } }
+.fila.arrossega { cursor: grabbing; scroll-snap-type: none; -webkit-user-select: none; user-select: none; }
+.fila.arrossega * { pointer-events: none; }
+.l-pista { display: flex; gap: var(--e-5); width: max-content; padding: var(--e-4) var(--lat) var(--e-4); }
+.l-joc { flex: none; width: 12.75rem; display: grid; grid-template-rows: auto 1fr; gap: var(--e-3); scroll-snap-align: start; border-radius: 1.8rem; }
+.l-joc:focus-visible { outline: 3px solid var(--focus); outline-offset: 6px; }
+.l-joc .mobil { --mw: 100%; padding: .32rem; border-radius: 1.7rem; box-shadow: 0 0 0 1px rgba(255, 255, 255, .16), 0 20px 36px -18px rgba(0, 0, 0, .7); transition: transform 180ms var(--ease-out); }
+/* El hover eleva la carta (no atura ni mou res); l'ombra es dibuixa amb una capa que només canvia d'opacitat */
+.l-joc .mobil::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; box-shadow: 0 30px 44px -14px rgba(0, 0, 0, .75); opacity: 0; transition: opacity 180ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .l-joc:hover .mobil, .l-joc:focus-visible .mobil { transform: translateY(-6px); } .l-joc:hover .mobil::before, .l-joc:focus-visible .mobil::before { opacity: 1; } }
 .l-joc .mobil-pantalla { border-radius: 1.4rem; }
 .l-joc-text { display: grid; gap: var(--e-1); align-content: start; }
 .l-joc strong { font-family: var(--font-titols); font-size: 1.1rem; line-height: 1.25; }
@@ -297,12 +304,12 @@ html.js .el-saluda { opacity: 0; }
 .l-joc .xips { display: flex; flex-wrap: wrap; gap: var(--e-2); margin-top: var(--e-1); }
 .l-joc .xip { font-size: 1rem; white-space: nowrap; }
 .l-joc[hidden] { display: none; }
-.l-controls { display: flex; justify-content: flex-end; }
-.l-controls .btn-icona { border: 2px solid var(--vora-forta); border-radius: 50%; width: 48px; height: 48px; }
-.l-controls .ico-play { display: none; } .l-controls [aria-pressed="true"] .ico-play { display: block; } .l-controls [aria-pressed="true"] .ico-pausa { display: none; }
-.fila:hover .l-pista, .fila:focus-within .l-pista, .fila.en-pausa .l-pista, .l-carrusel.en-pausa .l-pista { animation-play-state: paused; }
-.fila.estatica .l-pista { animation: none; width: auto; margin-inline: auto; padding-inline: var(--web-gutter); }
-.fila.estatica .clon { display: none; }
+.l-controls { display: flex; align-items: center; justify-content: space-between; gap: var(--e-4); }
+.l-controls[hidden] { display: none; }
+.l-pos { color: var(--text-suau); font-size: 1rem; font-variant-numeric: tabular-nums; }
+.l-fletxes { display: flex; gap: var(--e-3); }
+.l-fletxes .btn-icona { border: 2px solid var(--vora-forta); border-radius: 50%; width: 48px; height: 48px; transition: background-color var(--d-normal) var(--ease-out), opacity var(--d-normal) var(--ease-out), transform var(--d-rapida) var(--ease-out); }
+.l-fletxes .btn-icona[disabled] { opacity: .35; cursor: default; }
 .l-especials { display: grid; gap: var(--e-6); padding-top: var(--e-9); }
 .peca-bingo, .peca-algu { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--e-6); align-items: center; border-radius: var(--radi-xl); padding: clamp(1.5rem, 4vw, 3.25rem); border: 1px solid var(--vora); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14); }
 .peca-bingo { background: linear-gradient(135deg, rgba(242, 166, 90, .16), rgba(255, 255, 255, .04) 60%); }
@@ -319,8 +326,8 @@ html.js .el-saluda { opacity: 0; }
   .peca-algu { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: var(--e-8); }
   .peca-bingo .peca-mobil { margin-block: calc(var(--e-8) * -1); }
 }
-/* Tàctil i moviment reduït: les files no es mouen soles; es llisquen amb el dit (scroll-snap) */
-@media (pointer: coarse) { .fila { overflow-x: auto; scroll-snap-type: x proximity; -webkit-mask-image: none; mask-image: none; scrollbar-width: thin; overscroll-behavior-x: contain; touch-action: pan-x pan-y; } .l-pista { animation: none; padding-inline: var(--web-gutter); } .l-joc { scroll-snap-align: center; } .clon { display: none; } .l-controls { display: none; } }
+/* Tàctil: el dit ja és el control; es veu un tros de la carta següent (peek) perquè es noti que es pot lliscar, i no hi ha fletxes */
+@media (pointer: coarse) { .fila { -webkit-mask-image: none; mask-image: none; touch-action: pan-x pan-y; } .l-pista { padding-inline: var(--web-gutter); } .l-controls { display: none; } }
 
 /* ---------- 13. Bento de l'espai del cuidador (vespre) ---------- */
 .l-cap-bento { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--e-4); max-width: 52rem; margin-bottom: var(--e-7); }
@@ -513,7 +520,7 @@ html.js .l-demo, html.js .l-aparador, html.js .l-bento-sec, html.js .l-enfocamen
   .btn:active, .btn-icona:active, .l-filtres button:active { transform: none; }
   .l-faq summary::after { transition: none; }
   html.js .dia-fix .capa { transform: none; filter: none; transition: opacity 200ms linear; }
-  .l-pista { animation: none; } .fila { overflow-x: auto; -webkit-mask-image: none; mask-image: none; } .clon { display: none; } .l-controls { display: none; }
+  .fila { scroll-behavior: auto; } .l-joc .mobil, .l-joc .mobil::before { transition: none; } .l-joc:hover .mobil, .l-joc:focus-visible .mobil { transform: none; }
   .bento.viu .llum, .bento.viu .barra::before, .bento.viu .grafic .linia, .bento.viu .grafic .punts circle, .bento.viu .punts-pin i, .bento.viu .cadenat .gra, .bento.viu .fitxer, .bento.viu .casella, .bento.viu .casella svg path, .bento.viu .registre i { animation-duration: 1ms; animation-delay: 0s; }
   .btn::after { display: none; } .bloc { transition: none; }
   .l-cap .l-ample::before { transition: none; }

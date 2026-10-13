@@ -137,29 +137,96 @@
       peces.forEach(p => oh.observe(p));
     }
 
-    // ---------- Aparador de jocs: files que es mouen en sentits oposats, filtres per àrea i entrada escalonada ----------
-    const files = qa('.fila'), carrusel = $('carrusel');
+    // ---------- Aparador de jocs: UNA fila que és un scroller natiu. L'usuari mana, el moviment només convida ----------
+    // Roda, trackpad, tecles i dit funcionen sols (scroll-snap). Aquí s'hi afegeix: arrossegar amb el ratolí (amb impuls i goma als extrems), fletxes, indicador,
+    // teclat carta a carta i una única invitació (un petit desplaçament) que cedeix el pas a la primera interacció. Cap deriva automàtica.
+    const fila = $('filaJocs'), carrusel = $('carrusel');
     const iniciaAparador = () => {
-    if (files.length) {
-      const cartes = qa('.l-joc', carrusel); qa('[data-num-jocs]').forEach(e => { e.textContent = cartes.length; });
-      files.forEach(f => { const p = q1('.l-pista', f); [...p.children].forEach(li => { const c = li.cloneNode(true); c.classList.add('clon'); c.setAttribute('aria-hidden', 'true'); c.inert = true; qa('img', c).forEach(i => { i.alt = ''; }); p.appendChild(c); }); });
-      const filtres = $('filtresJocs'), noms = []; cartes.forEach(li => { const d = li.dataset.domini; if (d && !noms.some(n => n[0] === d)) noms.push([d, li.querySelector('.xip').textContent]); });
-      const revisaFiles = reinicia => files.forEach(f => { const vis = qa('.l-joc:not(.clon):not([hidden])', f).length; f.hidden = vis === 0; f.classList.toggle('estatica', vis < 5); if (reinicia) { const p = q1('.l-pista', f); p.style.animation = 'none'; void p.offsetWidth; p.style.animation = ''; } });
+      if (!fila) return;
+      const pista = q1('.l-pista', fila), cartes = qa('.l-joc', pista), ctr = q1('.l-controls', carrusel), ant = $('jocAnt'), seg = $('jocSeg'), pos = $('jocPos'), viu = $('jocPosLive');
+      qa('[data-num-jocs]').forEach(e => { e.textContent = cartes.length; });
+      const comportament = () => (reduit() ? 'auto' : 'smooth'), visibles = () => cartes.filter(c => !c.hidden);
+      let marques = [], interactuat = false, ticking = 0, tViu = 0;
+      // Només es mesura el maquetat quan canvia (inici, filtre, mida); durant el desplaçament només es fa aritmètica amb scrollLeft
+      const maxim = () => fila.scrollWidth - fila.clientWidth, inici = () => (marques.length ? marques[0][0] : 0);
+      const estat = () => {
+        if (!marques.length) return; const x = fila.scrollLeft, w = fila.clientWidth; let a = -1, z = -1;
+        marques.forEach(([l, ample], i) => { if (l + ample > x + 24 && l < x + w - 24) { if (a < 0) a = i; z = i; } });
+        if (a >= 0) pos.textContent = `${a + 1} – ${z + 1} de ${marques.length}`;
+        ant.disabled = x < 4; seg.disabled = x >= maxim() - 4; if (ctr) ctr.hidden = maxim() <= 4;
+        clearTimeout(tViu); tViu = setTimeout(() => { viu.textContent = pos.textContent; }, 500);
+      };
+      const mesura = () => { marques = visibles().map(c => [c.offsetLeft, c.offsetWidth]); estat(); };
+      fila.addEventListener('scroll', () => { if (!ticking) ticking = requestAnimationFrame(() => { ticking = 0; estat(); }); }, { passive: true });
+      if (window.ResizeObserver) new ResizeObserver(mesura).observe(fila);
+      const parem = () => { interactuat = true; };
+      ['wheel', 'touchstart', 'keydown', 'pointerdown', 'focusin'].forEach(ev => fila.addEventListener(ev, parem, { passive: true }));
+      [ant, seg].forEach(b => b.addEventListener('click', parem));
+      // Mou a una posició amb un moll (interrompible: parteix del scrollLeft actual)
+      const moll = window.Mol ? Mol(v => { fila.scrollLeft = v; }, { rigidesa: 150, amortiment: 22 }) : null;
+      const anaA = (x, v) => {
+        x = Math.max(0, Math.min(maxim(), x));
+        if (moll && !reduit()) { fila.classList.add('arrossega'); moll.fixa(fila.scrollLeft); moll.cap(x, v || 0); clearTimeout(anaA.t); anaA.t = setTimeout(() => fila.classList.remove('arrossega'), 1100); } else fila.scrollTo({ left: x, behavior: 'auto' });
+      };
+      // Fletxes: avancen unes 3 cartes (a la carta que toca, no a un píxel qualsevol)
+      const salta = dir => {
+        const x = fila.scrollLeft, i = marques.findIndex(([l]) => l - inici() >= x - 4), cur = i < 0 ? marques.length - 1 : i, dest = Math.max(0, Math.min(marques.length - 1, cur + dir * 3));
+        fila.scrollTo({ left: marques[dest][0] - inici(), behavior: comportament() });
+      };
+      ant.addEventListener('click', () => salta(-1)); seg.addEventListener('click', () => salta(1));
+      // Arrossegar amb el ratolí: 1:1 amb el punter, impuls en deixar anar (projecció amb la velocitat) i goma als extrems
+      const goma = (sobre, dim) => (sobre * dim * .55) / (dim + .55 * Math.abs(sobre));
+      const projecta = (v, dec = .998) => (v / 1000) * dec / (1 - dec);
+      let d = null, arrossegat = false;
+      fila.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse' || e.button !== 0) return; if (moll) moll.fixa(fila.scrollLeft); d = { id: e.pointerId, x: e.clientX, sl: fila.scrollLeft, mou: false, h: [[e.clientX, performance.now()]] }; });
+      fila.addEventListener('pointermove', e => {
+        if (!d || e.pointerId !== d.id) return; const dx = e.clientX - d.x;
+        if (!d.mou) { if (Math.abs(dx) < 6) return; d.mou = true; fila.setPointerCapture(e.pointerId); fila.classList.add('arrossega'); }
+        const t = d.sl - dx, m = maxim(); fila.scrollLeft = Math.max(0, Math.min(m, t));
+        pista.style.transform = t < 0 ? `translateX(${goma(-t, fila.clientWidth).toFixed(1)}px)` : t > m ? `translateX(${(-goma(t - m, fila.clientWidth)).toFixed(1)}px)` : '';
+        d.h.push([e.clientX, performance.now()]); if (d.h.length > 6) d.h.shift();
+      });
+      const deixa = e => {
+        if (!d || e.pointerId !== d.id) return; const dd = d; d = null; if (!dd.mou) return; arrossegat = true; setTimeout(() => { arrossegat = false; }, 0);
+        if (fila.hasPointerCapture(e.pointerId)) fila.releasePointerCapture(e.pointerId);
+        const [x0, t0] = dd.h[0], [x1, t1] = dd.h[dd.h.length - 1], v = t1 > t0 ? -(x1 - x0) / (t1 - t0) * 1000 : 0;       // px/s de scrollLeft
+        const proj = fila.scrollLeft + projecta(Math.max(-4000, Math.min(4000, v)));
+        const dest = marques.reduce((millor, [l]) => (Math.abs(l - inici() - proj) < Math.abs(millor - proj) ? l - inici() : millor), 0);
+        anaA(dest, v);
+        const desp = parseFloat((pista.style.transform.match(/-?\d+\.?\d*/) || [0])[0]);       // goma: torna a 0 amb un moll des del valor actual
+        if (desp && window.Mol) { const mg = Mol(p => { pista.style.transform = Math.abs(p) < .3 ? '' : `translateX(${p.toFixed(1)}px)`; }, { rigidesa: 220, amortiment: 26 }); mg.fixa(desp); mg.cap(0); } else pista.style.transform = '';
+      };
+      fila.addEventListener('pointerup', deixa); fila.addEventListener('pointercancel', deixa);
+      fila.addEventListener('click', e => { if (arrossegat) { e.preventDefault(); e.stopPropagation(); } }, true);
+      // Teclat: Tab entra a la fila; ←/→ mouen l'enfocament carta a carta i la carta enfocada es veu sempre
+      fila.addEventListener('keydown', e => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return; e.preventDefault();
+        const v = visibles(), actual = v.indexOf(document.activeElement.closest ? document.activeElement.closest('.l-joc') : null);
+        const nou = actual < 0 ? 0 : Math.max(0, Math.min(v.length - 1, actual + (e.key === 'ArrowRight' ? 1 : -1)));
+        v[nou].focus({ preventScroll: true }); v[nou].scrollIntoView({ inline: 'center', block: 'nearest', behavior: comportament() });
+      });
+      // Filtres per àrea, amb entrada escalonada; en filtrar la fila torna a l'inici
+      const filtres = $('filtresJocs'), noms = []; cartes.forEach(li => { const dd = li.dataset.domini; if (dd && !noms.some(n => n[0] === dd)) noms.push([dd, li.querySelector('.xip').textContent]); });
       if (filtres) {
-        filtres.hidden = false; filtres.innerHTML = [['tots', 'Tots'], ...noms, ['dos', '2 jugadors']].map(([v, t], i) => `<button type="button" data-filtre="${esc(v)}" aria-pressed="${i === 0}">${esc(t)}</button>`).join('') + '<span class="nomes-lectors" id="filtreEstat" role="status" aria-live="polite"></span>';
+        filtres.hidden = false; filtres.innerHTML = [['tots', 'Tots'], ...noms, ['dos', '2 jugadors']].map(([v, tx], i) => `<button type="button" data-filtre="${esc(v)}" aria-pressed="${i === 0}">${esc(tx)}</button>`).join('') + '<span class="nomes-lectors" id="filtreEstat" role="status" aria-live="polite"></span>';
         filtres.addEventListener('click', e => {
-          const b = e.target.closest('button[data-filtre]'); if (!b) return; const v = b.dataset.filtre;
+          const b = e.target.closest('button[data-filtre]'); if (!b) return; const v = b.dataset.filtre; parem();
           qa('button[data-filtre]', filtres).forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-          let n = 0; qa('.l-joc', carrusel).forEach(li => { const ok = v === 'tots' || (v === 'dos' ? li.dataset.dos === '1' : li.dataset.domini === v); li.hidden = !ok; if (ok && !li.classList.contains('clon')) n++; });
-          revisaFiles(true); $('filtreEstat').textContent = `${n} ${n === 1 ? 'joc' : 'jocs'}`;
-          if (!reduit()) qa('.l-joc:not(.clon):not([hidden])', carrusel).slice(0, 10).forEach((li, i) => li.animate([{ opacity: 0, transform: 'translateY(14px) scale(.97)' }, { opacity: 1, transform: 'none' }], { duration: 380, delay: i * 40, easing: 'cubic-bezier(.23,1,.32,1)', fill: 'backwards' }));
+          let n = 0; cartes.forEach(li => { const ok = v === 'tots' || (v === 'dos' ? li.dataset.dos === '1' : li.dataset.domini === v); li.hidden = !ok; if (ok) n++; });
+          mesura(); $('filtreEstat').textContent = `${n} ${n === 1 ? 'joc' : 'jocs'}`; fila.scrollTo({ left: 0, behavior: comportament() });
+          if (!reduit()) visibles().slice(0, 10).forEach((li, i) => li.animate([{ opacity: 0, transform: 'translateY(14px) scale(.97)' }, { opacity: 1, transform: 'none' }], { duration: 380, delay: i * 40, easing: 'cubic-bezier(.23,1,.32,1)', fill: 'backwards' }));
         });
       }
-      revisaFiles();
-      const pausa = $('jocPausa');
-      if (pausa && fina && !reduit()) { pausa.hidden = false; pausa.addEventListener('click', () => { const on = carrusel.classList.toggle('en-pausa'); pausa.setAttribute('aria-pressed', String(on)); pausa.setAttribute('aria-label', on ? 'Reprèn el moviment de les files de jocs' : 'Atura el moviment de les files de jocs'); }); }
-      if (IO) { const of = new IntersectionObserver(es => es.forEach(x => x.target.classList.toggle('fora', !x.isIntersecting)), { rootMargin: '100px' }); files.forEach(f => of.observe(f)); }
-    }
+      mesura();
+      // Invitació: UNA vegada, en arribar-hi, un petit desplaçament cap a la dreta i tornada (només si l'usuari no ha tocat res)
+      if (IO && moll && !reduit() && maxim() > 4) {
+        const oi = new IntersectionObserver(es => {
+          if (!es.some(x => x.isIntersecting)) return; oi.disconnect(); if (interactuat || fila.scrollLeft > 2) return;
+          fila.classList.add('arrossega'); moll.fixa(0); moll.cap(130); setTimeout(() => { if (!interactuat) moll.cap(0); setTimeout(() => fila.classList.remove('arrossega'), 900); }, 750);
+        }, { threshold: .6 });
+        oi.observe(fila);
+        ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach(ev => fila.addEventListener(ev, () => { moll.fixa(fila.scrollLeft); fila.classList.remove('arrossega'); }, { passive: true, once: true }));
+      }
     };
     const sec = $('jocs'); if (sec && IO) { const oa = new IntersectionObserver(es => { if (es.some(x => x.isIntersecting)) { oa.disconnect(); iniciaAparador(); } }, { rootMargin: '900px 0px' }); oa.observe(sec); } else iniciaAparador();
 

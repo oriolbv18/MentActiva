@@ -32,7 +32,7 @@
     const canvia = () => { html.setAttribute('data-tema', nou); pintaTheme(); try { localStorage.setItem('mentA_web_tema', nou); } catch (e) { /* sense emmagatzematge: el tema val només per a aquesta visita */ } };
     if (document.startViewTransition && !reduit()) {
       const r = btnTema.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2, fi = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
-      const vt = document.startViewTransition(canvia);
+      html.classList.add('tema-vt'); const vt = document.startViewTransition(canvia); vt.finished.finally(() => html.classList.remove('tema-vt'));
       vt.ready.then(() => html.animate({ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${fi}px at ${x}px ${y}px)`] }, { duration: 520, easing: 'cubic-bezier(.23,1,.32,1)', pseudoElement: '::view-transition-new(root)' })).catch(() => {});
     } else canvia();
   });
@@ -127,7 +127,7 @@
     const dia = q1('.dia');
     if (dia && IO) {
       const blocs = qa('.bloc', dia), capes = qa('.capa', dia);
-      const activa = i => { blocs.forEach((b, k) => b.classList.toggle('on', k === i)); capes.forEach((c, k) => c.classList.toggle('on', k === i)); };
+      const activa = i => { blocs.forEach((b, k) => b.classList.toggle('on', k === i)); capes.forEach((c, k) => { c.classList.toggle('on', k === i); c.classList.toggle('passada', k < i); }); };
       const o = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) activa(blocs.indexOf(x.target)); }), { rootMargin: '-45% 0px -45% 0px' });
       blocs.forEach(b => o.observe(b));
     }
@@ -230,8 +230,25 @@
     };
     const sec = $('jocs'); if (sec && IO) { const oa = new IntersectionObserver(es => { if (es.some(x => x.isIntersecting)) { oa.disconnect(); iniciaAparador(); } }, { rootMargin: '900px 0px' }); oa.observe(sec); } else iniciaAparador();
 
+    // ---------- Nombre gegant de l'aparador: compte 0 → N una vegada en arribar-hi (el valor final ja és al HTML) ----------
+    const gran = q1('#titolJocs [data-num-jocs]');
+    if (gran && IO && !reduit()) {
+      const og = new IntersectionObserver(es => { if (!es.some(x => x.isIntersecting)) return; og.disconnect(); const N = parseInt(gran.textContent, 10) || 17, t0 = performance.now();
+        const pas = ara => { const p = Math.min(1, (ara - t0) / 900); gran.textContent = p < 1 ? Math.round(N * (1 - Math.pow(2, -10 * p))) : N; if (p < 1) requestAnimationFrame(pas); }; gran.textContent = 0; requestAnimationFrame(pas); }, { threshold: .2 });
+      og.observe(gran);
+    }
+    // ---------- Elefant: un toc el fa saludar (un sol cicle, mai en bucle); amb moviment reduït només el canvi de pose ----------
+    if (eh) {
+      const sal = q1('.el-saluda', eh), ulls = qa('.el-ull', eh); let anims = [];
+      eh.addEventListener('click', () => {
+        anims.forEach(a => a.cancel()); const ms = reduit() ? 700 : 1500, fi = [{ opacity: 0 }, { opacity: 1, offset: .08 }, { opacity: 1, offset: .88 }, { opacity: 0 }], ofi = [{ opacity: 1 }, { opacity: 0, offset: .08 }, { opacity: 0, offset: .88 }, { opacity: 1 }];
+        anims = [sal.animate(fi, { duration: ms, easing: 'cubic-bezier(.23,1,.32,1)' }), ...ulls.map(u => u.animate(ofi, { duration: ms, easing: 'cubic-bezier(.23,1,.32,1)' }))];
+        if (!reduit()) anims.push(eh.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-8px)', offset: .3 }, { transform: 'translateY(0)' }], { duration: 440, easing: 'cubic-bezier(.23,1,.32,1)' }));
+      });
+    }
+
     // ---------- Bento: les micro-visuals s'encenen una sola vegada, quan es veuen ----------
-    qa('.bento[data-viu]').forEach(b => { if (!IO || reduit()) { b.classList.add('viu'); return; } const o = new IntersectionObserver(es => { if (es.some(x => x.isIntersecting)) { b.classList.add('viu'); o.disconnect(); } }, { threshold: .18 }); o.observe(b); });
+    qa('[data-viu]').forEach(b => { if (!IO || reduit()) { b.classList.add('viu'); return; } const o = new IntersectionObserver(es => { if (es.some(x => x.isIntersecting)) { b.classList.add('viu'); o.disconnect(); } }, { threshold: .18 }); o.observe(b); });
 
 
   });

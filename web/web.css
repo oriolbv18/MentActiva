@@ -155,6 +155,15 @@ h3.gran { font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.5rem); font-weight: 700; le
 html[data-tema="fosc"] .mobil { box-shadow: 0 0 0 1px rgba(255, 255, 255, .22), inset 0 0 0 1px rgba(0, 0, 0, .5), var(--ombra-3); }
 .mobil[data-inclina] { transform-style: preserve-3d; }
 
+/* Premuda coherent a tot el que es toca (i subratllat que creix des de l'esquerra als enllaços de text) */
+.l-nav a:not(.btn), .l-menu nav a, .l-faq summary, .l-xarxes a, .l-peu a { transition-property: background-color, color, transform; transition-duration: var(--d-normal), var(--d-normal), var(--d-rapida); transition-timing-function: var(--ease-out); }
+.l-nav a:not(.btn):active, .l-menu nav a:active, .l-xarxes a:active, .l-peu a:active { transform: scale(.97); }
+.l-faq summary:active { transform: scale(.985); }
+@media (hover: hover) and (pointer: fine) {
+  .l-enf-text > a, .consent a, .l-faq details a, .l-legal a:not(.l-torna), .l-peu a { background: linear-gradient(currentColor, currentColor) left bottom / 0 2px no-repeat; transition: background-size 180ms var(--ease-out), color var(--d-normal) var(--ease-out); }
+  .l-enf-text > a:hover, .consent a:hover, .l-faq details a:hover, .l-legal a:not(.l-torna):hover, .l-peu a:hover { background-size: 100% 2px; }
+}
+
 /* ---------- 7. Capçalera «píndola» flotant, menú mòbil i barra de CTA ---------- */
 .l-cap { position: fixed; top: 0; left: 0; right: 0; z-index: 60; height: var(--cap-alt); pointer-events: none; }
 .l-cap .l-ample { height: 100%; display: flex; align-items: center; gap: var(--e-3); padding: 0 var(--e-3) 0 var(--e-4); pointer-events: auto; border-radius: var(--radi-pill); position: relative; width: min(100% - 2 * var(--web-gutter), 1100px); height: 56px; top: calc(8px + env(safe-area-inset-top, 0px)); }
@@ -186,8 +195,11 @@ html.menu-obert { overflow: hidden; }
 .l-barra-cta .btn { width: 100%; }
 @media (min-width: 67.5em) { .l-barra-cta { display: none; } }
 
-::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
-::view-transition-new(root) { z-index: 9999; }
+/* Navegació entre pàgines: *crossfade* curt (millora progressiva). El canvi de tema és una altra transició (JS, mateix document) i només s'hi aplica sota html.tema-vt */
+@view-transition { navigation: auto; }
+::view-transition-group(root) { animation-duration: 200ms; animation-timing-function: var(--ease-out); }
+html.tema-vt::view-transition-old(root), html.tema-vt::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+html.tema-vt::view-transition-new(root) { z-index: 9999; }
 
 /* ---------- 8. Hero (alba) ---------- */
 .l-heroi { position: relative; padding-top: calc(var(--cap-alt) + clamp(1.5rem, 5vh, 3.5rem)); padding-bottom: clamp(3rem, 8vh, 6rem); background: radial-gradient(60rem 38rem at 76% 44%, rgba(255, 214, 150, .55), transparent 70%), var(--fons); }
@@ -210,7 +222,7 @@ html[data-tema="fosc"] .l-heroi { background: radial-gradient(60rem 38rem at 76%
 .hero-video { position: absolute; left: 0; top: 5.4%; transition: opacity .5s var(--ease-out); }
 html.js .hero-video { opacity: 0; }
 html.js .hero-video.on { opacity: 1; }
-.l-elefant { position: absolute; z-index: 5; top: 0; width: var(--ew); left: calc(50% + var(--mw) / 2 - var(--ew) * 1.02); pointer-events: none; }
+.l-elefant { position: absolute; z-index: 5; top: 0; width: var(--ew); left: calc(50% + var(--mw) / 2 - var(--ew) * 1.02); cursor: pointer; }
 .l-elefant { aspect-ratio: 1; }
 .l-elefant img { display: block; width: 100%; height: auto; }
 .el-saluda { position: absolute; inset: 0; }
@@ -224,6 +236,9 @@ html.js .el-saluda { opacity: 0; }
 /* ---------- 9. Quatre fets, en una sola línia ---------- */
 .l-fets { position: relative; padding-block: var(--e-7) var(--e-8); background: var(--fons); }
 .l-fets ul { display: grid; gap: var(--e-6) var(--e-5); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+html.js .l-fets:not(.viu) li { opacity: 0; transform: translateY(14px); }
+.l-fets li { transition: opacity var(--d-entrada) var(--ease-out), transform var(--d-entrada) var(--ease-out); }
+.l-fets li:nth-child(2) { transition-delay: 60ms; } .l-fets li:nth-child(3) { transition-delay: 120ms; } .l-fets li:nth-child(4) { transition-delay: 180ms; }
 .l-fets li { display: grid; gap: var(--e-2); align-content: start; padding-top: var(--e-4); border-top: 2px solid var(--text); min-width: 0; }
 .l-fets strong { font-variant-numeric: tabular-nums; font-family: var(--font-titols); font-size: clamp(1.45rem, 1rem + 1.6vw, 2.3rem); font-weight: 700; letter-spacing: -.03em; line-height: 1.02; overflow-wrap: anywhere; }
 .l-fets li > span { color: var(--text-suau); font-size: 1rem; line-height: 1.45; }
@@ -255,8 +270,9 @@ html.js .el-saluda { opacity: 0; }
   html.js .bloc-mobil { display: none; }
   html.js .dia-fix { display: grid; align-items: center; justify-items: center; position: sticky; top: calc(var(--cap-alt) + 1rem); height: calc(100svh - var(--cap-alt) - 2rem); align-self: start; }
   html.js .dia-fix .mobil { --mw: min(18rem, calc((100svh - var(--cap-alt) - 4.5rem) * .455)); perspective: 1000px; }
-  html.js .dia-fix .capa { position: absolute; left: 0; top: 5.4%; width: 100%; height: 94.6%; object-fit: contain; object-position: top; opacity: 0; transform: scale(.97); filter: blur(2px); transition: opacity 320ms var(--ease-out), transform 320ms var(--ease-out), filter 320ms var(--ease-out); }
-  html.js .dia-fix .capa.on { opacity: 1; transform: none; filter: none; }
+  html.js .dia-fix .capa { position: absolute; left: 0; top: 5.4%; width: 100%; height: 94.6%; object-fit: contain; object-position: top; opacity: 0; transform: translateY(10px) scale(.97); filter: blur(2px); transition: opacity 320ms var(--ease-out), transform 320ms var(--ease-out), filter 320ms var(--ease-out); }
+  html.js .dia-fix .capa.passada { transform: translateY(-10px) scale(.97); }
+html.js .dia-fix .capa.on { opacity: 1; transform: none; filter: none; }
 }
 
 /* ---------- 11. Demo interactiva (vespre) ---------- */
@@ -276,7 +292,7 @@ html.js .el-saluda { opacity: 0; }
 /* ---------- 12. Aparador de jocs (vespre) ---------- */
 .l-cap-aparador { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--e-4); max-width: 56rem; margin-bottom: var(--e-6); }
 .l-cap-aparador h2 { font-size: clamp(1.7rem, 1.1rem + 2.4vw, 3rem); font-weight: 600; letter-spacing: -.02em; line-height: 1.12; }
-.l-cap-aparador .gegant { display: block; padding-bottom: .16em; font-size: clamp(4.5rem, 2rem + 14vw, 12rem); font-weight: 800; letter-spacing: -.055em; line-height: .9; color: var(--text); }
+.l-cap-aparador .gegant { display: block; font-variant-numeric: tabular-nums; padding-bottom: .16em; font-size: clamp(4.5rem, 2rem + 14vw, 12rem); font-weight: 800; letter-spacing: -.055em; line-height: .9; color: var(--text); }
 .l-cap-aparador p { color: var(--text-suau); font-size: 1.2rem; }
 .l-filtres { display: flex; flex-wrap: wrap; gap: var(--e-2); margin-bottom: var(--e-5); }
 .l-filtres button { min-height: 44px; padding: 0 var(--e-4); border-radius: var(--radi-pill); border: 2px solid var(--vora-forta); font-weight: 700; color: var(--text); background: transparent; transition: background-color var(--d-normal) var(--ease-out), border-color var(--d-normal) var(--ease-out), transform var(--d-rapida) var(--ease-out); touch-action: manipulation; }
@@ -512,6 +528,8 @@ html.js .l-demo, html.js .l-aparador, html.js .l-bento-sec, html.js .l-enfocamen
 
 /* ---------- 19. Preferències de l'usuari ---------- */
 @media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(root) { animation-duration: 100ms; }
+  html.js .l-fets:not(.viu) li { transform: none; } .l-fets li { transition: opacity 200ms linear; transition-delay: 0s; }
   /* Menys moviment, no cap feedback: es mantenen els canvis d'opacitat i de color; es treu tot el que es desplaça, gira o s'inclina. */
   html { scroll-behavior: auto; }
   html.js .par > span, html.js .l-heroi .lema, html.js .l-heroi .l-botons, html.js .l-heroi .l-estat-proves, html.js .l-heroi .l-garanties, html.js .l-hero-visual .mobil, html.js .l-elefant, html.js .l-elefant .el-saluda, html.js .l-elefant .el-ull { animation: none; }
@@ -519,7 +537,7 @@ html.js .l-demo, html.js .l-aparador, html.js .l-bento-sec, html.js .l-enfocamen
   .l-barra-cta { transition: opacity var(--d-normal); transform: none; opacity: 0; pointer-events: none; } .l-barra-cta.visible { opacity: 1; pointer-events: auto; }
   .btn:active, .btn-icona:active, .l-filtres button:active { transform: none; }
   .l-faq summary::after { transition: none; }
-  html.js .dia-fix .capa { transform: none; filter: none; transition: opacity 200ms linear; }
+  html.js .dia-fix .capa, html.js .dia-fix .capa.passada { transform: none; filter: none; transition: opacity 200ms linear; }
   .fila { scroll-behavior: auto; } .l-joc .mobil, .l-joc .mobil::before { transition: none; } .l-joc:hover .mobil, .l-joc:focus-visible .mobil { transform: none; }
   .bento.viu .llum, .bento.viu .barra::before, .bento.viu .grafic .linia, .bento.viu .grafic .punts circle, .bento.viu .punts-pin i, .bento.viu .cadenat .gra, .bento.viu .fitxer, .bento.viu .casella, .bento.viu .casella svg path, .bento.viu .registre i { animation-duration: 1ms; animation-delay: 0s; }
   .btn::after { display: none; } .bloc { transition: none; }

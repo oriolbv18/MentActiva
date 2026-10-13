@@ -71,6 +71,43 @@ def main():
         ctx = nav.new_context(viewport={'width': 1280, 'height': 800}); pg = ctx.new_page(); pg.add_init_script("Object.defineProperty(navigator, 'connection', { value: { saveData: true } })"); pg.goto(url); pg.wait_for_timeout(3000)
         comprova(pg.evaluate("document.querySelector('.hero-video').querySelectorAll('source').length") == 0, 'break-ui: amb «Estalvi de dades» el vídeo no es descarrega')
         ctx.close()
+        # --- 1.9.3 · F3: moviment amb sentit
+        ctx = nav.new_context(viewport={'width': 1440, 'height': 900}); pg = ctx.new_page(); pg.on('pageerror', lambda e: errors.append(str(e))); pg.goto(url); pg.wait_for_timeout(1500)
+        pg.evaluate("document.documentElement.style.scrollBehavior = 'auto'")
+        pg.evaluate("document.querySelector('.l-fets').scrollIntoView({block:'center'})"); pg.wait_for_timeout(1200)
+        comprova(pg.evaluate("document.querySelector('.l-fets').classList.contains('viu') && [...document.querySelectorAll('.l-fets li')].every(l => getComputedStyle(l).opacity === '1')") and pg.evaluate("[...document.querySelectorAll('.l-fets li')].map(l => parseFloat(getComputedStyle(l).transitionDelay) * 1000).join()") == '0,60,120,180', 'fets: entren escalonats (0 / 60 / 120 / 180 ms) amb el mateix sistema que el bento (data-viu)')
+        pg.evaluate("document.getElementById('titolJocs').scrollIntoView({block:'center'})")
+        mostres = []
+        for _ in range(8): mostres.append(pg.evaluate("document.querySelector('#titolJocs [data-num-jocs]').textContent")); pg.wait_for_timeout(120)
+        pg.wait_for_timeout(1000); final = pg.evaluate("document.querySelector('#titolJocs [data-num-jocs]').textContent")
+        comprova(final == '17' and any(m != '17' for m in mostres) and pg.evaluate("getComputedStyle(document.querySelector('#titolJocs .gegant')).fontVariantNumeric").find('tabular') >= 0, f"el «17» compta fins a 17 amb xifres tabulars ({','.join(mostres)} → {final})")
+        # direcció del mòbil viu: les pantalles anteriors marxen cap amunt, les següents esperen a sota
+        pg.evaluate("document.querySelectorAll('.bloc')[2].scrollIntoView({block:'center'})"); pg.wait_for_timeout(700)
+        est = pg.evaluate("[...document.querySelectorAll('.dia-fix .capa')].map(c => c.classList.contains('on') ? 'on' : c.classList.contains('passada') ? 'passada' : 'futura')")
+        comprova(est == ['passada', 'passada', 'on', 'futura'], f'mòbil viu amb direcció: {est}')
+        pg.evaluate("document.querySelectorAll('.bloc')[1].scrollIntoView({block:'center'})"); pg.wait_for_timeout(700)
+        est = pg.evaluate("[...document.querySelectorAll('.dia-fix .capa')].map(c => c.classList.contains('on') ? 'on' : c.classList.contains('passada') ? 'passada' : 'futura')")
+        comprova(est == ['passada', 'on', 'futura', 'futura'], f'en pujar, la pantalla que surt va cap avall: {est}')
+        # Elefant: un toc fa un sol cicle
+        pg.evaluate("window.scrollTo(0, 0)"); pg.wait_for_timeout(2600); pg.click('#elefantHero'); pg.wait_for_timeout(150)
+        n = pg.evaluate("document.getAnimations().filter(a => a.effect && a.effect.target && a.effect.target.classList && a.effect.target.classList.contains('el-saluda')).length")
+        pg.wait_for_timeout(2000); fi = pg.evaluate("document.getAnimations().filter(a => a.effect && a.effect.target && a.effect.target.classList && a.effect.target.classList.contains('el-saluda') && a.playState === 'running').length")
+        comprova(n >= 1 and fi == 0, "Elefant: el toc el fa saludar un sol cop i s'acaba (cap bucle)")
+        # tema: la classe de la transició no queda penjada, i la regla viu només sota html.tema-vt
+        pg.click('#btnTema'); pg.wait_for_timeout(1200)
+        comprova(not pg.evaluate("document.documentElement.classList.contains('tema-vt')"), 'tema: la classe tema-vt es retira en acabar la transició')
+        css = (ARREL / 'web' / 'web.css').read_text(encoding='utf-8')
+        comprova('@view-transition { navigation: auto; }' in css and 'html.tema-vt::view-transition-old(root)' in css and '\n::view-transition-old(root)' not in css, 'transició de pàgines (CSS) i canvi de tema (JS) no es trepitgen: la regla del tema només aplica sota html.tema-vt')
+        ctx.close()
+        # --- transició entre pàgines (CSS, cross-document): només amb http(s), per això es serveix la carpeta
+        import functools, http.server, socketserver, threading
+        class _H(http.server.SimpleHTTPRequestHandler):
+            def log_message(self, *a): pass
+        srv = socketserver.ThreadingTCPServer(('127.0.0.1', 0), functools.partial(_H, directory=str(ARREL))); threading.Thread(target=srv.serve_forever, daemon=True).start()
+        ctx = nav.new_context(viewport={'width': 1440, 'height': 900}); pg = ctx.new_page(); pg.add_init_script("addEventListener('pageswap', e => sessionStorage.setItem('vt_swap', e.viewTransition ? '1' : '0')); addEventListener('pagereveal', e => sessionStorage.setItem('vt_reveal', e.viewTransition ? '1' : '0'));")
+        pg.goto(f'http://127.0.0.1:{srv.server_address[1]}/index.html'); pg.wait_for_timeout(1200); pg.click('footer a[href$="privadesa.html"]'); pg.wait_for_timeout(1500)
+        comprova(pg.url.endswith('privadesa.html') and pg.evaluate("sessionStorage.getItem('vt_swap')") == '1' and pg.evaluate("sessionStorage.getItem('vt_reveal')") == '1', 'navegació index → legal: el navegador fa servir la transició de pàgina (@view-transition)')
+        ctx.close(); srv.shutdown()
         # --- tema fosc amb View Transitions: no peta i queda desat
         ctx = nav.new_context(viewport={'width': 1280, 'height': 800}); pg = ctx.new_page(); pg.on('pageerror', lambda e: errors.append(str(e))); pg.goto(url); pg.wait_for_timeout(800)
         pg.click('#btnTema'); pg.wait_for_timeout(900); comprova(pg.evaluate("document.documentElement.dataset.tema") == 'fosc' and pg.evaluate("document.querySelector('meta[name=theme-color]').content") in ('#241b11', '#15120e', '#0b2417'), 'tema: el canvi clar/fosc (amb revelació circular) funciona i canvia el theme-color')

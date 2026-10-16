@@ -19,7 +19,7 @@ const SCHEMA = 3;                 // versió de l'esquema de dades (clau mentA_s
 // Feedback: si hi poses una URL (Google Forms, Formspree…) el formulari hi enviarà les respostes.
 // Si no, es prepara el missatge per compartir-lo (Web Share) o per enviar-lo per correu (FEEDBACK_EMAIL).
 const FEEDBACK_URL = '';          // p. ex. 'https://formspree.io/f/xxxxxxx'
-const FEEDBACK_EMAIL = '';        // p. ex. 'proves@el-teu-domini.cat'
+const FEEDBACK_EMAIL = 'menta.app.upc@gmail.com';        // p. ex. 'proves@el-teu-domini.cat'
 // Contacte i xarxes: TOTS buits fins que hi hagi comptes reals. L'app i la web només mostren els camps omplerts i amb format vàlid.
 // valors antics de la 1.6, NO VERIFICATS (no els facis servir si no són teus): wa.me/34600000000 · instagram.com/menta_app · facebook.com/mentaapp · youtube.com/@mentaapp · info@menta.app · menta.app
 const CONTACTE = { titular: '', email: 'menta.app.upc@gmail.com', formulari: '', web: '', whatsapp: '', instagram: 'https://www.instagram.com/menta.upc/', facebook: '', youtube: '', tiktok: '', linkedin: '', equip: [] };

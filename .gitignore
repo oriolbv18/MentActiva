@@ -5,3 +5,4 @@ docs/captures/depura.png
 __pycache__/
 *.pyc
 graphify-out/
+tools/.domini

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MentA · Kit del pilot</title>
+<style>
+  :root { --verd: #1f6b45; --gris: #5a5146; --linia: #cfc8bc; }
+  * { box-sizing: border-box; }
+  body { font: 16px/1.5 "Atkinson Hyperlegible", system-ui, sans-serif; color: #1c1a17; margin: 0; background: #f4f1ea; }
+  main { max-width: 820px; margin: 0 auto; padding: 16px; }
+  .pagina { background: #fff; padding: 28px 32px; margin: 16px 0; border: 1px solid var(--linia); border-radius: 8px; }
+  h1 { font-size: 1.6rem; color: var(--verd); margin: 0 0 4px; }
+  h2 { font-size: 1.2rem; margin: 18px 0 6px; }
+  .sub { color: var(--gris); margin: 0 0 14px; }
+  .avis { border: 2px solid #b3261e; padding: 10px 14px; border-radius: 6px; margin: 12px 0; font-weight: 600; }
+  .barra { background: #fff7d6; border: 1px solid #e0c96b; padding: 10px 14px; border-radius: 6px; margin: 12px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+  th, td { border: 1px solid var(--linia); padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eee9de; }
+  .fila td { height: 2.2em; }
+  .linia { border-bottom: 1px solid #000; display: inline-block; min-width: 14em; height: 1.2em; }
+  .caixa { display: inline-block; width: 1.1em; height: 1.1em; border: 2px solid #000; vertical-align: -3px; margin-right: 4px; }
+  .escala td { text-align: center; width: 3.2em; }
+  .escala td:first-child { text-align: left; width: auto; }
+  .cares { display: flex; justify-content: space-between; font-size: 2rem; margin: 10px 0; }
+  button { font: inherit; padding: 10px 18px; border-radius: 6px; border: 2px solid var(--verd); background: var(--verd); color: #fff; cursor: pointer; }
+  .imprimir { position: sticky; top: 0; background: #f4f1ea; padding: 10px 0; z-index: 2; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .imprimir { display: none; }
+    main { max-width: none; padding: 0; }
+    .pagina { border: 0; padding: 0; margin: 0; page-break-after: always; border-radius: 0; }
+    .pagina:last-child { page-break-after: auto; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <div class="imprimir">
+    <button type="button" onclick="window.print()">Imprimir tot (o desar com a PDF)</button>
+    <span>Cada full ocupa una pàgina A4. Imprimeix tantes còpies del full 2 i del full 3 com participants tinguis.</span>
+  </div>
+
+  <section class="pagina">
+    <h1>1 · Full de consentiment informat</h1>
+    <p class="sub">Estudi sobre l'app MentA (projecte d'Empresa, UPC)</p>
+    <div class="avis">⚠ MODEL SENSE REVISAR. Abans d'usar-lo amb persones, ha de revisar-lo un jurista o el delegat de protecció de dades de la UPC. Esborra aquest requadre quan estigui revisat.</div>
+    <h2>Què farem</h2>
+    <p>Provar una aplicació de jocs durant uns 20 minuts. Una persona prendrà notes de com us va.</p>
+    <h2>Què es guarda</h2>
+    <p>Només un <strong>codi</strong> (P01, P02…) i el que feu a l'app: quant temps trigueu, què toqueu i quants jocs feu. <strong>No</strong> es guarden el vostre nom, ni fotos, ni la vostra veu.</p>
+    <h2>On es guarda</h2>
+    <p>Al dispositiu de la prova. Els resultats s'exporten <strong>sense cap nom</strong>.</p>
+    <h2>Per a què</h2>
+    <p>Per millorar l'app. No es fa cap diagnòstic ni es jutja la vostra memòria.</p>
+    <h2>Voluntari</h2>
+    <p>Podeu deixar-ho quan vulgueu, sense donar explicacions i sense cap conseqüència. Podeu demanar que s'esborrin les vostres dades.</p>
+    <h2>Contacte</h2>
+    <p>menta.app.upc@gmail.com · Instagram @menta.upc</p>
+    <p style="margin-top:22px">Nom i signatura de la persona: <span class="linia" style="min-width:20em"></span> Data: <span class="linia" style="min-width:6em"></span></p>
+    <p>Si la persona no pot decidir, nom, parentiu o càrrec i signatura del tutor o representant (a una residència, mai el centre per ella): <span class="linia" style="min-width:24em"></span></p>
+    <p>Nom de l'observador: <span class="linia" style="min-width:16em"></span></p>
+  </section>
+
+  <section class="pagina">
+    <h1>2 · Full d'observació</h1>
+    <p class="sub">Un per participant. Anota el que la persona <strong>fa</strong>, no el que diu que fa. No ajudis fins que ho demani o passin 30 segons encallada.</p>
+    <p>Codi participant: <span class="linia" style="min-width:6em"></span> Edat aprox.: <span class="linia" style="min-width:4em"></span> Dispositiu: <span class="linia" style="min-width:10em"></span></p>
+    <p>Primera vegada amb tauleta o mòbil: <span class="caixa"></span> Sí <span class="caixa"></span> No &nbsp; Consentiment signat: <span class="caixa"></span> Sí <span class="caixa"></span> No</p>
+    <table>
+      <tr><th style="width:28%">Tasca</th><th style="width:14%">Temps / tocs</th><th>Què ha fet i on s'ha encallat (literal)</th></tr>
+      <tr class="fila"><td>1 · «Obre l'app i comença a jugar a alguna cosa» (sense ajuda)</td><td></td><td></td></tr>
+      <tr class="fila"><td>2 · Juga 5 minuts al joc que triï. Fa servir «?» o l'Elefant?</td><td></td><td></td></tr>
+      <tr class="fila"><td>3 · (Opcional) Demana una pista a l'Elefant / «Jugar amb algú»</td><td></td><td></td></tr>
+      <tr class="fila"><td>4 · (Cuidador o familiar) Obre l'Espai del Cuidador i troba «com ha anat la setmana»</td><td></td><td></td></tr>
+    </table>
+    <p>Errors: <span class="linia" style="min-width:5em"></span> Dubtes: <span class="linia" style="min-width:5em"></span> Ha fet servir «?»: <span class="caixa"></span> Sí <span class="caixa"></span> No &nbsp; Pistes (nivell 1-2-3): <span class="linia" style="min-width:4em"></span></p>
+    <p>Frustració: <span class="caixa"></span> 0 &nbsp; <span class="caixa"></span> 1 &nbsp; <span class="caixa"></span> 2 &nbsp; <span class="caixa"></span> 3 </p>
+    <h2>Preguntes obertes (respostes literals)</h2>
+    <table>
+      <tr class="fila"><td style="width:42%">Què t'ha agradat més?</td><td></td></tr>
+      <tr class="fila"><td>Què t'ha costat o t'ha molestat?</td><td></td></tr>
+      <tr class="fila"><td>Hi ha alguna cosa que no has entès?</td><td></td></tr>
+      <tr class="fila"><td>T'ha ajudat l'Elefant, o t'ha distret?</td><td></td></tr>
+      <tr class="fila"><td>Hi jugaries a casa o a la residència? Amb qui?</td><td></td></tr>
+      <tr class="fila"><td>(Cuidador) Què més necessitaries saber?</td><td></td></tr>
+    </table>
+    <p class="sub" style="margin-top:10px">Si es cansa, para. Cita literal més útil de la sessió: <span class="linia" style="min-width:22em"></span></p>
+  </section>
+
+  <section class="pagina">
+    <h1>3 · Escala SUS</h1>
+    <p class="sub">Per a cada frase, marca un número: <strong>1</strong> = gens d'acord, <strong>5</strong> = molt d'acord. Amb persones molt grans, llegeix-la en veu alta i fes servir les cinc cares.</p>
+    <div class="cares" aria-hidden="true"><span>😟</span><span>🙁</span><span>😐</span><span>🙂</span><span>😀</span></div>
+    <p>Codi participant: <span class="linia" style="min-width:6em"></span></p>
+    <table class="escala">
+      <tr><th>Frase</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+      <tr><td>1. Crec que faria servir MentA sovint.</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>2. He trobat MentA complicada sense necessitat.</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>3. He trobat MentA fàcil d'utilitzar.</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>4. Crec que necessitaria l'ajuda d'una persona per poder fer-la servir.</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>5. Les diferents funcions de MentA estan ben integrades.</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>6. He trobat massa incoherències a MentA.</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>7. Crec que la majoria de la gent aprendria a fer servir MentA molt de pressa.</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>8. He trobat MentA molt feixuga d'utilitzar.</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>9. M'he sentit molt segur/a fent servir MentA.</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>10. He hagut d'aprendre moltes coses abans de poder fer servir MentA.</td><td></td><td></td><td></td><td></td><td></td></tr>
+    </table>
+    <div class="barra">
+      <strong>Com es puntua:</strong> a les frases <strong>senars</strong> (1, 3, 5, 7, 9) resta 1 a la resposta; a les <strong>parells</strong> (2, 4, 6, 8, 10) fes 5 menys la resposta. Suma-ho tot i multiplica per 2,5: surt una nota de 0 a 100. <strong>La referència habitual és 68.</strong> L'app també ho calcula al mode pilot (botó «Escala SUS» de cada participant). Amb pocs participants, els resultats són orientatius, no estadístics.
+    </div>
+  </section>
+
+  <section class="pagina">
+    <h1>4 · Abans de cada sessió</h1>
+    <p class="sub">Comprova-ho una a una.</p>
+    <p><span class="caixa"></span> L'app s'obre des de <strong>mentactiva.app/app/</strong> i està instal·lada a la pantalla d'inici.</p>
+    <p><span class="caixa"></span> Mode pilot activat (Configuració → Mode pilot, amb el codi de l'equip). Es veu la versió i la data a la barra superior.</p>
+    <p><span class="caixa"></span> Dades de demostració esborrades. Cap participant amb nom ni foto: només codis P01, P02…</p>
+    <p><span class="caixa"></span> Mida de lletra «Gran» o «Extra gran». Volum al 60–70 %. Bateria carregada.</p>
+    <p><span class="caixa"></span> Pantalla sempre activa mentre es carrega. Mode quiosc (Android: fixar pantalla; iPad: Accés guiat) si s'ha de deixar sola.</p>
+    <p><span class="caixa"></span> Còpia de seguretat provada una vegada (exportar → importar → desfer).</p>
+    <p><span class="caixa"></span> Consentiment signat de cada participant i revisat per la UPC.</p>
+    <p><span class="caixa"></span> Un full 2 i un full 3 per a cada participant, i un bolígraf.</p>
+    <h2>Després de cada sessió</h2>
+    <p><span class="caixa"></span> Exporta els resultats (mode pilot → Exportar) i guarda el .json i el .csv amb la data.</p>
+    <p><span class="caixa"></span> Escriu, el mateix dia, les tres coses més grans que han anat malament. No canviïs res de l'app durant el pilot: només apunta.</p>
+  </section>
+</main>
+</body>
+</html>

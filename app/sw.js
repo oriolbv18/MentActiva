@@ -1,7 +1,7 @@
 /* MentA · service worker
    Estratègia: precache de tots els recursos i «cache-first» amb versió.
    En publicar una versió nova, canvia CACHE: les cachés antigues s'esborren soles. */
-const CACHE = 'menta-1.9.4.1';
+const CACHE = 'menta-1.9.4.2';
 const RECURSOS = [
   './', 'index.html', 'offline.html', 'manifest.webmanifest', 'css/estils.css', 'css/elefant.css',
   'fonts/atkinson-latin.woff2', 'fonts/atkinson-latin-ext.woff2', 'fonts/lexend-latin.woff2', 'fonts/lexend-latin-ext.woff2',

@@ -13,7 +13,7 @@ def main():
         pg.evaluate("localStorage.setItem('mentA_onboarding_vist','1');localStorage.setItem('mentA_zoom_vist','1');localStorage.setItem('mentA_tutorials',JSON.stringify({memory:true}))"); pg.reload(); pg.wait_for_timeout(1200)
         pg.evaluate("mostrarPantalla('configuracio')"); pg.wait_for_timeout(500)
         pg.fill('#pilotCodi', 'MALAMENT'); pg.evaluate("pilotActiva()"); comprova(not pg.evaluate("pilotActiu()"), 'un codi incorrecte no activa el mode pilot')
-        pg.fill('#pilotCodi', 'menta-pilot'); pg.evaluate("pilotActiva()"); comprova(pg.evaluate("pilotActiu()") and pg.evaluate("!document.getElementById('banerPilot').hidden"), 'el codi correcte l\'activa i surt el bàner amb versió i data')
+        pg.fill('#pilotCodi', pg.evaluate('CODI_PILOT').upper()); pg.evaluate("pilotActiva()"); comprova(pg.evaluate("pilotActiu()") and pg.evaluate("!document.getElementById('banerPilot').hidden"), 'el codi correcte l\'activa i surt el bàner amb versió i data')
         comprova('1.9' in pg.evaluate("document.getElementById('banerPilot').innerText") and '2026' in pg.evaluate("document.getElementById('banerPilot').innerText"), 'el bàner mostra la versió i la data')
         for nom in ['Maria', 'Joan', 'Pep']: pg.evaluate("n => { obrirFormulariUsuari(null); document.getElementById('inputNomUsuari').value = n; guardarUsuari(); }", nom)
         noms = pg.evaluate("usuaris.map(u => u.nom)"); comprova(noms == ['P01', 'P02', 'P03'], f'els participants reben codi, no el nom que s\'escriu: {noms}')

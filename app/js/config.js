@@ -6,7 +6,7 @@
 const VERSIO = '1.9.4';
 const VERSIO_CURTA = '1.9.4';
 const DATA_VERSIO = '2026-10-16';  // data de la versió (es veu a «Sobre MentA» i al mode pilot)
-const CODI_PILOT = 'MENTA-PILOT';  // codi que activa el mode pilot (Configuració → Mode pilot). Canvia'l abans de repartir l'app.
+const CODI_PILOT = 'daniceo';      // codi que activa el mode pilot (Configuració → Mode pilot); no distingeix majúscules. Només el saben l'equip i l'observador.
 // Domini propi (vegeu docs/DOMINI.md). El posa tools/aplica-domini.py; buit = tot funciona amb rutes relatives i file://.
 const DOMINI = 'mentactiva.app';
 function urlBase() {

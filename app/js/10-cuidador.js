@@ -44,7 +44,11 @@ function registraAcces(accio, detall) {
 }
 
 // ---------- Teclat de PIN (gran, pensat per a mans no gaire fermes) ----------
-let _pin = { mode: 'entrar', digits: '', primer: '', cb: null, intents: 0, bloquejatFins: 0 };
+// El bloqueig després de 5 errors es desa (no es perd en recarregar la pàgina). Clau no exportable: no viatja amb les còpies.
+const CLAU_PIN_BLOQUEIG = 'mentA_pin_bloqueig';
+const _bloqueigPin = lsGet(CLAU_PIN_BLOQUEIG, null) || {};
+let _pin = { mode: 'entrar', digits: '', primer: '', cb: null, intents: +_bloqueigPin.intents || 0, bloquejatFins: +_bloqueigPin.fins || 0 };
+function desaBloqueigPin() { if (_pin.intents || _pin.bloquejatFins > Date.now()) lsSet(CLAU_PIN_BLOQUEIG, { intents: _pin.intents, fins: _pin.bloquejatFins }); else { try { localStorage.removeItem(CLAU_PIN_BLOQUEIG); } catch (e) { /* ignorat */ } } }
 function construeixTeclatPin() {
   const t = $('pinTecles'); if (!t || t.children.length) return;
   t.innerHTML = [1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => `<button type="button" class="pin-tecla" data-pin="${n}">${n}</button>`).join('') +
@@ -73,10 +77,11 @@ async function pinTecla(k) {
   const pin = _pin.digits; _pin.digits = '';
   if (_pin.mode === 'entrar' || _pin.mode === 'verificar') {
     const c = dadesCuidador(), ok = c && (await hashPin(pin, c.sal)) === c.hash;
-    if (ok) { _pin.intents = 0; tancarModal('modalPin'); const cb = _pin.cb; if (cb) cb(); return; }
+    if (ok) { _pin.intents = 0; _pin.bloquejatFins = 0; desaBloqueigPin(); tancarModal('modalPin'); const cb = _pin.cb; if (cb) cb(); return; }
     _pin.intents++; soError(); vibrar(150); pintaPunts();
     if (_pin.intents >= 5) { _pin.bloquejatFins = Date.now() + 30000; _pin.intents = 0; setText('pinError', 'Massa intents. Torna-ho a provar d\'aquí a 30 segons.'); }
     else setText('pinError', `PIN incorrecte. ${5 - _pin.intents} ${5 - _pin.intents === 1 ? 'intent' : 'intents'} més.`);
+    desaBloqueigPin();
     return;
   }
   if (_pin.mode === 'crear') { _pin.primer = pin; _pin.mode = 'confirmar'; setText('pinTitol', 'Repeteix el PIN'); setText('pinText', 'Torna a escriure les mateixes 4 xifres.'); pintaPunts(); return; }

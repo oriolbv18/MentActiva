@@ -5,7 +5,7 @@
 //  mode demostració, registre d'ús anònim i perfil a Configuració.
 // ==========================================================
 const PREFIX = 'mentA_';
-const CLAUS_NO_EXPORTABLES = ['mentA_errors', 'mentA_us', 'mentA_prova', 'mentA_cuidador', 'mentA_registre_accessos'];
+const CLAUS_NO_EXPORTABLES = ['mentA_errors', 'mentA_us', 'mentA_prova', 'mentA_cuidador', 'mentA_registre_accessos', 'mentA_pin_bloqueig'];
 function totesLesClaus() { const r = []; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(PREFIX)) r.push(k); } } catch (e) { /* sense accés */ } return r; }
 function baixaFitxer(nom, contingut, tipus) {
   const url = URL.createObjectURL(new Blob([contingut], { type: tipus })), a = document.createElement('a');

@@ -3,9 +3,9 @@
 //  MentA · CONFIGURACIÓ DEL PRODUCTE
 //  Canvia aquí els valors per a la fase de proves; no cal tocar res més.
 // ==========================================================
-const VERSIO = '1.9.3';
-const VERSIO_CURTA = '1.9.3';
-const DATA_VERSIO = '2026-10-13';  // data de la versió (es veu a «Sobre MentA» i al mode pilot)
+const VERSIO = '1.9.4';
+const VERSIO_CURTA = '1.9.4';
+const DATA_VERSIO = '2026-10-16';  // data de la versió (es veu a «Sobre MentA» i al mode pilot)
 const CODI_PILOT = 'MENTA-PILOT';  // codi que activa el mode pilot (Configuració → Mode pilot). Canvia'l abans de repartir l'app.
 // Domini propi (vegeu docs/DOMINI.md). El posa tools/aplica-domini.py; buit = tot funciona amb rutes relatives i file://.
 const DOMINI = 'mentactiva.app';

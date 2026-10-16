@@ -4,3 +4,4 @@ docs/captures/prova/
 docs/captures/depura.png
 __pycache__/
 *.pyc
+graphify-out/

@@ -4,6 +4,8 @@ import functools, http.server, json, pathlib, socketserver, sys, threading
 from playwright.sync_api import sync_playwright
 
 ARREL = pathlib.Path(__file__).resolve().parent.parent
+import re
+NOM_CACHE = re.search(r"const CACHE = '([^']+)'", (ARREL / 'app' / 'sw.js').read_text(encoding='utf-8')).group(1)   # la versió de la memòria cau viu a sw.js
 try: sys.stdout.reconfigure(encoding='utf-8')
 except Exception: pass
 
@@ -30,8 +32,8 @@ def main():
         reg = pg.evaluate("navigator.serviceWorker.getRegistration().then(r => !!(r && (r.active || r.waiting)))")
         if not reg: errors.append('el service worker no s\'ha registrat')
         caches = pg.evaluate("caches.keys()")
-        if 'menta-1.9.3' not in caches: errors.append('no hi ha la cache menta-1.9.3: ' + str(caches))
-        n = pg.evaluate("caches.open('menta-1.9.3').then(c => c.keys()).then(k => k.length)")
+        if NOM_CACHE not in caches: errors.append('no hi ha la cache ' + NOM_CACHE + ': ' + str(caches))
+        n = pg.evaluate("caches.open('" + NOM_CACHE + "').then(c => c.keys()).then(k => k.length)")
         print('  recursos al precache:', n)
         pg.reload(); pg.wait_for_timeout(1000)
         ctx.set_offline(True)

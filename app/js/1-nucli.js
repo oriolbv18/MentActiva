@@ -498,7 +498,8 @@ function getDadesBuit() {
     millorRatxa: 0, diesJugats: [], diesRecuperats: [], historial: [], medalles: [],
     dominis: {}, salut: {}, diari: [], estrelles: {}, tests: [],
     nivellsOptims: {}, nivells: {}, pla: null, enquesta: false,
-    notes: [], abandonaments: [], plaCuidador: { jocsOcults: [], nivellMaxim: 'dificil' }, consentiment: null
+    notes: [], abandonaments: [], plaCuidador: { jocsOcults: [], nivellMaxim: 'dificil' }, consentiment: null,
+    medallesPers: [], medallesEdit: {}
   };
 }
 // Migració v1.6 → v1.7: completa els camps nous sense perdre res i marca l'esquema
@@ -710,9 +711,9 @@ const CATALEG_JOCS = [
   { id: 'nback', nom: 'Recorda la lletra', tecnic: 'N-back', cat: 'cognitiva', domini: 'memoria', min: 3, desc: 'Recorda la lletra de fa uns instants' },
   { id: 'stroop', nom: 'Colors i paraules', tecnic: 'Stroop', cat: 'cognitiva', domini: 'atencio', min: 4, desc: 'Toca el color de la tinta, no el de la paraula' },
   { id: 'span', nom: 'Quants en recordes?', tecnic: 'Span de dígits', cat: 'cognitiva', domini: 'memoria', min: 3, desc: 'Memoritza i repeteix números' },
-  { id: 'fluidesa', nom: 'Digues paraules', tecnic: 'Fluïdesa verbal', cat: 'cognitiva', domini: 'llenguatge', min: 2, desc: 'Digues paraules d\'una categoria en 60 segons' },
-  { id: 'calcul', nom: 'Comptes de cada dia', tecnic: 'Càlcul mental', cat: 'cognitiva', domini: 'calcul', min: 5, desc: 'Comptes del dia a dia' },
-  { id: 'seqlog', nom: 'Quin número falta?', tecnic: 'Seqüències lògiques', cat: 'cognitiva', domini: 'logica', min: 4, desc: 'Descobreix el número que falta' },
+  { id: 'fluidesa', nom: 'Troba l\'intrús', tecnic: 'Categories de paraules', cat: 'cognitiva', domini: 'llenguatge', min: 3, desc: 'Quina paraula no és del grup?' },
+  { id: 'calcul', nom: 'Comptes de cada dia', tecnic: 'Càlcul mental', cat: 'cognitiva', domini: 'calcul', min: 5, desc: 'Sumes, restes i el canvi de la compra' },
+  { id: 'seqlog', nom: 'Completa la sèrie', tecnic: 'Seqüències lògiques', cat: 'cognitiva', domini: 'logica', min: 4, desc: 'Números, dies, mesos i lletres' },
   { id: 'quefalta', nom: 'Què falta aquí?', tecnic: 'Memòria visual', cat: 'cognitiva', domini: 'memoria', min: 3, desc: 'Memòria visual' },
   { id: 'sudoku', nom: 'Sudoku', cat: 'cognitiva', domini: 'logica', min: 7, desc: 'Completa la graella sense repetir números' },
   { id: 'memory', nom: 'Troba les parelles', tecnic: 'Memory', cat: 'memoria', domini: 'memoria', min: 5, desc: 'Troba les cartes iguals', dos: { nom: 'Memory', desc: 'Qui fa més parelles guanya' } },
@@ -720,7 +721,7 @@ const CATALEG_JOCS = [
   { id: 'sopa', nom: 'Sopa de lletres', tecnic: 'Cerca visual', cat: 'memoria', domini: 'atencio', min: 6, desc: 'Troba les paraules amagades' },
   { id: 'domino', nom: 'Dòmino', cat: 'taula', domini: 'logica', min: 10, desc: 'Contra l\'ordinador', dos: { nom: 'Dòmino', desc: 'Dos jugadors humans' } },
   { id: 'dames', nom: 'Dames', cat: 'taula', domini: 'logica', min: 10, desc: 'Contra l\'ordinador', dos: { nom: 'Dames', desc: 'Blanques contra negres' } },
-  { id: 'bingo', nom: 'Bingo', cat: 'taula', domini: 'atencio', min: 8, desc: 'Línia i bingo, amb rivals', dos: { nom: 'Bingo', desc: 'Qui fa línia primer guanya' } },
+  { id: 'bingo', nom: 'Bingo', cat: 'taula', domini: 'atencio', min: 8, nomesDos: true, desc: 'Línia i bingo per a dos', dos: { nom: 'Bingo', desc: 'Qui fa bingo primer guanya' } },
   { id: 'tertulia', nom: 'La Tertúlia', cat: 'cultura', domini: 'memoria', min: 5, desc: 'Cultura general', dos: { nom: 'La Tertúlia', desc: 'Qui encerta més guanya' } },
   { id: 'refranys', nom: 'Refranys populars', cat: 'cultura', domini: 'llenguatge', min: 4, desc: 'Completa les dites', dos: { nom: 'Refranys', desc: 'Qui encerta més guanya' } },
   { id: 'paraules', nom: 'Endevina la paraula', tecnic: 'Penjat amb pistes', cat: 'cultura', domini: 'llenguatge', min: 5, desc: 'Endevina la paraula amb pistes', dos: { nom: 'Paraules', desc: 'Qui encerta més guanya' } }
@@ -750,7 +751,8 @@ function renderMenuJocs() {
   };
   const llista = dos => {
     const html = CATEGORIES.map(c => {
-      const jocs = CATALEG_JOCS.filter(j => j.cat === c.id && (dos ? j.dos : !j.nomesDos) && (dos || filtreDomini === 'tots' || j.domini === filtreDomini));
+      const ocults = (dadesActuals().plaCuidador || {}).jocsOcults || [];
+      const jocs = CATALEG_JOCS.filter(j => j.cat === c.id && (dos ? j.dos : !j.nomesDos && !ocults.includes(j.id)) && (dos || filtreDomini === 'tots' || j.domini === filtreDomini));
       return jocs.length ? `<h2 class="titol-seccio">${c.titol}</h2><div class="llista-targetes">${jocs.map(j => targeta(j, dos)).join('')}</div>` : '';
     }).join('');
     return html || '<div class="estat-buit"><p>No hi ha cap joc d\'aquest tipus.</p></div>';
@@ -772,7 +774,7 @@ function registrarJoc(def) { JOCS[def.id] = def; }
 
 const PANTALLA_ENTRA = {};   // id de pantalla → funció que s'executa en entrar-hi
 const NAV_PER_PANTALLA = {
-  inici: 'inici', familia: 'inici', resumFamilia: 'inici', album: 'inici', missatgeria: 'inici', calFamiliar: 'inici',
+  inici: 'inici', medalles: 'inici', medallesEdita: 'inici', familia: 'inici', resumFamilia: 'inici', album: 'inici', missatgeria: 'inici', calFamiliar: 'inici',
   menuJocs: 'menuJocs', menu2vs2: 'menuJocs', testCognitiu: 'menuJocs',
   configuracio: 'configuracio', privadesa: 'configuracio', condicions: 'configuracio', sobre: 'configuracio', feedback: 'configuracio'
 };
@@ -853,7 +855,7 @@ function registraAbandonament() {
   guardarDadesUsuari(); if (typeof registrarUsAnonim === 'function') registrarUsAnonim('abandona', { joc: jocActualId, durada });
 }
 // Els fitxers dels jocs es carreguen només quan s'obren (primera càrrega més ràpida); el service worker els té tots a la memòria cau
-const FITXERS_JOC = { tertulia: ['_quiz', 'tertulia'], refranys: ['_quiz', 'refranys'], calcul: ['_quiz', 'calcul'], seqlog: ['_quiz', 'seqlog'] };
+const FITXERS_JOC = { tertulia: ['_quiz', 'tertulia'], refranys: ['_quiz', 'refranys'], calcul: ['_quiz', 'calcul'], seqlog: ['_quiz', 'seqlog'], fluidesa: ['_quiz', 'fluidesa'] };
 const _scriptsCarregats = {};
 function carregaScript(src) {
   return _scriptsCarregats[src] || (_scriptsCarregats[src] = new Promise((res, rej) => {
@@ -871,7 +873,7 @@ function obrirJoc(id, dos = false) {
   const j = JOCS[id];
   soClic(); modeActual = dos ? '2vs2' : 'individual'; jocActualId = id;
   netejarErrors(); aturaTimers(); aturarVeu(); dificultatActual = 'mig'; iniciPartida();
-  if (dos) j.obrir(true); else mostrarTutorial(id, () => j.obrir(false));
+  mostrarTutorial(id, () => j.obrir(dos));
 }
 function reiniciarJocActual() {
   const j = JOCS[jocActualId]; if (!j) return;
@@ -924,8 +926,11 @@ function mostrarTutorial(id, callback, forcat) {
   if ((!forcat && vistos[id]) || !t) { if (callback) callback(); return; }
   if (forcat) pausaTimers();
   $('tutorialIcona').innerHTML = ico(iconaJoc(id)); $('tutorialIcona').className = 'targeta-ico gran dom-' + dominiJoc(id); setText('tutorialTitol', t.titol);
-  $('tutorialCos').innerHTML = t.cos;
-  setText('tutorialOk', forcat ? 'Entesos' : 'Entesos, a jugar');
+  const boto = $('tutorialOk'), textFi = forcat ? 'Entesos' : 'Entesos, a jugar';
+  const botoFinal = () => { setText('tutorialOk', textFi); boto.className = 'boto-principal boto-gran boto-ample'; };
+  // Si el joc té guia interactiva, es juga una mini-partida; el botó de sota permet saltar-la. Al final, el resum de sempre.
+  if (typeof tutorialInteractiu === 'function' && tutorialInteractiu(id, $('tutorialCos'), t.cos, botoFinal)) { setText('tutorialOk', forcat ? 'Tancar' : 'Saltar i jugar'); boto.className = 'boto-fantasma boto-ample'; }
+  else { $('tutorialCos').innerHTML = t.cos; botoFinal(); }
   _focusPrevi.push(document.activeElement);
   $('tutorialOverlay').classList.add('actiu'); _inertFons(true);
   setTimeout(() => $('tutorialOk').focus(), 40);
@@ -979,7 +984,8 @@ function triaDificultat(joc, titol, subtitol, descripcions, callback) {
 // Canvi de nivell des de la pausa o des de la pantalla final
 function canviarNivellJoc() {
   const j = JOCS[jocActualId]; if (!j || !JOCS_AMB_NIVELL.includes(jocActualId)) return;
-  tancarModal('modalPausa'); reprenTimers(); aturaTimers(); iniciPartida(); _forcarManual = true;
+  tancarModal('modalPausa'); const p = $('joc-' + jocActualId); if (p) p.classList.remove('en-pausa');
+  reprenTimers(); aturaTimers(); iniciPartida(); _forcarManual = true;
   j.obrir(false);
 }
 
@@ -1055,7 +1061,7 @@ function finalitzarPartida(joc, encerts, errors, missatgeExtra, meta = {}) {
 }
 
 // --- Dificultat adaptativa: puja o baixa segons resultat i temps de les últimes partides al mateix nivell ---
-const JOCS_AMB_NIVELL = ['nback', 'memory', 'domino', 'dames', 'sopa', 'sudoku'];
+const JOCS_AMB_NIVELL = ['nback', 'memory', 'domino', 'dames', 'sopa', 'sudoku', 'calcul', 'seqlog', 'fluidesa'];
 const ORDRE_NIVELLS = ['facil', 'mig', 'dificil'];
 function nivellGuardat(joc) {
   const n = (dadesActuals().nivells || {})[joc], max = ORDRE_NIVELLS.indexOf((dadesActuals().plaCuidador || {}).nivellMaxim || 'dificil');

@@ -6,13 +6,13 @@
 // ==========================================================
 (() => {
   const LLETRES_NB = 'ABCDEFGHIJKL'.split('');
-  const TOTAL = 20, PROB_COINCIDENCIA = 0.35, TEMPS_RESPOSTA = 3000, TEMPS_PAUSA = 1500;
-  let n = 1, patro = [], encerts = 0, errors = 0, esperant = false, rellotge = null, actiu = false;
+  const TOTAL = 20, PROB_COINCIDENCIA = 0.35, TEMPS_RESPOSTA = 3500, TEMPS_PAUSA = 1800, GIR_MS = 170, DORS_MS = 450;
+  let n = 1, patro = [], encerts = 0, errors = 0, esperant = false, rellotge = null, actiu = false, gir = null;
 
   const botons = habilitats => { $('nback-btn-igual').disabled = $('nback-btn-diferent').disabled = !habilitats; };
 
   function reiniciar() {
-    aturaTemps(rellotge); actiu = false; esperant = false; patro = []; encerts = 0; errors = 0;
+    aturaTemps(rellotge); aturaTemps(gir); $('nback-display').classList.remove('girant', 'dors'); actiu = false; esperant = false; patro = []; encerts = 0; errors = 0;
     setText('nback-nivell', n); setText('nback-encerts', 0); setText('nback-errors', 0);
     setText('nback-display', '?'); setFeedback('nback', '');
     setText('nback-info-n', n === 1 ? 'Recorda la lletra anterior' : `Recorda la lletra de fa ${n} posicions`);
@@ -31,10 +31,24 @@
   function seguent() {
     if (patro.length >= TOTAL) { acabar(); return; }
     const lletra = novaLletra(); patro.push(lletra);
-    setText('nback-display', lletra); llegirText(lletra); iniciTemps();
-    esperant = patro.length - 1 >= n;           // les primeres N lletres només cal memoritzar-les
-    botons(esperant);
-    rellotge = temps(esperant ? tempsEsgotat : seguent, esperant ? TEMPS_RESPOSTA : TEMPS_PAUSA);
+    gira(lletra, () => {
+      llegirText(lletra); iniciTemps(); setFeedback('nback', '');
+      esperant = patro.length - 1 >= n;           // les primeres N lletres només cal memoritzar-les
+      botons(esperant);
+      rellotge = temps(esperant ? tempsEsgotat : seguent, esperant ? TEMPS_RESPOSTA : TEMPS_PAUSA);
+    });
+  }
+  // La fitxa es gira, ensenya el dors un moment i torna amb la lletra nova: la lletra anterior s'ha de recordar, no es veu
+  function gira(lletra, fet) {
+    const d = $('nback-display'); botons(false); esperant = false;
+    d.classList.add('girant');
+    gir = temps(() => {
+      d.textContent = ''; d.classList.add('dors'); d.classList.remove('girant');
+      gir = temps(() => {
+        d.classList.add('girant');
+        gir = temps(() => { d.textContent = lletra; d.classList.remove('dors', 'girant'); fet(); }, GIR_MS);
+      }, DORS_MS);
+    }, GIR_MS);
   }
   function tempsEsgotat() {
     esperant = false; botons(false); errors++; setText('nback-errors', errors);
@@ -81,7 +95,7 @@
 
   registrarJoc({
     id: 'nback', pista,
-    tutorial: { titol: 'Recorda la lletra', cos: '<p>Veuràs lletres una a una. Prem <strong>SÍ</strong> si la lletra és igual a la de fa <em>N</em> posicions, i <strong>NO</strong> si és diferent.</p><div class="exemple"><span>B</span><span>K</span><span>K</span></div><p>Al nivell fàcil compares amb l\'anterior: aquí, la segona K és igual a l\'anterior, així que és un <strong>SÍ</strong>.</p>' },
+    tutorial: { titol: 'Recorda la lletra', cos: '<p>Surt una lletra, <strong>la fitxa es gira</strong> i en surt una altra. Prem <strong>SÍ</strong> si és igual que la d\'abans, i <strong>NO</strong> si és diferent.</p><div class="exemple"><span>B</span><span>K</span><span>K</span></div><p>Aquí, la segona K és igual que l\'anterior: és un <strong>SÍ</strong>. Als nivells més alts compares amb la de 2 o 3 fitxes enrere.</p>' },
     obrir: () => triaDificultat('nback', 'Recorda la lletra', 'Tria la dificultat', ['Compara amb la lletra anterior', 'Compara amb la de fa 2 posicions', 'Compara amb la de fa 3 posicions'],
       nivell => { n = { facil: 1, mig: 2, dificil: 3 }[nivell]; reiniciar(); mostrarPantalla('joc-nback'); }),
     reiniciar

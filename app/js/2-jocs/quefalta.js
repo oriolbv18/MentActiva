@@ -6,10 +6,14 @@
 (() => {
   const EMOJIS_QF = ['🍎', '🌻', '🐶', '🚗', '☕', '🎵', '📚', '🌳', '🏠', '🍕', '🐱', '⚽', '🎨', '🌙', '🌟', '🐟', '🍋', '🔑', '🎈', '🚲', '🍇', '🧶', '🕯️', '🐢', '🍞', '🌷', '🎁', '🔔', '🧣', '🐓', '🍒', '⏰'];
   const RONDES = 8, OBJECTES = 8, TEMPS_MEMORITZAR = 6;
-  let ronda = 0, encerts = 0, objectes = [], falta = null, fase = 'fi';
+  let ronda = 0, encerts = 0, objectes = [], falta = null, fase = 'fi', compte = null;
+
+  // Compte enrere visible mentre es memoritza: números grans i una barra que s'escurça
+  function pintaCompte(s) { setText('qf-segons', s); $('qf-barra').style.width = (s / TEMPS_MEMORITZAR * 100) + '%'; }
+  function aturaCompte() { aturaTemps(compte); compte = null; $('qf-compte').hidden = true; }
 
   function reiniciar() {
-    ronda = 0; encerts = 0; fase = 'fi';
+    aturaCompte(); ronda = 0; encerts = 0; fase = 'fi';
     setText('qf-num', 1); setText('qf-total', RONDES); setText('qf-encerts', 0);
     $('qf-grid').innerHTML = ''; $('qf-opcions').innerHTML = '';
     setText('qf-subtitol', 'Prem «Començar» quan estiguis a punt'); setFeedback('qf', '');
@@ -23,8 +27,11 @@
     if (ronda >= RONDES) { acabar(); return; }
     setText('qf-num', ronda + 1); setFeedback('qf', ''); $('qf-opcions').innerHTML = '';
     objectes = barreja(EMOJIS_QF).slice(0, OBJECTES); fase = 'memoritzar';
-    setText('qf-subtitol', `Memoritza els objectes (${TEMPS_MEMORITZAR} segons)…`); pintaGrid();
+    setText('qf-subtitol', 'Memoritza els objectes…'); pintaGrid();
+    let queden = TEMPS_MEMORITZAR; $('qf-compte').hidden = false; pintaCompte(queden);
+    compte = interval(() => { queden = Math.max(0, queden - 1); pintaCompte(queden); }, 1000);
     temps(() => {
+      aturaCompte();
       const pos = enter(0, objectes.length - 1); falta = objectes[pos]; fase = 'endevinar';
       setText('qf-subtitol', 'Quin objecte falta?'); pintaGrid(pos); iniciTemps();
       const distractors = barreja(EMOJIS_QF.filter(e => !objectes.includes(e))).slice(0, 3);   // objectes que no hi eren
@@ -44,7 +51,7 @@
     ronda++; temps(novaRonda, 2000);
   }
   function acabar() {
-    $('qf-grid').innerHTML = ''; $('qf-opcions').innerHTML = '';
+    aturaCompte(); $('qf-grid').innerHTML = ''; $('qf-opcions').innerHTML = '';
     setText('qf-subtitol', `Encerts: ${encerts}/${RONDES}`); setFeedback('qf', '');
     $('qf-iniciar').textContent = 'Tornar a jugar'; mostra('qf-iniciar', true);
     finalitzarPartida('quefalta', encerts, RONDES - encerts);
@@ -65,7 +72,7 @@
 
   registrarJoc({
     id: 'quefalta', pista,
-    tutorial: { titol: 'Què falta aquí?', cos: '<p>Mira bé els objectes durant uns segons. Després en <strong>amagarem un</strong>: toca quin era entre les opcions.</p><div class="exemple"><span>🍎</span><span>🐶</span><span>?</span></div>' },
+    tutorial: { titol: 'Què falta aquí?', cos: '<p>Mira bé els objectes: el rellotge de dalt et diu quants segons queden. Després en <strong>amagarem un</strong>: toca quin era entre les opcions.</p><div class="exemple"><span>🍎</span><span>🐶</span><span>?</span></div>' },
     obrir: obrirSenzill('quefalta', reiniciar),
     reiniciar
   });

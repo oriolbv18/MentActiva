@@ -375,6 +375,19 @@
     <div id="comVaigCos"></div>
   </section>
 
+  <!-- ===== MEDALLES ===== -->
+  <section id="medalles" class="screen" aria-labelledby="titolMedalles">
+    <button type="button" class="btn-enrere" onclick="mostrarPantalla('comVaig')"><svg class="ico" aria-hidden="true"><use href="#i-enrere"/></svg>Com vaig</button>
+    <h1 class="joc-titol" id="titolMedalles">Les meves medalles</h1>
+    <div id="medallesCos"></div>
+    <button type="button" class="boto-secundari boto-ample" onclick="obrirEditorMedalles()"><svg class="ico" aria-hidden="true"><use href="#i-llapis"/></svg>Canviar les medalles</button>
+  </section>
+  <section id="medallesEdita" class="screen" aria-labelledby="titolMedallesEdita">
+    <button type="button" class="btn-enrere" onclick="mostrarPantalla('medalles')"><svg class="ico" aria-hidden="true"><use href="#i-enrere"/></svg>Les meves medalles</button>
+    <h1 class="joc-titol" id="titolMedallesEdita">Canviar les medalles</h1>
+    <div id="medallesEditaCos"></div>
+  </section>
+
   <!-- ===== SESSIÓ GUIADA: descans entre jocs i celebració final ===== -->
   <section id="sessioDescans" class="screen sessio-pantalla" aria-labelledby="titolDescans">
     <p class="sessio-punts" id="sessioPunts" aria-live="polite"></p>
@@ -546,6 +559,7 @@
       <div class="lat-tauler"><div class="zona-tauler"><div class="dames-tauler" id="dames-tauler"></div></div></div>
       <div class="lat-info">
       <div class="joc-info"><span class="item">Torn <strong id="dames-torn">-</strong></span><span class="item">Blanques <strong id="dames-blanques">12</strong></span><span class="item">Negres <strong id="dames-negres">12</strong></span></div>
+      <p class="dames-obligat" id="dames-obligat" role="status" hidden></p>
       <p class="feedback" id="dames-feedback" aria-live="polite"></p>
       </div>
     </div>
@@ -657,25 +671,22 @@
   <section id="joc-fluidesa" class="screen screen-joc">
     <div class="barra-joc">
       <button type="button" class="ib" onclick="intentarSortir()" aria-label="Sortir del joc"><svg class="ico" aria-hidden="true"><use href="#i-enrere"/></svg></button>
-      <div class="barra-titol"><h1>Digues paraules</h1><p id="fluidesa-categoria">Preparat…</p></div>
+      <div class="barra-titol"><h1>Troba l'intrús</h1><p>Quina paraula no és del grup?</p></div>
     </div>
-    <div class="joc-cos">
-      <div class="joc-info"><span class="item">Paraules <strong id="fluidesa-count">0</strong></span></div>
-      <div class="fluidesa-timer" id="fluidesa-timer">60</div>
-      <div class="fluidesa-input">
-        <input type="text" class="camp-input" id="fluidesa-input" placeholder="Escriu una paraula…" autocomplete="off" autocapitalize="none" enterkeyhint="done" disabled>
-        <button type="button" class="boto-principal" id="fluidesa-afegir" disabled aria-label="Afegir paraula"><svg class="ico" aria-hidden="true"><use href="#i-mes"/></svg></button>
-      </div>
-      <div class="fluidesa-llista" id="fluidesa-llista"></div>
+    <div class="joc-cos cos-quiz">
+      <div id="fluidesa-marcador-2v2" class="marcador-zona"></div>
+      <div class="joc-info"><span class="item">Pregunta <strong id="fluidesa-num">1</strong>/<span id="fluidesa-total">0</span></span><span class="item">Encerts <strong id="fluidesa-encerts">0</strong></span></div>
+      <div class="zona-pregunta"><div class="pregunta-text" id="fluidesa-pregunta">?</div></div>
+      <div class="opcions" id="fluidesa-opcions"></div>
       <p class="feedback" id="fluidesa-feedback" aria-live="polite"></p>
-      <button type="button" class="boto-principal boto-joc" id="fluidesa-iniciar">Començar</button>
+      <button type="button" class="boto-principal boto-joc" id="fluidesa-seguent" data-quiz-seguent="fluidesa" style="display:none">Següent</button>
     </div>
   </section>
 
   <section id="joc-calcul" class="screen screen-joc">
     <div class="barra-joc">
       <button type="button" class="ib" onclick="intentarSortir()" aria-label="Sortir del joc"><svg class="ico" aria-hidden="true"><use href="#i-enrere"/></svg></button>
-      <div class="barra-titol"><h1>Comptes de cada dia</h1><p>Preus, canvi i més</p></div>
+      <div class="barra-titol"><h1>Comptes de cada dia</h1><p>Sumes, restes i el canvi</p></div>
     </div>
     <div class="joc-cos cos-quiz">
       <div id="calcul-marcador-2v2" class="marcador-zona"></div>
@@ -690,7 +701,7 @@
   <section id="joc-seqlog" class="screen screen-joc">
     <div class="barra-joc">
       <button type="button" class="ib" onclick="intentarSortir()" aria-label="Sortir del joc"><svg class="ico" aria-hidden="true"><use href="#i-enrere"/></svg></button>
-      <div class="barra-titol"><h1>Quin número falta?</h1><p>Descobreix la regla</p></div>
+      <div class="barra-titol"><h1>Completa la sèrie</h1><p>Què hi falta?</p></div>
     </div>
     <div class="joc-cos cos-quiz">
       <div id="seqlog-marcador-2v2" class="marcador-zona"></div>
@@ -709,6 +720,7 @@
     </div>
     <div class="joc-cos cos-quiz">
       <div class="joc-info"><span class="item">Ronda <strong id="qf-num">1</strong>/<span id="qf-total">8</span></span><span class="item">Encerts <strong id="qf-encerts">0</strong></span></div>
+      <div class="qf-compte" id="qf-compte" role="timer" aria-label="Temps per memoritzar" hidden><div class="qf-barra"><i id="qf-barra"></i></div><strong id="qf-segons">6</strong></div>
       <div class="zona-tauler qf-zona"><div class="qf-grid" id="qf-grid"></div></div>
       <div class="opcions opcions-emoji" id="qf-opcions"></div>
       <p class="feedback" id="qf-feedback" aria-live="polite"></p>
@@ -799,6 +811,8 @@
       <div class="ajust-bloc"><label class="etiqueta-ajust" for="horaPreferida">Hora preferida per jugar<small>Per al recordatori</small></label><input type="time" class="camp-input" id="horaPreferida" onchange="canviarHoraPreferida(this.value)"></div>
     </div>
 
+    <div id="configMeusJocs"></div>
+
     <h2 class="titol-seccio">Recordatoris</h2>
     <div class="panell grup-ajustos">
       <div class="ajust-fila"><span class="ajust-ico"><svg class="ico" aria-hidden="true"><use href="#i-campana"/></svg></span><div class="etiqueta-ajust">Recordar-me que jugui<small>Una nota a l'inici a l'hora triada</small></div><button type="button" class="toggle" role="switch" aria-checked="false" aria-label="Recordar-me que jugui" data-ajust="recordaJugar"></button></div>
@@ -873,7 +887,7 @@
     <div class="llista-targetes">
       <button type="button" class="fila-accio" onclick="obrirDiariRecords()"><span class="targeta-ico petita dom-calcul"><svg class="ico" aria-hidden="true"><use href="#i-diari"/></svg></span><span class="info"><strong>Diari de records</strong><small>Una pregunta al dia</small></span><svg class="ico fletxa" aria-hidden="true"><use href="#i-fletxa"/></svg></button>
       <button type="button" class="fila-accio" onclick="avisarFamilia()"><span class="targeta-ico petita dom-memoria"><svg class="ico" aria-hidden="true"><use href="#i-compartir"/></svg></span><span class="info"><strong>Enviar un missatge a la família</strong><small>«Estic bé i he jugat a MentA»</small></span><svg class="ico fletxa" aria-hidden="true"><use href="#i-fletxa"/></svg></button>
-      <button type="button" class="fila-accio" onclick="mostrarPantalla('album')"><span class="targeta-ico petita dom-llenguatge"><svg class="ico" aria-hidden="true"><use href="#i-foto"/></svg></span><span class="info"><strong>Àlbum de records</strong><small>Una foto per cada dia</small></span><svg class="ico fletxa" aria-hidden="true"><use href="#i-fletxa"/></svg></button>
+      <button type="button" class="fila-accio" onclick="mostrarPantalla('album')"><span class="targeta-ico petita dom-llenguatge"><svg class="ico" aria-hidden="true"><use href="#i-foto"/></svg></span><span class="info"><strong>Àlbum de records</strong><small>Les teves fotos</small></span><svg class="ico fletxa" aria-hidden="true"><use href="#i-fletxa"/></svg></button>
       <button type="button" class="fila-accio" onclick="mostrarPantalla('missatgeria')"><span class="targeta-ico petita dom-atencio"><svg class="ico" aria-hidden="true"><use href="#i-diari"/></svg></span><span class="info"><strong>Diari familiar</strong><small>Notes i records per guardar</small></span><svg class="ico fletxa" aria-hidden="true"><use href="#i-fletxa"/></svg></button>
       <button type="button" class="fila-accio" onclick="mostrarPantalla('calFamiliar')"><span class="targeta-ico petita dom-calcul"><svg class="ico" aria-hidden="true"><use href="#i-calendari"/></svg></span><span class="info"><strong>Aniversaris i quedades</strong><small>Les dates que no vols oblidar</small></span><svg class="ico fletxa" aria-hidden="true"><use href="#i-fletxa"/></svg></button>
     </div>
@@ -891,9 +905,11 @@
   <section id="album" class="screen" aria-labelledby="titolAlbum">
     <button type="button" class="btn-enrere" onclick="mostrarPantalla('familia')"><svg class="ico" aria-hidden="true"><use href="#i-enrere"/></svg>Els meus records</button>
     <h1 class="joc-titol" id="titolAlbum">Àlbum de records</h1>
-    <p class="joc-subtitol">Una foto per cada dia. Les fotos no surten del dispositiu.</p>
+    <p class="joc-subtitol">Fes una foto o tria'n una. Les fotos no surten del dispositiu.</p>
     <input type="file" id="albumInput" accept="image/*" hidden onchange="albumPujar(event)">
-    <button type="button" class="boto-principal boto-gran boto-ample" onclick="$('albumInput').click()"><svg class="ico" aria-hidden="true"><use href="#i-foto"/></svg>Pujar la foto d'avui</button>
+    <input type="file" id="albumCamera" accept="image/*" capture="environment" hidden onchange="albumPujar(event)">
+    <button type="button" class="boto-principal boto-gran boto-ample" onclick="albumFerFoto()"><svg class="ico" aria-hidden="true"><use href="#i-foto"/></svg>Fer una foto</button>
+    <button type="button" class="boto-secundari boto-gran boto-ample" onclick="$('albumInput').click()"><svg class="ico" aria-hidden="true"><use href="#i-descarregar"/></svg>Triar una foto del dispositiu</button>
     <div id="albumGaleria" class="album-galeria"></div>
   </section>
 
@@ -1148,12 +1164,22 @@
     <div id="repasCos"></div>
   </div>
 </div>
+<!-- Càmera de l'àlbum (ordinador) -->
+<div class="modal-fons" id="modalCamera" role="dialog" aria-modal="true" aria-labelledby="titolCamera">
+  <div class="modal modal-confirm">
+    <button type="button" class="modal-tancar" data-tanca aria-label="Tancar"><svg class="ico" aria-hidden="true"><use href="#i-tanca"/></svg></button>
+    <h2 id="titolCamera">Fer una foto</h2>
+    <video id="cameraVideo" class="camera-video" autoplay playsinline muted></video>
+    <button type="button" class="boto-principal boto-gran boto-ample" onclick="cameraDispara()"><svg class="ico" aria-hidden="true"><use href="#i-foto"/></svg>Fer la foto</button>
+  </div>
+</div>
 <!-- Pausa -->
 <div class="modal-fons" id="modalPausa" role="dialog" aria-modal="true" aria-labelledby="titolPausa">
   <div class="modal modal-confirm">
     <h2 id="titolPausa">Joc en pausa</h2>
     <p class="modal-text">El temps està aturat. Quan vulguis, continuem.</p>
     <button type="button" class="boto-principal boto-gran boto-ample" onclick="reprendreJoc()"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg>Continuar</button>
+    <button type="button" class="boto-secundari boto-ample" id="pausaNivell" onclick="canviarNivellJoc()"><svg class="ico" aria-hidden="true"><use href="#i-diana"/></svg>Canviar el nivell</button>
     <button type="button" class="boto-secundari boto-ample" onclick="tancarModal('modalPausa');reiniciarJocActual()"><svg class="ico" aria-hidden="true"><use href="#i-reiniciar"/></svg>Tornar a començar</button>
     <button type="button" class="boto-fantasma boto-ample" onclick="tancarModal('modalPausa');intentarSortir(true)">Sortir al menú</button>
   </div>
@@ -1202,6 +1228,18 @@
   </div>
 </div>
 
+<!-- Celebració en guanyar una medalla -->
+<div class="medalla-capa" id="medallaCapa" role="dialog" aria-modal="true" aria-labelledby="medallaCapaNom" hidden onclick="tancaMedalla()">
+  <div class="medalla-targeta">
+    <div class="medalla-gran" aria-hidden="true"><span class="medalla-raigs"></span><span class="medalla-disc"><svg class="ico" aria-hidden="true"><use href="#i-trofeu"/></svg></span></div>
+    <p class="medalla-pre">Nova medalla!</p>
+    <h2 id="medallaCapaNom"></h2>
+    <p id="medallaCapaDesc"></p>
+    <p class="medalla-compte" id="medallaCapaCompte"></p>
+    <button type="button" class="boto-principal boto-gran boto-ample" id="medallaCapaOk">Molt bé!</button>
+  </div>
+</div>
+
 <!-- ===== TUTORIAL ===== -->
 <div class="tutorial-overlay" id="tutorialOverlay" role="dialog" aria-modal="true" aria-labelledby="tutorialTitol">
   <div class="tutorial-card">
@@ -1225,6 +1263,7 @@
 <script src="js/elefant/dialegs.ca.js" defer></script>
 <script src="js/elefant/elefant-comportament.js" defer></script>
 <script src="js/pistes.js" defer></script>
+<script src="js/tutorials.js" defer></script>
 <script src="js/3-progres.js" defer></script>
 <script src="js/6-estadistiques.js" defer></script>
 <script src="js/4-familia.js" defer></script>

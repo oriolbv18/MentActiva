@@ -32,8 +32,8 @@ const JOCS_WEB = [
  },
  {
   "id": "fluidesa",
-  "nom": "Digues paraules",
-  "desc": "Digues paraules d'una categoria en 60 segons",
+  "nom": "Troba l'intrús",
+  "desc": "Quina paraula no és del grup?",
   "domini": "llenguatge",
   "dominiNom": "Llenguatge",
   "min": 2,
@@ -43,7 +43,7 @@ const JOCS_WEB = [
  {
   "id": "calcul",
   "nom": "Comptes de cada dia",
-  "desc": "Comptes del dia a dia",
+  "desc": "Sumes, restes i el canvi de la compra",
   "domini": "calcul",
   "dominiNom": "Càlcul",
   "min": 5,
@@ -52,8 +52,8 @@ const JOCS_WEB = [
  },
  {
   "id": "seqlog",
-  "nom": "Quin número falta?",
-  "desc": "Descobreix el número que falta",
+  "nom": "Completa la sèrie",
+  "desc": "Números, dies, mesos i lletres",
   "domini": "logica",
   "dominiNom": "Lògica",
   "min": 4,

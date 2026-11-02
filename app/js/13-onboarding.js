@@ -123,21 +123,23 @@ function onboardingContrast() { ajustes.altContrast = !ajustes.altContrast; guar
 
 // ---------- «Prova-ho!»: 3 rondes de «toca el cercle que brilla» i després, com et trobes ----------
 function iniciaProvaOnb() {
-  const cont = $('onbCercles'); let ronda = 0, objectiu = 0; onbProvaFeta = false;
+  const cont = $('onbCercles'); let ronda = 0, objectiu = 0, anterior = 0; onbProvaFeta = false;
   $('onbAnim').hidden = true; $('onbAnim').style.display = ''; cont.hidden = false; $('onbRonda').hidden = false;
-  setText('onbProvaTitol', 'Prova-ho!'); setText('onbProvaText', 'Toca el cercle que brilla. Només tres vegades.');
+  setText('onbProvaTitol', 'Prova-ho!'); setText('onbProvaText', 'Se n\'encendrà un. Toca el que està encès.');
   const COL = ['#2e8b57', '#c9771f', '#2b6fb3', '#7048a8'];
   cont.innerHTML = COL.map((c, i) => `<button type="button" class="onb-cercle" data-i="${i}" style="--c:${c}" aria-label="Cercle ${i + 1}"><span class="onb-cercle-dins"></span></button>`).join('');
   const pinta = () => {
-    objectiu = (objectiu + 1 + Math.floor(Math.random() * 3)) % 4;
-    cont.querySelectorAll('.onb-cercle').forEach((b, i) => { b.classList.toggle('brilla', i === objectiu); b.setAttribute('aria-label', `Cercle ${i + 1}${i === objectiu ? ', és el que brilla' : ''}`); });
+    objectiu = (anterior + 1 + Math.floor(Math.random() * 3)) % 4; anterior = objectiu;
+    cont.querySelectorAll('.onb-cercle').forEach((b, i) => { b.classList.toggle('brilla', i === objectiu); b.setAttribute('aria-label', `Cercle ${i + 1}${i === objectiu ? ', és el que està encès' : ', apagat'}`); });
     $('onbRonda').innerHTML = [0, 1, 2].map(k => `<i class="${k < ronda ? 'fet' : ''}"></i>`).join(''); mascotaEstat('pensant');
   };
   cont.onclick = e => {
-    const b = e.target.closest('.onb-cercle'); if (!b || onbProvaFeta) return;
-    if (+b.dataset.i !== objectiu) { b.classList.add('no'); setTimeout(() => b.classList.remove('no'), 400); soError(); vibrar(40); setText('onbProvaText', 'Gairebé! Busca el que té l\'anell que es mou.'); return; }
-    soEncert(); vibrar([20, 20]); ronda++; mascotaEstat('content'); setText('onbProvaText', ronda < 3 ? ['Molt bé!', 'Perfecte! Un més.'][ronda - 1] : '');
-    if (ronda < 3) { setTimeout(pinta, 350); $('onbRonda').innerHTML = [0, 1, 2].map(k => `<i class="${k < ronda ? 'fet' : ''}"></i>`).join(''); return; }
+    const b = e.target.closest('.onb-cercle'); if (!b || onbProvaFeta || objectiu < 0) return;
+    if (+b.dataset.i !== objectiu) { b.classList.add('no'); setTimeout(() => b.classList.remove('no'), 400); soError(); vibrar(40); setText('onbProvaText', 'Aquest està apagat. Toca el que està encès.'); return; }
+    soEncert(); vibrar([20, 20]); ronda++; mascotaEstat('content'); setText('onbProvaText', ronda < 3 ? ['Molt bé! Ara se n\'encén un altre.', 'Perfecte! L\'últim.'][ronda - 1] : '');
+    // s'apaguen tots un moment: es veu clarament que ara n'és un altre
+    objectiu = -1; cont.querySelectorAll('.onb-cercle').forEach(x => x.classList.remove('brilla'));
+    if (ronda < 3) { setTimeout(pinta, 600); $('onbRonda').innerHTML = [0, 1, 2].map(k => `<i class="${k < ronda ? 'fet' : ''}"></i>`).join(''); return; }
     onbProvaFeta = true; mascotaEstat('celebrant'); soVictoria(); confeti();
     setTimeout(() => { cont.hidden = true; $('onbRonda').hidden = true; setText('onbProvaTitol', 'Ja has fet el teu primer exercici!'); setText('onbProvaText', ''); $('onbAnim').hidden = false; pintaCaresOnb(); }, 700);
   };

@@ -5,7 +5,7 @@
 //  Cada encert n'afegeix un més.
 // ==========================================================
 (() => {
-  const NIVELL_INICIAL = 3, PAUSA_DIGIT = 800;
+  const NIVELL_INICIAL = 3, PAUSA_DIGIT = 1100, BUIT_DIGIT = 250;
   let seq = [], entrada = [], nivell = NIVELL_INICIAL, millor = 0, bloquejat = true;
 
   function pintaTeclat() {
@@ -26,8 +26,11 @@
     seq = Array.from({ length: nivell }, () => enter(0, 9)); entrada = []; bloquejat = true;
     $('span-input').innerHTML = ''; setFeedback('span', 'Memoritza…');
     const disp = $('span-display');
+    disp.innerHTML = '';
     seq.forEach((d, i) => temps(() => {
-      disp.innerHTML = `<div class="span-digit gran">${d}</div>`; tocarTo(500 + d * 30, 0.2, 'sine', 0.15);
+      // cada número entra amb animació i marxa abans del següent: si n'hi ha dos d'iguals seguits, es veuen com a dos
+      disp.innerHTML = `<div class="span-digit gran entra">${d}</div>`; tocarTo(500 + d * 30, 0.2, 'sine', 0.15);
+      temps(() => { disp.innerHTML = ''; }, PAUSA_DIGIT - BUIT_DIGIT);
       if (i === seq.length - 1) temps(() => {
         disp.innerHTML = '<div class="span-pista">Ara escriu-los en ordre!</div>';
         setFeedback('span', ''); pintaTeclat(); bloquejat = false; iniciTemps();

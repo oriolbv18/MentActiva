@@ -19,7 +19,7 @@ function renderCuidador() {
   const d = dadesActuals(), s = calculaSemafor(d); $('cuSemaforXip').innerHTML = htmlSemaforXip(s);
   let c = $('cuPanell'); if (!c) { $('cuPanells').innerHTML = '<div class="panell-pestanya" role="tabpanel" id="cuPanell"></div>'; c = $('cuPanell'); }
   c.setAttribute('aria-labelledby', 'cut-' + pestanyaCu);
-  const r = { resum: cuResum, evolucio: cuEvolucio, jocs: cuJocs, salut: cuSalut, notes: cuNotes, pla: cuPla, informe: cuInforme, residencia: cuResidencia, ajustos: cuAjustos }[pestanyaCu];
+  const r = { resum: cuResum, evolucio: cuEvolucio, jocs: dd => cuJocs(dd) + htmlJocsVisibles(dd), salut: cuSalut, notes: cuNotes, pla: cuPla, informe: cuInforme, residencia: cuResidencia, ajustos: cuAjustos }[pestanyaCu];
   try { c.innerHTML = r(d, s); } catch (e) { console.error(e); c.innerHTML = '<div class="estat-buit"><p>No hem pogut mostrar aquesta part. Copia l\'informe d\'error des dels ajustos avançats.</p></div>'; }
   pintarToggles(); pintarRecordatorisConfig();
 }
@@ -156,10 +156,15 @@ function cuEsborraNota(id) { mostrarConfirmacio('Esborrar la nota?', 'Aquesta ob
 
 // ---------- PLA (el cuidador configura l'experiència de la persona) ----------
 const swPla = (clau, nom, sub, on) => `<div class="ajust-fila"><div class="etiqueta-ajust">${nom}${sub ? `<small>${sub}</small>` : ''}</div><button type="button" class="toggle${on ? ' actiu' : ''}" role="switch" aria-checked="${on}" aria-label="${nom}" onclick="cuTogglePla('${clau}')"></button></div>`;
+// Quins jocs surten a «Els meus jocs» (i a les sessions). Es pot canviar al Pla, a la pestanya Jocs i als Ajustos avançats.
+function htmlJocsVisibles(d) {
+  const ocults = (d.plaCuidador || {}).jocsOcults || [];
+  return `<div class="panell grup-ajustos"><h3>Els meus jocs</h3><p class="ajuda-camp">Marca els jocs que vols que surtin. Els que treguis no sortiran ni a les sessions ni als menús. Si no en treus cap, surten tots.</p>
+    <div class="llista-jocs-pla">${jocsIndividuals().map(j => `<label class="joc-pla dom-${j.domini}"><input type="checkbox" ${ocults.includes(j.id) ? '' : 'checked'} onchange="cuToggleJoc('${j.id}')"><span class="targeta-ico petita">${ico(iconaJoc(j.id))}</span><span>${esc(j.nom)}</span></label>`).join('')}</div></div>`;
+}
 function cuPla(d) {
-  const p = d.plaCuidador, ocults = p.jocsOcults || [];
-  return `<div class="panell grup-ajustos"><h3>Jocs que veu la persona</h3><p class="ajuda-camp">Amaga els que la frustren. Els amagats no surten ni a les sessions ni als menús.</p>
-    <div class="llista-jocs-pla">${jocsIndividuals().map(j => `<label class="joc-pla dom-${j.domini}"><input type="checkbox" ${ocults.includes(j.id) ? '' : 'checked'} onchange="cuToggleJoc('${j.id}')"><span class="targeta-ico petita">${ico(iconaJoc(j.id))}</span><span>${esc(j.nom)}</span></label>`).join('')}</div></div>
+  const p = d.plaCuidador;
+  return `${htmlJocsVisibles(d)}
     <div class="panell grup-ajustos"><h3>Dificultat i durada</h3>
       <div class="ajust-bloc"><div class="etiqueta-ajust" id="et-nmax">Nivell màxim<small>El sistema ajusta sol el nivell, però mai per sobre d'aquest</small></div><div class="segmentat" role="radiogroup" aria-labelledby="et-nmax">${['facil', 'mig', 'dificil'].map(n => `<button type="button" role="radio" aria-checked="${p.nivellMaxim === n}" class="${p.nivellMaxim === n ? 'sel' : ''}" onclick="cuNivellMaxim('${n}')">${NOMS_NIVELL[n]}</button>`).join('')}</div></div>
       <div class="ajust-bloc"><div class="etiqueta-ajust" id="et-dif">Dificultat<small>Adaptativa: puja o baixa sense dir-li res a la persona</small></div><div class="segmentat" role="radiogroup" aria-labelledby="et-dif" data-tria="dificultatMode"><button type="button" role="radio" data-valor="adaptatiu">Adaptativa (recomanada)</button><button type="button" role="radio" data-valor="manual">Manual</button></div></div>
@@ -183,7 +188,8 @@ function cuPla(d) {
       ${swPla('dosJugadors', 'Permetre el mode 2 jugadors', 'Jugar amb algú més al mateix dispositiu', p.dosJugadors !== false)}
     </div>`;
 }
-function cuToggleJoc(id) { const p = dadesActuals().plaCuidador, i = p.jocsOcults.indexOf(id); if (i >= 0) p.jocsOcults.splice(i, 1); else if (jocsIndividuals().length - p.jocsOcults.length > 1) p.jocsOcults.push(id); else toast('Ha de quedar almenys un joc visible.', 3000); guardarDadesUsuari(); soClic(); renderCuidador(); }
+function cuToggleJoc(id) { const p = dadesActuals().plaCuidador, i = p.jocsOcults.indexOf(id); if (i >= 0) p.jocsOcults.splice(i, 1); else if (jocsIndividuals().length - p.jocsOcults.length > 1) p.jocsOcults.push(id); else toast('Ha de quedar almenys un joc visible.', 3000); guardarDadesUsuari(); soClic(); if (idPantallaActiva() === 'configuracio') renderConfigMeusJocs(); else renderCuidador(); }
+function renderConfigMeusJocs() { const c = $('configMeusJocs'); if (c) c.innerHTML = htmlJocsVisibles(dadesActuals()); }
 function cuNivellMaxim(n) { dadesActuals().plaCuidador.nivellMaxim = n; guardarDadesUsuari(); soClic(); renderCuidador(); }
 function cuTogglePla(clau) { const p = dadesActuals().plaCuidador; p[clau] = p[clau] === false ? true : false; guardarDadesUsuari(); soClic(); renderCuidador(); }
 

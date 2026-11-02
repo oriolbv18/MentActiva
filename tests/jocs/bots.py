@@ -227,13 +227,6 @@ def span(par, rng, dos=False, nivell=None):
     par.avanca(1200)
 
 
-def fluidesa(par, rng, dos=False, nivell=None):
-    par.js("document.getElementById('fluidesa-iniciar').click()"); par.avanca(100)
-    for w in ['gos', 'gat', 'aaaa', 'xyz1', 'gos', 'cavall', 'ov', 'ovella', 'tortuga', 'conill', 'òliba', 'ÒLIBA', 'esquirol'][:rng.randint(0, 13)]:
-        par.pg.fill('#fluidesa-input', w); par.pg.press('#fluidesa-input', 'Enter'); par.avanca(100)
-    par.avanca(61000)
-
-
 def quefalta(par, rng, dos=False, nivell=None):
     par.js("document.getElementById('qf-iniciar').click()")
     for _ in range(8):
@@ -261,6 +254,6 @@ BOTS = {
     'nback': (nback, False, True),
     'stroop': (stroop, False, False),
     'span': (span, False, False),
-    'fluidesa': (fluidesa, False, False),
+    'fluidesa': (lambda p, r, d=False, n=None: quiz(p, r, 'fluidesa', d), False, False),
     'quefalta': (quefalta, False, False),
 }

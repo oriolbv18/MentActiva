@@ -38,7 +38,7 @@ function renderConfigPerfil() {
   c.innerHTML = `<div class="config-perfil"><span class="av" style="background:${u.foto ? 'transparent' : fonsAvatar(u.color)}">${htmlAvatar(u)}</span><div class="info"><strong>${esc(u.nom)}</strong><small>${d.totalPartides} partides · ${diesActius().size} dies actius</small></div></div>
     <div class="config-perfil-accions">${u.id !== 'convidat' ? `<button type="button" class="boto-secundari boto-petit" onclick="editarUsuari('${esc(u.id)}')">${ico('llapis')}Editar perfil</button>` : `<button type="button" class="boto-secundari boto-petit" onclick="obrirModalNouUsuari()">${ico('mes')}Crear el meu perfil</button>`}<button type="button" class="boto-secundari boto-petit" onclick="obrirModalUsuaris()">${ico('usuari')}Canviar d'usuari</button></div>`;
 }
-PANTALLA_ENTRA.configuracio = () => { renderConfigPerfil(); pintarToggles(); pintarRecordatorisConfig(); pintarEstatNotificacions(); const t = $('toggleDemo'); if (t) { const on = !!usuaris.find(x => x.demo); t.classList.toggle('actiu', on); t.setAttribute('aria-checked', on); } };
+PANTALLA_ENTRA.configuracio = () => { renderConfigPerfil(); if (typeof renderConfigMeusJocs === 'function') renderConfigMeusJocs(); pintarToggles(); pintarRecordatorisConfig(); pintarEstatNotificacions(); const t = $('toggleDemo'); if (t) { const on = !!usuaris.find(x => x.demo); t.classList.toggle('actiu', on); t.setAttribute('aria-checked', on); } };
 
 // ---------- Mode demostració: 8 residents fictícis amb trajectòries diferents (3 mesos) ----------
 function mulberry(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }

@@ -9,7 +9,8 @@
 //    id,                      // id del joc; els elements són `${id}-num`, `-total`, `-encerts`,
 //                             // `-pregunta`, `-opcions`, `-feedback`, `-seguent`, `-marcador-2v2`
 //    tutorial,                // { emoji, titol, cos }
-//    preparar(dos) → [ { q, o:[opcions], c:índex correcte, veu?, err?, expl? } ],
+//    preparar(dos, nivell) → [ { q, o:[opcions], c:índex correcte, veu?, err?, expl? } ],
+//    nivells: { titol, subtitol, descripcions } (opcional): el joc té fàcil/mig/difícil (cal que sigui a JOCS_AMB_NIVELL)
 //    dos: true|false,         // admet mode 2 jugadors?
 //    ok: 'Correcte!',      // text d'encert
 //    textFinal(encerts,total) // text que es mostra en acabar
@@ -17,13 +18,13 @@
 // ==========================================================
 function crearQuiz(cfg) {
   const id = cfg.id, el = s => $(id + '-' + s);
-  let items = [], idx = 0, encerts = 0, punts = [0, 0], torn = 1, dos = false, bloquejat = false, acabat = false;
+  let items = [], idx = 0, encerts = 0, punts = [0, 0], torn = 1, dos = false, bloquejat = false, acabat = false, nivell = 'facil';
 
   function marcador() { renderMarcador2P(id, punts[0], punts[1], dos && !acabat ? torn : null); }
 
   function reiniciar(ds) {
     dos = ds !== undefined ? !!ds : modeActual === '2vs2';
-    items = cfg.preparar(dos);
+    items = cfg.preparar(dos, nivell);
     idx = 0; encerts = 0; punts = [0, 0]; torn = 1; bloquejat = false; acabat = false;
     setText(id + '-total', items.length);
     mostra(id + '-seguent', false);
@@ -112,7 +113,11 @@ function crearQuiz(cfg) {
   QUIZ_SEGUENT[id] = seguent;
   registrarJoc({
     id, tutorial: cfg.tutorial, pista: cfg.pista ? Object.assign({ proactiva: cfg.pista.proactiva }, pista) : undefined,
-    obrir: ds => { reiniciar(ds); mostrarPantalla('joc-' + id); },
+    obrir: ds => {
+      const arrenca = () => { reiniciar(ds); mostrarPantalla('joc-' + id); };
+      if (ds || !cfg.nivells) { nivell = 'facil'; arrenca(); return; }
+      const n = cfg.nivells; triaDificultat(id, n.titol, n.subtitol, n.descripcions, v => { nivell = v; arrenca(); });
+    },
     reiniciar: () => reiniciar()
   });
   return { reiniciar, seguent };

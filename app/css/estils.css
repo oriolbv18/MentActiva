@@ -836,7 +836,7 @@ body.sense-animacions .carta-in { transition: none; }
 .seq-boto:disabled { opacity: 1; }
 .seq-boto:active:not(:disabled) { transform: scale(.97); }
 .seq-boto.encesa { filter: saturate(1.4) brightness(1.5); transform: scale(1.04); z-index: 2; box-shadow: 0 0 0 .35rem #fff, 0 0 2.6rem .8rem var(--c), inset 0 0 0 .3rem rgba(255,255,255,.55); }
-.seq-boto.encesa::after { content: ''; position: absolute; inset: 34%; border-radius: 50%; background: rgba(255,255,255,.7); }
+.seq-boto.encesa .forma { color: #fff; transform: scale(1.25); text-shadow: 0 0 .5rem rgba(0,0,0,.45); }
 .seq-area.mostrant .seq-boto:not(.encesa) { opacity: .35; filter: saturate(.5) brightness(.7); }
 
 /* ---------- Dòmino ---------- */
@@ -1458,3 +1458,104 @@ html[data-zoom="extragran"] .bingo-botons-sec .boto-joc, html[data-zoom="gegant"
 .joc-gran, .persona-targeta { overflow-wrap: anywhere; hyphens: auto; }
 @media (max-width: 400px) { html[data-zoom="gegant"] .persona-dos { grid-template-columns: 1fr; } }
 html.carregant-idioma body { visibility: hidden; }
+
+/* ========== v1.10 ========== */
+/* Ajustos ràpids: tres botons iguals, amb la icona a sobre i el text sencer (cap retall) */
+.persona-peu { flex-direction: column; align-items: stretch; flex-wrap: nowrap; }
+.ajustos-rapids { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .45rem; width: 100%; }
+.ajust-rapid { flex-direction: column; justify-content: center; gap: .15rem; min-height: 3.6rem; min-width: 0; padding: .35rem .25rem; border-radius: var(--radi-m); font-size: .9rem; line-height: 1.15; text-align: center; white-space: normal; overflow-wrap: anywhere; }
+.ajust-rapid span:not(.aa) { max-width: none !important; overflow: visible !important; text-overflow: clip !important; }
+.ajust-rapid .aa { font-size: 1.15rem; line-height: 1; } .ajust-rapid .ico { width: 1.25rem; height: 1.25rem; }
+.btn-cadenat { align-self: center; }
+html[data-zoom="extragran"] .ajustos-rapids, html[data-zoom="gegant"] .ajustos-rapids { grid-template-columns: 1fr; }
+html[data-zoom="extragran"] .ajust-rapid, html[data-zoom="gegant"] .ajust-rapid { flex-direction: row; gap: .5rem; }
+
+/* Recorda la lletra: la fitxa es gira */
+.nback-display { transition: transform .17s ease-in-out; }
+.nback-display.girant { transform: perspective(40rem) rotateY(90deg); }
+.nback-display.dors { background: repeating-linear-gradient(45deg, var(--marca-fosc) 0 .7rem, var(--marca-molt-fosc) .7rem 1.4rem); }
+
+/* Quants en recordes: cada número entra de nou */
+.span-digit.entra { animation: span-entra .28s cubic-bezier(.2, 1.3, .4, 1); }
+@keyframes span-entra { from { transform: scale(.45); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* Què falta aquí: compte enrere */
+.qf-compte { display: flex; align-items: center; gap: .7rem; flex: none; }
+.qf-compte[hidden] { display: none; }
+.qf-barra { flex: 1; height: .8rem; border-radius: var(--radi-pill); background: var(--superficie-2); overflow: hidden; }
+.qf-barra i { display: block; height: 100%; width: 100%; border-radius: inherit; background: var(--accio); transition: width 1s linear; }
+.qf-compte strong { min-width: 2.4rem; text-align: center; font-size: 1.7rem; font-weight: 900; line-height: 1; color: var(--marca-molt-fosc); font-variant-numeric: tabular-nums; }
+
+/* Recorda la seqüència: la forma no canvia en il·luminar-se */
+.seq-boto .forma { transition: transform .1s, color .1s; }
+
+/* Dames: captura obligatòria */
+.dames-obligat { margin: .3rem 0; padding: .55rem .8rem; border-radius: var(--radi-m); background: #b3261e; color: #fff; font-weight: 800; text-align: center; line-height: 1.25; }
+.dames-obligat[hidden] { display: none; }
+.casella.obliga { background: #c8554c; }
+.casella.obliga .peca { box-shadow: 0 0 0 .22rem #fff, 0 0 0 .42rem #b3261e, 0 .15rem .3rem rgba(0,0,0,.5); animation: pulseHint 1.2s infinite; }
+.casella.victima { background: #7a2019; }
+.casella.victima::after { content: ''; position: absolute; inset: 22%; z-index: 2; background: linear-gradient(45deg, transparent 42%, #fff 42% 58%, transparent 58%), linear-gradient(-45deg, transparent 42%, #fff 42% 58%, transparent 58%); pointer-events: none; }
+.casella.possible.salt { background: #f4d35e; }
+.casella.possible.salt::before { width: 46%; height: 46%; background: #b3261e; box-shadow: 0 0 0 .22rem #fff; }
+.dames-tauler.avisa { animation: dames-avisa .35s; }
+@keyframes dames-avisa { 25% { transform: translateX(-.35rem); } 75% { transform: translateX(.35rem); } }
+
+/* Bingo: la bola gran que surt */
+.bola-gran { position: fixed; left: 50%; top: 42%; width: 9.5rem; height: 9.5rem; margin: -4.75rem 0 0 -4.75rem; z-index: 1050; pointer-events: none; display: grid; place-items: center; border-radius: 50%; font-size: 4.8rem; font-weight: 900; line-height: 1; color: #2d1904; background: radial-gradient(circle at 35% 30%, #ffe3ba, var(--accio) 70%); border: 5px solid #fff; box-shadow: 0 1rem 2.5rem rgba(0,0,0,.35); font-variant-numeric: tabular-nums; }
+.bingo-bola.esperant { color: transparent; }
+
+/* Onboarding: només el cercle encès té color */
+.onb-cercle:not(.brilla) { background: var(--superficie-2); }
+.onb-cercle:not(.brilla) .onb-cercle-dins { background: var(--vora-forta); opacity: .55; }
+
+/* Medalla guanyada */
+.medalla-capa { position: fixed; inset: 0; z-index: 1200; display: flex; align-items: center; justify-content: center; padding: 1rem; background: var(--capa); }
+.medalla-capa[hidden] { display: none; }
+.medalla-targeta { width: 100%; max-width: 24rem; padding: 1.5rem 1.2rem 1.2rem; border-radius: var(--radi-xl); background: var(--superficie); text-align: center; box-shadow: var(--ombra-2); }
+.medalla-targeta > * + * { margin-top: .5rem; }
+.medalla-gran { position: relative; width: 9rem; height: 9rem; margin: 0 auto .4rem; display: grid; place-items: center; }
+.medalla-raigs { position: absolute; inset: 0; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(242,193,78,.55) 0 15deg, transparent 15deg 30deg); }
+.medalla-disc { position: relative; width: 6rem; height: 6rem; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(135deg, #f7d070, var(--accio)); color: #3b2504; box-shadow: 0 0 0 .3rem #fff, 0 .4rem 1rem rgba(0,0,0,.3); }
+.medalla-disc .ico { width: 3.2rem; height: 3.2rem; }
+.medalla-pre { font-weight: 800; color: var(--accio-fosc); text-transform: uppercase; letter-spacing: .04em; font-size: var(--t-s); }
+.medalla-compte { font-weight: 700; color: var(--text-suau); } .medalla-compte:empty { display: none; }
+.medalla-capa.entra .medalla-targeta { animation: medalla-targeta .35s cubic-bezier(.2, 1.2, .4, 1); }
+.medalla-capa.entra .medalla-disc { animation: medalla-entra .8s cubic-bezier(.2, 1.3, .4, 1); }
+.medalla-capa.entra .medalla-raigs { animation: medalla-raigs 6s linear infinite, medalla-apareix .6s ease; }
+@keyframes medalla-targeta { from { transform: scale(.9); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes medalla-entra { from { transform: scale(.2) rotateY(540deg); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes medalla-raigs { to { transform: rotate(360deg); } }
+@keyframes medalla-apareix { from { opacity: 0; } to { opacity: 1; } }
+
+/* Canviar les medalles */
+.medalla-edita { padding: .4rem 0; border-bottom: 1px solid var(--vora); } .medalla-edita:last-child { border-bottom: 0; }
+.medalla-edita.oculta .etiqueta-ajust { opacity: .6; }
+.medalla-camps { display: grid; grid-template-columns: minmax(0, 1fr) 6rem; gap: .5rem; align-items: end; margin-top: .3rem; }
+.medalla-camps label { font-size: var(--t-xs); font-weight: 700; color: var(--text-suau); display: grid; gap: .15rem; min-width: 0; }
+.medalla-camps .boto-fantasma { grid-column: 1 / -1; justify-self: start; }
+#medallesCos, #medallesEditaCos { display: grid; gap: .8rem; margin-bottom: .8rem; }
+
+/* Càmera de l'àlbum */
+.camera-video { display: block; width: 100%; max-height: 55vh; border-radius: var(--radi-m); background: #000; object-fit: cover; margin: .6rem 0; }
+
+/* Tutorial interactiu */
+.tut-punts { display: flex; justify-content: center; gap: .4rem; margin-bottom: .7rem; }
+.tut-punts i { width: .7rem; height: .7rem; border-radius: 50%; background: var(--vora-forta); } .tut-punts i.fet { background: var(--marca-fosc); } .tut-punts i.ara { background: var(--accio); transform: scale(1.25); }
+.tut-text { font-size: 1.15rem; font-weight: 700; line-height: 1.35; text-align: center; }
+.tut-mostra { display: flex; justify-content: center; margin: .7rem 0; }
+.tut-fila { display: flex; flex-wrap: wrap; justify-content: center; gap: .35rem; }
+.tut-x { min-width: 2.6rem; min-height: 2.6rem; padding: .2rem .5rem; display: grid; place-items: center; border-radius: .6rem; background: var(--superficie-2); border: 2px solid var(--vora-forta); font-size: 1.3rem; font-weight: 800; }
+.tut-carta { width: 5.5rem; height: 5.5rem; display: grid; place-items: center; border-radius: 1rem; background: var(--superficie); border: 3px solid var(--marca-fosc); color: var(--marca-molt-fosc); font-size: 3.2rem; font-weight: 900; animation: span-entra .28s ease; }
+.tut-gran { font-size: 2.2rem; font-weight: 900; }
+.tut-bola { width: 5.5rem; height: 5.5rem; display: grid; place-items: center; border-radius: 50%; font-size: 2.8rem; font-weight: 900; color: #2d1904; background: radial-gradient(circle at 35% 30%, #ffe3ba, var(--accio) 70%); border: 3px solid #fff; box-shadow: var(--ombra-2); }
+.tut-fitxes { display: flex; flex-wrap: wrap; justify-content: center; gap: .55rem; margin: .8rem 0 .3rem; }
+.tut-fitxa { min-width: 3.6rem; min-height: 3.6rem; padding: .3rem .8rem; border-radius: .9rem; background: var(--superficie-2); border: 2px solid var(--vora-forta); font-size: 1.4rem; font-weight: 800; color: var(--text); display: grid; place-items: center; }
+.tut-fitxa.oberta { background: var(--marca-suau); border-color: var(--marca-fosc); }
+.tut-fitxa.guia { outline: .25rem solid var(--accio); outline-offset: .15rem; animation: pulseHint 1.2s infinite; }
+.tut-fitxa.encertada { outline: .25rem solid var(--marca-fosc); outline-offset: .15rem; }
+.tut-fitxa.no { animation: dames-avisa .35s; }
+.tut-ok { min-height: 1.5em; margin: .4rem 0; text-align: center; font-weight: 700; color: var(--marca-molt-fosc); }
+.tut-final .tut-text { margin-bottom: .6rem; color: var(--marca-molt-fosc); }
+#tutorialOk.boto-fantasma { min-height: var(--tactil); }
+@media (prefers-reduced-motion: reduce) { .tut-fitxa.guia, .casella.obliga .peca { animation: none; } }

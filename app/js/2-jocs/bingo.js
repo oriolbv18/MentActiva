@@ -123,7 +123,26 @@
     }
     if (opcions.velocitat !== 'manual') { aturaTemps(rellotge); rellotge = temps(treuBola, VELOCITATS[opcions.velocitat]); }
   }
-  function animaBola() { const b = $('bingo-numero'); b.classList.remove('surt'); void b.offsetWidth; b.classList.add('surt'); }
+  // La bola surt gran al mig de la pantalla, botant, i després vola fins al seu lloc: que es vegi bé quin número ha sortit
+  function animaBola() {
+    const b = $('bingo-numero'); b.classList.remove('surt'); void b.offsetWidth; b.classList.add('surt');
+    if (typeof animacionsActives === 'function' && !animacionsActives()) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !b.animate) return;
+    document.querySelectorAll('.bola-gran').forEach(x => x.remove());
+    b.classList.add('esperant');
+    const g = document.createElement('div'); g.className = 'bola-gran'; g.setAttribute('aria-hidden', 'true'); g.textContent = ultim; document.body.appendChild(g);
+    const r = b.getBoundingClientRect(), g0 = g.getBoundingClientRect();
+    const dx = r.left + r.width / 2 - (g0.left + g0.width / 2), dy = r.top + r.height / 2 - (g0.top + g0.height / 2), esc_ = r.width / g0.width;
+    const an = g.animate([
+      { transform: 'translateY(-70vh) scale(.5) rotate(-300deg)', opacity: 0, offset: 0 },
+      { transform: 'translateY(0) scale(1.05) rotate(0)', opacity: 1, offset: .32, easing: 'cubic-bezier(.3,0,.7,1)' },
+      { transform: 'translateY(-2.2rem) scale(1)', offset: .42, easing: 'ease-out' },
+      { transform: 'translateY(0) scale(1)', offset: .52, easing: 'ease-in' },
+      { transform: 'translateY(0) scale(1)', offset: .78 },
+      { transform: `translate(${dx}px, ${dy}px) scale(${esc_})`, opacity: .9, offset: 1, easing: 'cubic-bezier(.5,0,.2,1)' }
+    ], { duration: 1500, fill: 'forwards' });
+    an.onfinish = an.oncancel = () => { g.remove(); b.classList.remove('esperant'); };
+  }
   function seguent() { if (!jocActiu || fi) return; if (opcions.velocitat === 'manual') treuBola(); }
   function repeteix() { if (ultim !== null) { soClic(); llegirText(numeroParlat(ultim)); } }
 
@@ -260,7 +279,7 @@
 
   registrarJoc({
     id: 'bingo', pista,
-    tutorial: { titol: 'Bingo', cos: '<p>Surten <strong>boles</strong> amb un número. Si el tens al cartró, <strong>toca\'l</strong> per marcar-lo.</p><p>Quan tinguis una <strong>fila</strong> sencera, prem <strong>LÍNIA!</strong>. Quan ho tinguis <strong>tot</strong>, prem <strong>BINGO!</strong>.</p><p>Pots triar que et marqui els números tot sol. Sense diners: només per passar-ho bé.</p>' },
+    tutorial: { titol: 'Bingo', cos: '<p>Surten <strong>boles</strong> amb un número. Si el tens al cartró, <strong>toca\'l</strong> per marcar-lo.</p><p>Quan tinguis una <strong>fila</strong> sencera, prem <strong>LÍNIA!</strong>. Quan ho tinguis <strong>tot</strong>, prem <strong>BINGO!</strong>.</p><p>Es juga entre dues persones. Pots triar que us marqui els números tot sol. Sense diners: només per passar-ho bé.</p>' },
     obrir: ds => { modeActual = ds ? '2vs2' : 'individual'; reiniciar(); mostrarPantalla('joc-bingo'); },
     reiniciar
   });

@@ -128,22 +128,22 @@ def prova_sudoku(p, n):
 
 def prova_calcul(p, n):
     errors = []; par = Partida(p)
-    mostres = par.js("(() => Array.from({length: %d}, () => calculGenerar()))()" % 0) if False else None
     par.js("assegurarJoc('calcul')"); par.pg.wait_for_function("typeof calculGenerar === 'function'", timeout=8000, polling=50)
-    qs = par.js("Array.from({ length: %d }, () => calculGenerar())" % n)
-    eur = lambda x: f'{x:.2f}'.replace('.', ',') + ' €'
+    qs = par.js("['facil', 'mig', 'dificil'].flatMap(v => Array.from({ length: %d }, () => calculGenerar(v)))" % n)
+    regles = [
+        (r'(\d+) \+ (\d+) = \?', lambda a, b: int(a) + int(b)), (r'(\d+) − (\d+) = \?', lambda a, b: int(a) - int(b)),
+        (r'Tens (\d+) \D+ i en compres (\d+)\.', lambda a, b: int(a) + int(b)), (r"Tens (\d+) € i gastes (\d+) €", lambda a, b: int(a) - int(b)),
+        (r'.+ val (\d+) € i .+ val (\d+) €', lambda a, b: int(a) + int(b)), (r'Pagues (\d+) € amb un bitllet de (\d+) €', lambda a, b: int(b) - int(a)),
+        (r'Compres (\d+) \D+ a (\d+) €', lambda a, b: int(a) * int(b)), (r'Quina és la meitat de (\d+)\?', lambda a: int(a) // 2), (r'Són les (\d+) i has quedat a les (\d+)', lambda a, b: int(b) - int(a)),
+    ]
     for q in qs:
-        t = q['q']; resposta = q['o'][q['c']]
-        m1 = re.match(r'Si un producte costa ([\d,]+) €, quant costen (\d+) unitats\?', t); m2 = re.match(r'Pagues amb (\d+) € un producte de ([\d,]+) €\. Quant et tornen\?', t)
-        m3 = re.match(r'Un producte de (\d+) € té un (\d+)% de descompte\. Quant pagues\?', t); m4 = re.match(r'(\d+) \+ (\d+) = \?', t)
-        num = lambda s: float(s.replace(',', '.'))
-        if m1: esp = eur(round(num(m1.group(1)) * int(m1.group(2)), 2))
-        elif m2: esp = eur(round(int(m2.group(1)) - num(m2.group(2)), 2))
-        elif m3: esp = eur(round(int(m3.group(1)) * (100 - int(m3.group(2))) / 100, 2))
-        elif m4: esp = str(int(m4.group(1)) + int(m4.group(2)))
-        else: errors.append(f'càlcul: pregunta no reconeguda «{t}»'); continue
-        if resposta != esp: errors.append(f'càlcul: «{t}» → el joc marca {resposta} però és {esp}')
-        if len(set(q['o'])) != len(q['o']): errors.append(f'càlcul: opcions repetides a «{t}»')
+        t = q['q']; resposta = q['o'][q['c']]; esp = None
+        for r_, f in regles:
+            m = re.match(r_, t)
+            if m: esp = f(*m.groups()); break
+        if esp is None: errors.append(f'càlcul: pregunta no reconeguda «{t}»'); continue
+        if resposta not in (str(esp), f'{esp} €'): errors.append(f'càlcul: «{t}» → el joc marca {resposta} però és {esp}')
+        if len(set(q['o'])) != len(q['o']) or any(int(x.split()[0]) < 0 for x in q['o']): errors.append(f'càlcul: opcions invàlides a «{t}» {q["o"]}')
     par.tanca(); return errors
 
 def prova_bancs(p):
@@ -167,9 +167,9 @@ def prova_bancs(p):
         if not re.fullmatch(r"[A-ZÀÈÉÍÒÓÚÇÏÜ]+", w['paraula']): errors.append(f'paraules: caràcters no vàlids a «{w["paraula"]}»')
         if w['paraula'] in vp or not w['pista'].strip(): errors.append(f'paraules: repetida o sense pista «{w["paraula"]}»')
         vp.add(w['paraula'])
-    qs = par.js("Array.from({ length: 1500 }, () => seqlogGenerar())")
+    qs = par.js("[0, 1, 2, 3, 4, 5, 6].flatMap(e => Array.from({ length: 250 }, () => seqlogGenerar(e)))")
     for q in qs:
-        if len(set(q['o'])) != 4 or any(int(x) <= 0 for x in q['o']) or '?' not in q['q']: errors.append(f'seqlog: pregunta invàlida {q}'); break
+        if len(set(q['o'])) != 4 or any(not x.strip() or x.startswith('-') or x == 'NaN' for x in q['o']) or '?' not in q['q']: errors.append(f'seqlog: pregunta invàlida {q}'); break
     par.tanca(); return errors
 
 # ----------------------------------------------------------------------- N-back, Stroop, Span: l'encert que mostra el joc coincideix amb el que es veu

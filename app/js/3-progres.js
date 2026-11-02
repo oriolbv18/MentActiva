@@ -59,8 +59,8 @@ function recuperarDia() {
 const jugades = (d, joc) => (d.partides[joc] || {}).jugades || 0;
 const sessionsDomini = (d, dom) => d.historial.filter(h => h.domini === dom);
 const fotosAlbum = () => Object.keys(lsGet('mentA_album_' + getUsuariActual().id, {})).length;
-const rec = (a, o) => ({ actual: Math.min(a, o), objectiu: o });
-const CAT_MEDALLES = { constancia: 'Constància', domini: 'Domini', variacio: 'Variació', record: 'Rècords', familia: 'Benestar i família' };
+const rec = (a, o) => ({ actual: a, objectiu: o });
+const CAT_MEDALLES = { pers: 'Les meves medalles', constancia: 'Constància', domini: 'Domini', variacio: 'Variació', record: 'Rècords', familia: 'Benestar i família' };
 const MEDALLES = [
   { id: 'primer_dia', cat: 'constancia', nom: 'Primer dia', desc: 'Has jugat per primer cop', prog: d => rec(d.totalPartides, 1) },
   { id: 'ratxa_3', cat: 'constancia', nom: '3 dies seguits', desc: 'Tres dies seguits jugant', prog: () => rec(calcularRatxaMaxima(), 3) },
@@ -87,28 +87,111 @@ const MEDALLES = [
   { id: 'album_5', cat: 'familia', nom: 'Àlbum viu', desc: '5 fotos a l\'àlbum de records', prog: () => rec(fotosAlbum(), 5) },
   { id: 'compartit_1', cat: 'familia', nom: 'Compartint', desc: 'Has compartit el teu progrés amb la família', prog: d => rec(d.salut.compartit || 0, 1) }
 ];
-const medallaFeta = (m, d) => { const p = m.prog(d); return p.actual >= p.objectiu; };
-let _medallesNoves = [];
+// Medalles personalitzades: cadascú pot crear-ne de noves, canviar el nom i l'objectiu de les predeterminades o amagar-les.
+const TIPUS_MEDALLA = {
+  partides: { nom: 'Partides jugades', fn: d => d.totalPartides, desc: n => `Jugar ${n} partides` },
+  dies: { nom: 'Dies diferents jugant', fn: () => diesActius().size, desc: n => `Jugar ${n} dies diferents` },
+  ratxa: { nom: 'Dies seguits jugant', fn: () => calcularRatxaMaxima(), desc: n => `Jugar ${n} dies seguits` },
+  estrelles: { nom: 'Jocs amb 3 estrelles', fn: d => Object.values(d.estrelles || {}).filter(v => v === 3).length, desc: n => `3 estrelles a ${n} jocs` },
+  joc: { nom: 'Partides d\'un joc concret', fn: (d, x) => jugades(d, x.joc), desc: (n, x) => `Jugar ${n} partides de ${nomJoc(x.joc)}` }
+};
+const MEDALLES_SENSE_OBJECTIU = ['encerts_80', 'primer_dia'];   // el seu objectiu no és un simple comptador
+function medallaPersonal(x) {
+  const tp = TIPUS_MEDALLA[x.tipus] || TIPUS_MEDALLA.partides, o = clamp(+x.objectiu || 1, 1, 9999);
+  return { id: x.id, cat: 'pers', pers: true, nom: String(x.nom || '').slice(0, 40) || t('Medalla'), desc: tp.desc(o, x), prog: d => rec(tp.fn(d, x), o) };
+}
+function medallesDe(d) {
+  const ed = d.medallesEdit || {};
+  const base = MEDALLES.filter(m => !(ed[m.id] && ed[m.id].oculta)).map(m => {
+    const e = ed[m.id]; if (!e || (!e.nom && !e.objectiu)) return m;
+    return Object.assign({}, m, { nom: e.nom || m.nom, objectiu: MEDALLES_SENSE_OBJECTIU.includes(m.id) ? undefined : e.objectiu });
+  });
+  return (d.medallesPers || []).map(medallaPersonal).concat(base);
+}
+function progMedalla(m, d) { const p = m.prog(d), o = m.objectiu || p.objectiu; return { actual: Math.min(p.actual, o), objectiu: o }; }
+const medallaFeta = (m, d) => { const p = progMedalla(m, d); return p.actual >= p.objectiu; };
+let _medallesNoves = [], _cuaMedalles = [], _focusMedalla = null;
 function comprovarMedalles() {
-  const d = dadesActuals(), noves = MEDALLES.filter(m => !d.medalles.includes(m.id) && medallaFeta(m, d));
+  const d = dadesActuals(), noves = medallesDe(d).filter(m => !d.medalles.includes(m.id) && medallaFeta(m, d));
   if (!noves.length) return;
   noves.forEach(m => d.medalles.push(m.id)); _medallesNoves = noves.map(m => m.id);
   guardarDadesUsuari();
   // s'avisa després de la pantalla final perquè no se solapin
-  setTimeout(() => { toast(`Nova medalla: ${noves.map(m => m.nom).join(', ')}`, 4500, 'exit'); soEstrella(); }, partidaAcabada ? 2600 : 200);
+  const estaObert = _cuaMedalles.length > 0; _cuaMedalles.push(...noves);
+  if (!estaObert) setTimeout(mostraMedallaGuanyada, partidaAcabada ? 2600 : 200);
 }
+// Celebració en guanyar una medalla: la medalla entra girant i amb raigs de llum. Es tanca tocant on sigui.
+function mostraMedallaGuanyada() {
+  const m = _cuaMedalles[0], c = $('medallaCapa'); if (!m || !c) return;
+  setText('medallaCapaNom', m.nom); setText('medallaCapaDesc', m.desc); setText('medallaCapaCompte', _cuaMedalles.length > 1 ? `I ${_cuaMedalles.length - 1} més!` : '');
+  _focusMedalla = document.activeElement; c.hidden = false; c.classList.remove('entra'); void c.offsetWidth; c.classList.add('entra');
+  soEstrella(); vibrar([40, 30, 60]); if (animacionsActives()) confeti();
+  setTimeout(() => { const b = $('medallaCapaOk'); if (b) b.focus({ preventScroll: true }); }, 60);
+}
+function tancaMedalla() {
+  const c = $('medallaCapa'); if (!c || c.hidden) return;
+  soClic(); c.hidden = true; _cuaMedalles.shift();
+  if (_cuaMedalles.length) { setTimeout(mostraMedallaGuanyada, 250); return; }
+  if (_focusMedalla && _focusMedalla.focus && document.contains(_focusMedalla)) _focusMedalla.focus({ preventScroll: true });
+}
+document.addEventListener('keydown', e => { const c = $('medallaCapa'); if (c && !c.hidden && e.key === 'Escape') tancaMedalla(); });
 function htmlMedalles() {
-  const d = dadesActuals();
+  const d = dadesActuals(), totes = medallesDe(d);
   return Object.entries(CAT_MEDALLES).map(([cat, nomCat]) => {
-    const llista = MEDALLES.filter(m => m.cat === cat);
+    const llista = totes.filter(m => m.cat === cat); if (!llista.length) return '';
     return `<div class="cat-medalles"><h3>${nomCat}</h3><span class="xip">${llista.filter(m => d.medalles.includes(m.id)).length}/${llista.length}</span></div>
       <div class="medalles-grid">${llista.map(m => {
-        const feta = d.medalles.includes(m.id), p = m.prog(d), nova = _medallesNoves.includes(m.id);
+        const feta = d.medalles.includes(m.id), p = progMedalla(m, d), nova = _medallesNoves.includes(m.id);
         return `<div class="medalla${feta ? ' obtinguda' : ''}${nova ? ' nova' : ''}"><div class="medalla-ico">${ico(feta ? 'trofeu' : 'cadenat')}</div><div class="nom-m">${esc(m.nom)}</div><div class="desc-m">${esc(m.desc)}</div>
         ${feta ? '<span class="xip exit">Aconseguida</span>' : `<div class="barra-progres" role="progressbar" aria-valuemin="0" aria-valuemax="${p.objectiu}" aria-valuenow="${p.actual}" aria-label="Progrés de ${esc(m.nom)}"><div class="farcit" style="width:${Math.round(p.actual / p.objectiu * 100)}%"></div></div><span class="prog-text">${p.actual} / ${p.objectiu}</span>`}</div>`;
       }).join('')}</div>`;
   }).join('');
 }
+function renderMedalles() { const c = $('medallesCos'); if (c) c.innerHTML = htmlMedalles(); }
+PANTALLA_ENTRA.medalles = renderMedalles;
+function obrirMedalles() { soClic(); mostrarPantalla('medalles'); }
+// Si hi ha cuidador amb PIN, només ell canvia les medalles
+function obrirEditorMedalles() {
+  soClic(); const entra = () => mostrarPantalla('medallesEdita');
+  if (typeof teCuidadorPin === 'function' && teCuidadorPin() && !cuidadorObert) demanaPin('entrar', entra); else entra();
+}
+function renderEditorMedalles() {
+  const c = $('medallesEditaCos'); if (!c) return;
+  const d = dadesActuals(), ed = d.medallesEdit || {}, pers = d.medallesPers || [];
+  const opcionsTipus = Object.entries(TIPUS_MEDALLA).map(([k, v]) => `<option value="${k}">${esc(t(v.nom))}</option>`).join('');
+  const opcionsJoc = CATALEG_JOCS.map(j => `<option value="${j.id}">${esc(t(j.nom))}</option>`).join('');
+  c.innerHTML = `<div class="panell grup-ajustos"><h3>Crear una medalla</h3>
+      <label class="etiqueta-camp" for="mdNom">Nom de la medalla</label><input type="text" class="camp-input" id="mdNom" maxlength="40" autocomplete="off" placeholder="Per exemple: Campiona de la Tertúlia">
+      <label class="etiqueta-camp" for="mdTipus">Què s'ha de fer?</label><select class="camp-input" id="mdTipus" onchange="medallaTipusCanvi()">${opcionsTipus}</select>
+      <div id="mdFilaJoc" hidden><label class="etiqueta-camp" for="mdJoc">Quin joc?</label><select class="camp-input" id="mdJoc">${opcionsJoc}</select></div>
+      <label class="etiqueta-camp" for="mdObjectiu">Quantes vegades?</label><input type="number" class="camp-input" id="mdObjectiu" min="1" max="9999" value="10" inputmode="numeric">
+      <button type="button" class="boto-principal boto-ample" onclick="medallaAfegeix()">Afegir la medalla</button></div>
+    ${pers.length ? `<div class="panell grup-ajustos"><h3>Les que has creat</h3>${pers.map(x => { const m = medallaPersonal(x); return `<div class="ajust-fila"><div class="etiqueta-ajust">${esc(m.nom)}<small>${esc(m.desc)}</small></div><button type="button" class="ib" onclick="medallaEsborra('${esc(x.id)}')" aria-label="Esborrar ${esc(m.nom)}">${ico('paperera')}</button></div>`; }).join('')}</div>` : ''}
+    <div class="panell grup-ajustos"><h3>Les predeterminades</h3><p class="ajuda-camp">Pots canviar-los el nom i l'objectiu, o amagar les que no vulguis. Sempre les pots tornar a deixar com eren.</p>
+      ${MEDALLES.map(m => { const e = ed[m.id] || {}, on = !e.oculta, ambObj = !MEDALLES_SENSE_OBJECTIU.includes(m.id), obj = e.objectiu || m.prog(d).objectiu; return `<div class="medalla-edita${on ? '' : ' oculta'}">
+        <div class="ajust-fila"><div class="etiqueta-ajust">${esc(e.nom || m.nom)}<small>${esc(m.desc)}</small></div><button type="button" class="toggle${on ? ' actiu' : ''}" role="switch" aria-checked="${on}" aria-label="Mostrar ${esc(e.nom || m.nom)}" onclick="medallaMostra('${m.id}')"></button></div>
+        ${on ? `<div class="medalla-camps"><label>Nom<input type="text" class="camp-input" maxlength="40" value="${esc(e.nom || t(m.nom))}" onchange="medallaCanvia('${m.id}', 'nom', this.value)"></label>${ambObj ? `<label>Objectiu<input type="number" class="camp-input" min="1" max="9999" value="${obj}" inputmode="numeric" onchange="medallaCanvia('${m.id}', 'objectiu', this.value)"></label>` : ''}${e.nom || e.objectiu ? `<button type="button" class="boto-fantasma boto-petit" onclick="medallaRestableix('${m.id}')">Deixar com era</button>` : ''}</div>` : ''}</div>`; }).join('')}</div>`;
+}
+PANTALLA_ENTRA.medallesEdita = renderEditorMedalles;
+function medallaTipusCanvi() { $('mdFilaJoc').hidden = $('mdTipus').value !== 'joc'; }
+function medallaAfegeix() {
+  const nom = $('mdNom').value.trim(), tipus = $('mdTipus').value, objectiu = clamp(parseInt($('mdObjectiu').value, 10) || 0, 0, 9999);
+  if (!nom) { toast('Posa-li un nom a la medalla'); $('mdNom').focus(); return; }
+  if (!objectiu) { toast('Escriu quantes vegades, amb un número'); $('mdObjectiu').focus(); return; }
+  const d = dadesActuals(); d.medallesPers = d.medallesPers || [];
+  d.medallesPers.push({ id: 'mp_' + Date.now(), nom, tipus, objectiu, joc: tipus === 'joc' ? $('mdJoc').value : null });
+  guardarDadesUsuari(); soEncert(); toast('Medalla creada', 2200, 'exit'); renderEditorMedalles(); comprovarMedalles();
+}
+function medallaEsborra(id) { mostrarConfirmacio('Esborrar la medalla?', 'Es perdrà aquesta medalla.', () => { const d = dadesActuals(); d.medallesPers = (d.medallesPers || []).filter(x => x.id !== id); d.medalles = d.medalles.filter(x => x !== id); guardarDadesUsuari(); renderEditorMedalles(); }); }
+function medallaEdicio(id) { const d = dadesActuals(); d.medallesEdit = d.medallesEdit || {}; return d.medallesEdit[id] = d.medallesEdit[id] || {}; }
+function medallaMostra(id) { const e = medallaEdicio(id); e.oculta = !e.oculta; guardarDadesUsuari(); soClic(); renderEditorMedalles(); }
+function medallaCanvia(id, camp, valor) {
+  const e = medallaEdicio(id);
+  if (camp === 'nom') { const v = String(valor).trim().slice(0, 40), orig = (MEDALLES.find(m => m.id === id) || {}).nom; if (v && v !== orig && v !== t(orig)) e.nom = v; else delete e.nom; }
+  else { const v = clamp(parseInt(valor, 10) || 0, 0, 9999); if (v) e.objectiu = v; else delete e.objectiu; }
+  guardarDadesUsuari(); renderEditorMedalles(); comprovarMedalles();
+}
+function medallaRestableix(id) { const e = medallaEdicio(id); delete e.nom; delete e.objectiu; guardarDadesUsuari(); soClic(); renderEditorMedalles(); }
 function htmlRepteDiari() {
   const d = dadesActuals(), avui = avuiISO(), objectiu = 3, fetes = d.historial.filter(h => h.data === avui).length, complet = fetes >= objectiu;
   return `<div class="repte-cap" style="display:flex;justify-content:space-between"><strong>${complet ? 'Repte diari completat' : 'Repte diari'}</strong><span>${Math.min(fetes, objectiu)}/${objectiu}</span></div>

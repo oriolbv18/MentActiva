@@ -77,17 +77,41 @@ function albumPujar(ev) {
   const f = ev.target.files[0]; ev.target.value = ''; if (!f) return;
   comprimirImatge(f, { ampladaMax: 640, qualitat: 0.68 }, url => {
     if (!url) { toast("No s'ha pogut llegir la foto. Prova amb una altra.", 4000, 'error'); return; }
-    const album = obtenirAlbum(); album[avuiISO()] = url;
-    const claus = Object.keys(album).sort(); while (claus.length > MAX_FOTOS) delete album[claus.shift()];
-    if (!lsSet(clauAlbum(), album)) return;
-    soVictoria(); celebracioCompleta(); toast('Foto guardada', 2500, 'exit'); renderAlbum(); comprovarMedalles();
+    albumDesa(url);
   });
+}
+// Es poden guardar diverses fotos del mateix dia (abans, la segona esborrava la primera sense dir res)
+function albumDesa(url) {
+  const album = obtenirAlbum(), avui = avuiISO(); let clau = avui, k = 2;
+  while (album[clau]) clau = `${avui}_${k++}`;
+  album[clau] = url;
+  const claus = Object.keys(album).sort(); while (claus.length > MAX_FOTOS) delete album[claus.shift()];
+  if (!lsSet(clauAlbum(), album)) return;
+  soVictoria(); celebracioCompleta(); toast('Foto guardada', 2500, 'exit'); renderAlbum(); comprovarMedalles();
+}
+// Fer la foto: al mòbil o la tauleta s'obre la càmera del dispositiu; a l'ordinador, una vista de la càmera dins de l'app
+let _camera = null;
+function albumFerFoto() {
+  soClic();
+  const tactil = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+  if (tactil || !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) { $('albumCamera').click(); return; }
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false }).then(s => {
+    _camera = s; const v = $('cameraVideo'); v.srcObject = s; obrirModal('modalCamera', false); v.play().catch(() => {});
+  }).catch(() => { toast('No podem fer servir la càmera. Tria una foto del dispositiu.', 4000); $('albumInput').click(); });
+}
+function aturaCamera() { if (_camera) _camera.getTracks().forEach(p => p.stop()); _camera = null; const v = $('cameraVideo'); if (v) v.srcObject = null; }
+MODAL_TANCA.modalCamera = aturaCamera;
+function cameraDispara() {
+  const v = $('cameraVideo'); if (!v.videoWidth) return;
+  const w = Math.min(640, v.videoWidth), h = Math.round(v.videoHeight * w / v.videoWidth), c = document.createElement('canvas');
+  c.width = w; c.height = h; c.getContext('2d').drawImage(v, 0, 0, w, h);
+  const url = c.toDataURL('image/jpeg', 0.68); tancarModal('modalCamera'); albumDesa(url);
 }
 function renderAlbum() {
   const album = obtenirAlbum(), claus = Object.keys(album).sort().reverse(), cont = $('albumGaleria');
-  cont.innerHTML = claus.length ? claus.map(k => `<div class="album-item"><img src="${fotoSegura(album[k])}" alt="Foto del ${esc(k)}" loading="lazy"><div class="data">${esc(k)}</div>
-    <button type="button" class="album-esborra" data-album-esborra="${esc(k)}" aria-label="Esborrar la foto del ${esc(k)}">${ico('paperera')}</button></div>`).join('')
-    : '<div class="estat-buit" style="grid-column:1/-1"><span class="targeta-ico gran dom-llenguatge">' + ico('foto') + '</span><p>Encara no hi ha fotos. Puja la d\'avui: un lloc, una persona, un plat…</p></div>';
+  cont.innerHTML = claus.length ? claus.map(k => `<div class="album-item"><img src="${fotoSegura(album[k])}" alt="Foto del ${esc(k.slice(0, 10))}" loading="lazy"><div class="data">${esc(k.slice(0, 10))}</div>
+    <button type="button" class="album-esborra" data-album-esborra="${esc(k)}" aria-label="Esborrar la foto del ${esc(k.slice(0, 10))}">${ico('paperera')}</button></div>`).join('')
+    : '<div class="estat-buit" style="grid-column:1/-1"><span class="targeta-ico gran dom-llenguatge">' + ico('foto') + '</span><p>Encara no hi ha fotos. Fes-ne una: un lloc, una persona, un plat…</p></div>';
 }
 
 // ---------- Diari familiar (abans «missatges»: mai no sortien del dispositiu) ----------

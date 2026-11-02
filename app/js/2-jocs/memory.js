@@ -96,8 +96,11 @@
     soVictoria(); celebracioCompleta(); mostra('memory-reiniciar', true);
     if (dos) { setFeedback('memory', finalPartida2P(textGuanyador2P(punts[0], punts[1])), 'correcte'); marcador(); return; }
     setFeedback('memory', `Has guanyat en ${moviments} moviments!`, 'correcte');
-    // resultat = parelles / intents; puntuació = 100 punts menys 4 per cada intent de més
-    finalitzarPartida('memory', total, Math.max(0, moviments - total), `${moviments} intents per ${total} parelles`, { puntuacio: Math.max(0, 100 - (moviments - total) * 4) });
+    // Trobar totes les parelles ja és un bon resultat: ningú les encerta a la primera perquè primer les ha de descobrir.
+    // Fins a 1,75 intents per parella són 3 estrelles; fins a 3, 2 estrelles; més enllà, 1 estrella.
+    const ratio = moviments / total;
+    const pct = ratio <= 1.75 ? 100 - (ratio - 1) / .75 * 10 : ratio <= 3 ? 89 - (ratio - 1.75) / 1.25 * 19 : Math.max(40, 69 - (ratio - 3) * 10);
+    finalitzarPartida('memory', total, Math.max(0, moviments - total), `${moviments} intents per ${total} parelles`, { pct, puntuacio: Math.max(0, 100 - (moviments - total) * 4) });
   }
   $('memory-grid').addEventListener('click', e => { const b = e.target.closest('[data-i]'); if (b) clic(+b.dataset.i); });
 
@@ -123,7 +126,7 @@
 
   registrarJoc({
     id: 'memory', pista,
-    tutorial: { titol: 'Memory', cos: '<p>Gira les cartes de dues en dues i <strong>troba les parelles</strong>.</p><div class="exemple"><span>🌻</span><span>🍎</span><span>🌻</span></div><p>Si no coincideixen, es tornen a tapar: recorda on eren! Com menys intents facis, més puntuació.</p>' },
+    tutorial: { titol: 'Memory', cos: '<p>Gira les cartes de dues en dues i <strong>troba les parelles</strong>.</p><div class="exemple"><span>🌻</span><span>🍎</span><span>🌻</span></div><p>Si no coincideixen, es tornen a tapar: recorda on eren! Si les trobes totes ja tens 2 estrelles; amb pocs intents, 3.</p>' },
     obrir: ds => {
       dos = ds;
       if (ds) { nivell = 'mig'; reiniciar(); mostrarPantalla('joc-memory'); return; }

@@ -38,13 +38,10 @@ function canviaLletraRapid() {
 function alternaSoRapid() { ajustes.efectesSo = !ajustes.efectesSo; guardarAjustes(); pintarToggles(); actualitzaAjustosRapids(); actualitzarBotoSo(); if (ajustes.efectesSo) soClic(); }
 
 // ---------- Els meus jocs ----------
+// Tots els jocs visibles, primer els més jugats. Quins surten es tria a Ajustos i a l'Espai del cuidador; si ningú no en treu cap, surten tots.
 function jocsFavorits() {
-  const d = dadesActuals(), vis = visibles(), jugades = j => (d.partides[j.id] || {}).jugades || 0;
-  if (!d.totalPartides) return ['memory', 'tertulia', 'calcul', 'sopa', 'refranys', 'paraules'].map(infoJoc).filter(j => vis.includes(j)).concat(vis).filter((j, i, a) => a.indexOf(j) === i).slice(0, 6);
-  const trias = [...vis].sort((a, b) => jugades(b) - jugades(a)).slice(0, 3), dominis = new Set(trias.map(j => j.domini));
-  [...vis].sort((a, b) => a.min - b.min).forEach(j => { if (trias.length < 6 && !trias.includes(j) && !dominis.has(j.domini)) { trias.push(j); dominis.add(j.domini); } });
-  [...vis].sort((a, b) => jugades(b) - jugades(a)).forEach(j => { if (trias.length < 6 && !trias.includes(j)) trias.push(j); });
-  return trias;
+  const d = dadesActuals(), jugades = j => (d.partides[j.id] || {}).jugades || 0;
+  return [...visibles()].sort((a, b) => jugades(b) - jugades(a));
 }
 function obrirMeusJocs() { soClic(); modeActual = 'individual'; mostrarPantalla('meusJocs'); }
 function renderMeusJocs() {
@@ -112,7 +109,7 @@ function renderComVaig() {
   const d = dadesActuals(), ini = rangSetmana(0).ini, dies = [...Array(7)].map((_, k) => { const dt = new Date(ini + 'T12:00:00'); dt.setDate(dt.getDate() + k); return isoData(dt); });
   const jugats = new Set([...d.historial.map(h => h.data), ...(d.diesRecuperats || [])]), n = dies.filter(x => jugats.has(x)).length, avui = avuiISO();
   const estrellesMes = d.historial.filter(h => h.data >= dataMenys(30)).reduce((s, h) => s + calcularEstrelles(h.pct, false), 0);
-  const medalla = MEDALLES.filter(m => d.medalles.includes(m.id)).slice(-1)[0], propera = MEDALLES.filter(m => !d.medalles.includes(m.id)).map(m => ({ m, p: m.prog(d) })).sort((a, b) => b.p.actual / b.p.objectiu - a.p.actual / a.p.objectiu)[0];
+  const totesM = medallesDe(d), medalla = totesM.filter(m => d.medalles.includes(m.id)).slice(-1)[0], propera = totesM.filter(m => !d.medalles.includes(m.id)).map(m => ({ m, p: progMedalla(m, d) })).sort((a, b) => b.p.actual / b.p.objectiu - a.p.actual / a.p.objectiu)[0];
   const meta = 5, pctMeta = Math.min(100, Math.round(n / meta * 100));
   $('comVaigCos').innerHTML = `
     <p class="cv-frase">${n ? `Has jugat <strong>${n} ${plural(n, 'dia', 'dies')}</strong> aquesta setmana.` : 'Aquesta setmana encara no has jugat. Quan vulguis, comencem.'} ${n >= 4 ? ' Quina constància!' : n ? ' Molt bé!' : ''}</p>
@@ -120,6 +117,7 @@ function renderComVaig() {
     <div class="panell"><h2>La teva constància</h2><div class="barra-progres accio" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pctMeta}" aria-label="Constància d'aquesta setmana"><div class="farcit" style="width:${pctMeta}%"></div></div><p class="ajuda-camp">${n >= meta ? 'Has complert l\'objectiu de la setmana!' : 'Si jugues uns dies més, la completaràs.'}</p></div>
     ${estrellesMes ? `<div class="panell cv-estrelles"><span class="targeta-ico dom-atencio">${ico('estrella-ple')}</span><p>Aquest mes has guanyat <strong>${estrellesMes} estrelles</strong>.</p></div>` : ''}
     ${medalla ? `<div class="panell cv-estrelles"><span class="targeta-ico dom-atencio">${ico('trofeu')}</span><p>La teva última medalla: <strong>${esc(medalla.nom)}</strong></p></div>` : (propera ? `<div class="panell cv-estrelles"><span class="targeta-ico dom-neutre">${ico('trofeu')}</span><p>La teva primera medalla és a prop: <strong>${esc(propera.m.nom)}</strong></p></div>` : '')}
+    <button type="button" class="boto-secundari boto-gran boto-ample" onclick="obrirMedalles()">${ico('trofeu')}Veure totes les medalles</button>
     <button type="button" class="boto-jugar" onclick="iniciarSessio()"><span class="jugar-fila">${ico('play')}JUGAR</span></button>`;
 }
 PANTALLA_ENTRA.comVaig = renderComVaig;

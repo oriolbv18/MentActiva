@@ -106,6 +106,11 @@
     const sel = passos.length ? passos[passos.length - 1] : null;
     const possibles = new Set(candidats().map(m => m.cami[passos.length]).filter(Boolean).map(([f, c]) => f * N + c));
     const origens = new Set(passos.length ? [] : legals.map(m => m.cami[0][0] * N + m.cami[0][1]));
+    // Captura obligatòria: només pot jugar qui ha de menjar. Peces en vermell, la peça rival amb una creu i la casella on s'arriba
+    const obligat = !fi && (dos || torn === BLANQUES) && legals.length > 0 && legals[0].caps.length > 0;
+    const victimes = new Set(obligat ? candidats().map(m => m.caps[passos.length ? passos.length - 1 : 0]).filter(i => i != null) : []);
+    const avis = $('dames-obligat'); avis.hidden = !obligat;
+    if (obligat) avis.textContent = passos.length > 1 ? 'Pots seguir menjant: salta una altra vegada.' : passos.length ? 'Salta per sobre de la peça amb la creu, fins a la casella marcada.' : (legals.length > 1 ? 'Has de menjar! Toca una de les peces marcades en vermell.' : 'Has de menjar! Toca la peça marcada en vermell.');
     // Rastre de l'última jugada: d'on ha sortit la peça, per on ha passat, on ha arribat i què s'ha menjat
     const rastre = new Map();
     if (ultim) {
@@ -117,7 +122,7 @@
       const v = b[f * N + c], fosca = (f + c) % 2 === 1;
       if (v > 0) nb++; else if (v < 0) nn++;
       if (!fosca) { h += '<div class="casella clara"></div>'; continue; }
-      const cls = 'casella fosca' + (sel && sel[0] === f && sel[1] === c ? ' seleccionada' : '') + (possibles.has(f * N + c) ? ' possible' : '') + (origens.has(f * N + c) && !fi ? ' movible' : '') + (rastre.get(f * N + c) || '');
+      const cls = 'casella fosca' + (sel && sel[0] === f && sel[1] === c ? ' seleccionada' : '') + (possibles.has(f * N + c) ? (obligat ? ' possible salt' : ' possible') : '') + (origens.has(f * N + c) && !fi ? (obligat ? ' obliga' : ' movible') : '') + (victimes.has(f * N + c) ? ' victima' : '') + (rastre.get(f * N + c) || '');
       const peca = v ? `<span class="peca ${v > 0 ? 'blanca' : 'negra'}${Math.abs(v) === 2 ? ' rei' : ''}"></span>` : '';
       h += `<button type="button" class="${cls}" data-f="${f}" data-c="${c}" aria-label="Fila ${f + 1}, columna ${c + 1}">${peca}</button>`;
     }
@@ -132,7 +137,8 @@
     if (!passos.length) {
       if (legals.some(m => m.cami[0][0] === f && m.cami[0][1] === c)) { soClic(); passos = [[f, c]]; setFeedback('dames', 'Tria on vols moure-la.'); }
       else if (b[f * N + c] && colorDe(b[f * N + c]) === torn) {
-        setFeedback('dames', legals[0] && legals[0].caps.length ? 'Tens una captura obligatòria: has de menjar.' : 'Aquesta peça no es pot moure.', 'incorrecte'); soError();
+        const cap = legals[0] && legals[0].caps.length; setFeedback('dames', cap ? 'Aquesta peça no pot menjar. Toca una de les marcades en vermell.' : 'Aquesta peça no es pot moure.', 'incorrecte'); soError();
+        if (cap) { $('dames-tauler').classList.remove('avisa'); void $('dames-tauler').offsetWidth; $('dames-tauler').classList.add('avisa'); }
       }
       pinta(); return;
     }
@@ -141,7 +147,7 @@
       passos.push([f, c]);
       const acabat = seg.find(m => m.cami.length === passos.length);
       if (acabat) { executa(acabat); return; }
-      soClic(); setFeedback('dames', 'Pots seguir menjant: tria la propera casella.');
+      soClic(); setFeedback('dames', '');
     } else if (legals.some(m => m.cami[0][0] === f && m.cami[0][1] === c) && passos.length === 1) {
       soClic(); passos = [[f, c]];                       // canvia de peça
     } else passos = [];
@@ -216,7 +222,7 @@
 
   registrarJoc({
     id: 'dames', pista,
-    tutorial: { titol: 'Dames', cos: '<p>Mou les teves peces <strong>blanques</strong> en diagonal cap endavant. Toca una peça i després la casella on vols anar.</p><div class="regles"><strong>Regles que fem servir</strong><ul><li>Una peça es mou una casella en diagonal cap endavant.</li><li>Si pots saltar una peça contrària, <strong>has de menjar</strong> (és obligatori) i pots encadenar salts.</li><li>Les peces no mengen cap enrere, però les dames sí.</li><li>En arribar a l\'últim costat, la peça es corona i es converteix en <strong>dama</strong>: es mou una casella en qualsevol diagonal.</li><li>Guanya qui deixa l\'altre sense moviments o sense peces. Si passen 50 jugades sense menjar ni avançar, són taules.</li></ul></div><p>Nivells: <strong>fàcil</strong> mou a l\'atzar (i et deixa desfer); <strong>mig</strong> pensa 2 jugades; <strong>difícil</strong> en pensa 5.</p>' },
+    tutorial: { titol: 'Dames', cos: '<p>Mou les teves peces <strong>blanques</strong> en diagonal cap endavant. Toca una peça i després la casella on vols anar.</p><div class="regles"><strong>Regles que fem servir</strong><ul><li>Una peça es mou una casella en diagonal cap endavant.</li><li>Si pots saltar una peça contrària, <strong>has de menjar</strong> i pots encadenar salts. T\'ho avisem: les peces que poden menjar es marquen en vermell.</li><li>Les peces no mengen cap enrere, però les dames sí.</li><li>En arribar a l\'últim costat, la peça es corona i es converteix en <strong>dama</strong>: es mou una casella en qualsevol diagonal.</li><li>Guanya qui deixa l\'altre sense moviments o sense peces. Si passen 50 jugades sense menjar ni avançar, són taules.</li></ul></div><p>Nivells: <strong>fàcil</strong> mou a l\'atzar (i et deixa desfer); <strong>mig</strong> pensa 2 jugades; <strong>difícil</strong> en pensa 5.</p>' },
     obrir: ds => {
       dos = ds;
       if (ds) { nivell = 'mig'; reiniciar(); mostrarPantalla('joc-dames'); return; }

@@ -13,8 +13,8 @@ const COLORS_TUT = { vermell: 'background:#d94f4f;color:#fff', verd: 'background
 const filaTut = (...x) => `<div class="tut-fila">${x.map(v => `<span class="tut-x">${v}</span>`).join('')}</div>`;
 const TUTORIALS = {
   memory: [
-    { text: 'Les cartes estan girades. Toca la carta marcada.', fitxes: [{ t: '?', r: '🌻' }, { t: '?', r: '🍎' }, { t: '?', r: '🌻' }, { t: '?', r: '🍎' }], bona: 0, ok: 'És un gira-sol. Recorda on és!' },
-    { text: 'Ara busca l\'altre gira-sol. Toca la carta marcada.', fitxes: [{ t: '🌻', cls: 'oberta' }, { t: '?', r: '🍎' }, { t: '?', r: '🌻' }, { t: '?', r: '🍎' }], bona: 2, ok: 'Són iguals! La parella queda descoberta.' },
+    { text: 'Les cartes estan girades. Toca la carta marcada.', fitxes: [{ t: '?', r: '🌻', a: 'Carta tapada' }, { t: '?', r: '🍎', a: 'Carta tapada' }, { t: '?', r: '🌻', a: 'Carta tapada' }, { t: '?', r: '🍎', a: 'Carta tapada' }], bona: 0, ok: 'És un gira-sol. Recorda on és!' },
+    { text: 'Ara busca l\'altre gira-sol. Toca la carta marcada.', fitxes: [{ t: '🌻', cls: 'oberta', a: 'Gira-sol' }, { t: '?', r: '🍎', a: 'Carta tapada' }, { t: '?', r: '🌻', a: 'Carta tapada' }, { t: '?', r: '🍎', a: 'Carta tapada' }], bona: 2, ok: 'Són iguals! La parella queda descoberta.' },
     { text: 'Si les dues cartes no són iguals, es tornen a tapar. No passa res: recorda on eren i torna-ho a provar.' }
   ],
   nback: [
@@ -53,8 +53,8 @@ const TUTORIALS = {
     { text: 'El mateix passa a cada columna i a cada quadrat de la graella. Tens 3 errors i 3 pistes.' }
   ],
   sequencia: [
-    { text: 'Els botons s\'il·luminen en un ordre: primer el taronja, després el blau. Repeteix-lo. Toca el taronja.', fitxes: [{ t: '●', s: COLORS_TUT.taronja }, { t: '■', s: COLORS_TUT.blau }, { t: '▲', s: COLORS_TUT.verd }, { t: '◆', s: COLORS_TUT.groc }], bona: 0 },
-    { text: 'Ara el blau.', fitxes: [{ t: '●', s: COLORS_TUT.taronja }, { t: '■', s: COLORS_TUT.blau }, { t: '▲', s: COLORS_TUT.verd }, { t: '◆', s: COLORS_TUT.groc }], bona: 1, ok: 'Molt bé! Cada ronda s\'hi afegeix un color nou.' }
+    { text: 'Els botons s\'il·luminen en un ordre: primer el taronja, després el blau. Repeteix-lo. Toca el taronja.', fitxes: [{ t: '●', s: COLORS_TUT.taronja, a: 'Taronja' }, { t: '▲', s: COLORS_TUT.blau, a: 'Blau' }, { t: '■', s: COLORS_TUT.verd, a: 'Verd' }, { t: '★', s: COLORS_TUT.groc, a: 'Groc' }], bona: 0 },
+    { text: 'Ara el blau.', fitxes: [{ t: '●', s: COLORS_TUT.taronja, a: 'Taronja' }, { t: '▲', s: COLORS_TUT.blau, a: 'Blau' }, { t: '■', s: COLORS_TUT.verd, a: 'Verd' }, { t: '★', s: COLORS_TUT.groc, a: 'Groc' }], bona: 1, ok: 'Molt bé! Cada ronda s\'hi afegeix un color nou.' }
   ],
   sopa: [
     { text: 'Busca la paraula SOL. Toca la seva primera lletra: la S.', fitxes: ['K', 'S', 'O', 'L', 'M'], bona: 1 },
@@ -65,8 +65,8 @@ const TUTORIALS = {
     { text: 'Si no tens cap fitxa que encaixi, robes del pou. Guanya qui es queda primer sense fitxes.' }
   ],
   dames: [
-    { text: 'Tu jugues amb les blanques. Toca la teva peça.', fitxes: [{ t: '⚪' }, { t: '' }, { t: '' }], bona: 0, ok: 'Ara ja la tens seleccionada.' },
-    { text: 'Es mou en diagonal, cap endavant. Toca la casella marcada.', fitxes: [{ t: '⚪', cls: 'oberta' }, { t: '' }, { t: '·' }], bona: 2, ok: 'Moguda!' },
+    { text: 'Tu jugues amb les blanques. Toca la teva peça.', fitxes: [{ t: '⚪', a: 'La teva peça' }, { t: '', a: 'Casella buida' }, { t: '', a: 'Casella buida' }], bona: 0, ok: 'Ara ja la tens seleccionada.' },
+    { text: 'Es mou en diagonal, cap endavant. Toca la casella marcada.', fitxes: [{ t: '⚪', cls: 'oberta', a: 'La teva peça' }, { t: '', a: 'Casella buida' }, { t: '·', a: 'Casella marcada' }], bona: 2, ok: 'Moguda!' },
     { text: 'Si una peça teva pot saltar una rival, HAS de menjar. T\'ho avisem: les peces que poden menjar es marquen en vermell.' }
   ],
   bingo: [
@@ -98,12 +98,12 @@ function tutorialInteractiu(id, cont, resum, botoFi) {
   function pas() {
     const p = passos[i], fitxes = p.fitxes || []; fet = false;
     cont.innerHTML = `${punts()}<p class="tut-text" id="tutText" aria-live="polite">${esc(p.text)}</p>${p.mostra ? `<div class="tut-mostra">${p.mostra}</div>` : ''}
-      ${fitxes.length ? `<div class="tut-fitxes">${fitxes.map((f, k) => { const x = typeof f === 'string' ? { t: f } : f; return `<button type="button" class="tut-fitxa ${x.cls || ''}${p.marca !== false && k === p.bona ? ' guia' : ''}" data-k="${k}"${x.s ? ` style="${x.s}"` : ''}>${esc(x.t)}</button>`; }).join('')}</div>` : ''}
+      ${fitxes.length ? `<div class="tut-fitxes">${fitxes.map((f, k) => { const x = typeof f === 'string' ? { t: f } : f; return `<button type="button" class="tut-fitxa ${x.cls || ''}${p.marca !== false && k === p.bona ? ' guia' : ''}" data-k="${k}"${x.a ? ` aria-label="${esc(x.a)}"` : ''}${x.s ? ` style="${x.s}"` : ''}>${esc(x.t)}</button>`; }).join('')}</div>` : ''}
       <p class="tut-ok" id="tutOk" role="status"></p>
       <button type="button" class="boto-principal boto-gran boto-ample" id="tutSeguent"${p.bona != null ? ' hidden' : ''}>Següent</button>`;
     if (typeof llegirText === 'function') llegirText(p.text);
     const seg = cont.querySelector('#tutSeguent'); seg.onclick = seguent;
-    if (p.bona == null) setTimeout(() => seg.focus({ preventScroll: true }), 40);
+    setTimeout(() => { const f = p.bona == null ? seg : cont.querySelector('.tut-fitxa.guia') || cont.querySelector('.tut-fitxa'); if (f) f.focus({ preventScroll: true }); }, 60);
     cont.querySelectorAll('.tut-fitxa').forEach(b => {
       b.onclick = () => {
         if (fet) return;
@@ -114,7 +114,7 @@ function tutorialInteractiu(id, cont, resum, botoFi) {
           cont.querySelector(`.tut-fitxa[data-k="${p.bona}"]`).classList.add('guia'); return;
         }
         fet = true; soEncert(); vibrar(30); b.classList.remove('guia'); b.classList.add('encertada');
-        if (x.r) b.textContent = x.r;
+        if (x.r) { b.textContent = x.r; b.removeAttribute('aria-label'); }
         cont.querySelector('#tutOk').textContent = p.ok || 'Molt bé!';
         seg.hidden = false; seg.focus({ preventScroll: true });
       };

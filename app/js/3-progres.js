@@ -123,14 +123,16 @@ function comprovarMedalles() {
 // Celebració en guanyar una medalla: la medalla entra girant i amb raigs de llum. Es tanca tocant on sigui.
 function mostraMedallaGuanyada() {
   const m = _cuaMedalles[0], c = $('medallaCapa'); if (!m || !c) return;
+  if (enJoc() && !partidaAcabada) { setTimeout(mostraMedallaGuanyada, 1500); return; }
   setText('medallaCapaNom', m.nom); setText('medallaCapaDesc', m.desc); setText('medallaCapaCompte', _cuaMedalles.length > 1 ? `I ${_cuaMedalles.length - 1} més!` : '');
-  _focusMedalla = document.activeElement; c.hidden = false; c.classList.remove('entra'); void c.offsetWidth; c.classList.add('entra');
+  _focusMedalla = document.activeElement; c.hidden = false; _inertFons(true); c.classList.remove('entra'); void c.offsetWidth; c.classList.add('entra');
   soEstrella(); vibrar([40, 30, 60]); if (animacionsActives()) confeti();
   setTimeout(() => { const b = $('medallaCapaOk'); if (b) b.focus({ preventScroll: true }); }, 60);
 }
 function tancaMedalla() {
   const c = $('medallaCapa'); if (!c || c.hidden) return;
   soClic(); c.hidden = true; _cuaMedalles.shift();
+  if (!document.querySelector('.modal-fons.actiu')) _inertFons(false);
   if (_cuaMedalles.length) { setTimeout(mostraMedallaGuanyada, 250); return; }
   if (_focusMedalla && _focusMedalla.focus && document.contains(_focusMedalla)) _focusMedalla.focus({ preventScroll: true });
 }
@@ -147,16 +149,18 @@ function htmlMedalles() {
       }).join('')}</div>`;
   }).join('');
 }
-function renderMedalles() { const c = $('medallesCos'); if (c) c.innerHTML = htmlMedalles(); }
+let _pinMedalles = false;
+function renderMedalles() { if (_pinMedalles) { _pinMedalles = false; cuidadorObert = false; } const c = $('medallesCos'); if (c) c.innerHTML = htmlMedalles(); }
 PANTALLA_ENTRA.medalles = renderMedalles;
 function obrirMedalles() { soClic(); mostrarPantalla('medalles'); }
 // Si hi ha cuidador amb PIN, només ell canvia les medalles
 function obrirEditorMedalles() {
   soClic(); const entra = () => mostrarPantalla('medallesEdita');
-  if (typeof teCuidadorPin === 'function' && teCuidadorPin() && !cuidadorObert) demanaPin('entrar', entra); else entra();
+  if (typeof teCuidadorPin === 'function' && teCuidadorPin() && !cuidadorObert) demanaPin('entrar', () => { cuidadorObert = true; _pinMedalles = true; reiniciaInactivitatCuidador(); entra(); }); else entra();
 }
 function renderEditorMedalles() {
   const c = $('medallesEditaCos'); if (!c) return;
+  const foc = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.foc : null, y = window.scrollY;
   const d = dadesActuals(), ed = d.medallesEdit || {}, pers = d.medallesPers || [];
   const opcionsTipus = Object.entries(TIPUS_MEDALLA).map(([k, v]) => `<option value="${k}">${esc(t(v.nom))}</option>`).join('');
   const opcionsJoc = CATALEG_JOCS.map(j => `<option value="${j.id}">${esc(t(j.nom))}</option>`).join('');
@@ -169,8 +173,10 @@ function renderEditorMedalles() {
     ${pers.length ? `<div class="panell grup-ajustos"><h3>Les que has creat</h3>${pers.map(x => { const m = medallaPersonal(x); return `<div class="ajust-fila"><div class="etiqueta-ajust">${esc(m.nom)}<small>${esc(m.desc)}</small></div><button type="button" class="ib" onclick="medallaEsborra('${esc(x.id)}')" aria-label="Esborrar ${esc(m.nom)}">${ico('paperera')}</button></div>`; }).join('')}</div>` : ''}
     <div class="panell grup-ajustos"><h3>Les predeterminades</h3><p class="ajuda-camp">Pots canviar-los el nom i l'objectiu, o amagar les que no vulguis. Sempre les pots tornar a deixar com eren.</p>
       ${MEDALLES.map(m => { const e = ed[m.id] || {}, on = !e.oculta, ambObj = !MEDALLES_SENSE_OBJECTIU.includes(m.id), obj = e.objectiu || m.prog(d).objectiu; return `<div class="medalla-edita${on ? '' : ' oculta'}">
-        <div class="ajust-fila"><div class="etiqueta-ajust">${esc(e.nom || m.nom)}<small>${esc(m.desc)}</small></div><button type="button" class="toggle${on ? ' actiu' : ''}" role="switch" aria-checked="${on}" aria-label="Mostrar ${esc(e.nom || m.nom)}" onclick="medallaMostra('${m.id}')"></button></div>
-        ${on ? `<div class="medalla-camps"><label>Nom<input type="text" class="camp-input" maxlength="40" value="${esc(e.nom || t(m.nom))}" onchange="medallaCanvia('${m.id}', 'nom', this.value)"></label>${ambObj ? `<label>Objectiu<input type="number" class="camp-input" min="1" max="9999" value="${obj}" inputmode="numeric" onchange="medallaCanvia('${m.id}', 'objectiu', this.value)"></label>` : ''}${e.nom || e.objectiu ? `<button type="button" class="boto-fantasma boto-petit" onclick="medallaRestableix('${m.id}')">Deixar com era</button>` : ''}</div>` : ''}</div>`; }).join('')}</div>`;
+        <div class="ajust-fila"><div class="etiqueta-ajust">${esc(e.nom || m.nom)}<small>${esc(m.desc)}</small></div><button type="button" class="toggle${on ? ' actiu' : ''}" role="switch" aria-checked="${on}" aria-label="Mostrar ${esc(e.nom || m.nom)}" data-foc="t-${m.id}" onclick="medallaMostra('${m.id}')"></button></div>
+        ${on ? `<div class="medalla-camps"><label>Nom<input type="text" class="camp-input" maxlength="40" value="${esc(e.nom || t(m.nom))}" data-foc="n-${m.id}" onchange="medallaCanvia('${m.id}', 'nom', this.value)"></label>${ambObj ? `<label>Objectiu<input type="number" class="camp-input" min="1" max="9999" value="${obj}" inputmode="numeric" data-foc="o-${m.id}" onchange="medallaCanvia('${m.id}', 'objectiu', this.value)"></label>` : ''}${e.nom || e.objectiu ? `<button type="button" class="boto-fantasma boto-petit" onclick="medallaRestableix('${m.id}')">Deixar com era</button>` : ''}</div>` : ''}</div>`; }).join('')}</div>`;
+  if (foc) { const el = c.querySelector(`[data-foc="${foc}"]`); if (el) el.focus({ preventScroll: true }); }
+  window.scrollTo(0, y);
 }
 PANTALLA_ENTRA.medallesEdita = renderEditorMedalles;
 function medallaTipusCanvi() { $('mdFilaJoc').hidden = $('mdTipus').value !== 'joc'; }
@@ -189,7 +195,7 @@ function medallaCanvia(id, camp, valor) {
   const e = medallaEdicio(id);
   if (camp === 'nom') { const v = String(valor).trim().slice(0, 40), orig = (MEDALLES.find(m => m.id === id) || {}).nom; if (v && v !== orig && v !== t(orig)) e.nom = v; else delete e.nom; }
   else { const v = clamp(parseInt(valor, 10) || 0, 0, 9999); if (v) e.objectiu = v; else delete e.objectiu; }
-  guardarDadesUsuari(); renderEditorMedalles(); comprovarMedalles();
+  guardarDadesUsuari(); setTimeout(renderEditorMedalles, 0); comprovarMedalles();   // deixa que el focus arribi al camp següent
 }
 function medallaRestableix(id) { const e = medallaEdicio(id); delete e.nom; delete e.objectiu; guardarDadesUsuari(); soClic(); renderEditorMedalles(); }
 function htmlRepteDiari() {

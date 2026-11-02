@@ -1483,7 +1483,7 @@ html[data-zoom="extragran"] .ajust-rapid, html[data-zoom="gegant"] .ajust-rapid 
 .qf-compte { display: flex; align-items: center; gap: .7rem; flex: none; }
 .qf-compte[hidden] { display: none; }
 .qf-barra { flex: 1; height: .8rem; border-radius: var(--radi-pill); background: var(--superficie-2); overflow: hidden; }
-.qf-barra i { display: block; height: 100%; width: 100%; border-radius: inherit; background: var(--accio); transition: width 1s linear; }
+.qf-barra i { display: block; height: 100%; width: 100%; border-radius: inherit; background: var(--accio); transition: width .2s linear; }
 .qf-compte strong { min-width: 2.4rem; text-align: center; font-size: 1.7rem; font-weight: 900; line-height: 1; color: var(--marca-molt-fosc); font-variant-numeric: tabular-nums; }
 
 /* Recorda la seqüència: la forma no canvia en il·luminar-se */
@@ -1559,3 +1559,23 @@ html[data-zoom="extragran"] .ajust-rapid, html[data-zoom="gegant"] .ajust-rapid 
 .tut-final .tut-text { margin-bottom: .6rem; color: var(--marca-molt-fosc); }
 #tutorialOk.boto-fantasma { min-height: var(--tactil); }
 @media (prefers-reduced-motion: reduce) { .tut-fitxa.guia, .casella.obliga .peca { animation: none; } }
+
+/* v1.10: correccions de les proves */
+.tutorial-overlay.tancant { display: block; background: transparent; } .tutorial-overlay.tancant .tutorial-card { display: none; }
+.bola-gran { z-index: 990; }
+.jocs-gran { grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr)); }
+#medallesCos, #medallesEditaCos { grid-template-columns: minmax(0, 1fr); }
+.medalla-edita .ajust-fila, .medalla-edita .etiqueta-ajust { min-width: 0; overflow-wrap: anywhere; }
+/* Dames: que les marques manin també en el tema fosc */
+.dames-tauler .casella.fosca.obliga { background: #c8554c; }
+.dames-tauler .casella.fosca.victima { background: #7a2019; }
+.dames-tauler .casella.fosca.possible.salt { background: #f4d35e; }
+/* Dames: amb poc lloc, l'avís substitueix la informació i el tauler no s'encongeix */
+@media (max-height: 700px) { .lat-info:has(.dames-obligat:not([hidden])) .joc-info, .lat-info:has(.dames-obligat:not([hidden])) .feedback { display: none; } .dames-obligat { font-size: .9rem; padding: .35rem .6rem; } }
+html[data-zoom="extragran"] .lat-info:has(.dames-obligat:not([hidden])) .joc-info, html[data-zoom="gegant"] .lat-info:has(.dames-obligat:not([hidden])) .joc-info, html[data-zoom="extragran"] .lat-info:has(.dames-obligat:not([hidden])) .feedback, html[data-zoom="gegant"] .lat-info:has(.dames-obligat:not([hidden])) .feedback { display: none; }
+/* Títol del joc en pantalles molt estretes o amb lletra molt gran: en una línia pròpia, sencer */
+@media (max-width: 340px) { .barra-joc { flex-wrap: wrap; } .barra-joc .barra-titol { order: 9; flex: 1 0 100%; } .barra-joc .barra-titol p { display: none; } }
+@media (max-width: 420px) { html[data-zoom="extragran"] .barra-joc, html[data-zoom="gegant"] .barra-joc { flex-wrap: wrap; } html[data-zoom="extragran"] .barra-joc .barra-titol, html[data-zoom="gegant"] .barra-joc .barra-titol { order: 9; flex: 1 0 100%; } html[data-zoom="extragran"] .barra-joc .barra-titol p, html[data-zoom="gegant"] .barra-joc .barra-titol p { display: none; } }
+/* Medalla guanyada: sempre hi cap */
+.medalla-targeta { max-height: 100%; overflow-y: auto; }
+@media (max-height: 560px) { .medalla-gran { width: 4.5rem; height: 4.5rem; margin-bottom: 0; } .medalla-disc { width: 3.4rem; height: 3.4rem; } .medalla-disc .ico { width: 1.9rem; height: 1.9rem; } .medalla-targeta { padding: .7rem 1rem; } .medalla-targeta > * + * { margin-top: .2rem; } }

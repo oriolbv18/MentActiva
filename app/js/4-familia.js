@@ -96,6 +96,7 @@ function albumFerFoto() {
   const tactil = window.matchMedia && matchMedia('(pointer: coarse)').matches;
   if (tactil || !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) { $('albumCamera').click(); return; }
   navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false }).then(s => {
+    if (idPantallaActiva() !== 'album') { s.getTracks().forEach(p => p.stop()); return; }
     _camera = s; const v = $('cameraVideo'); v.srcObject = s; obrirModal('modalCamera', false); v.play().catch(() => {});
   }).catch(() => { toast('No podem fer servir la càmera. Tria una foto del dispositiu.', 4000); $('albumInput').click(); });
 }

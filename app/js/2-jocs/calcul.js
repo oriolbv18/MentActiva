@@ -4,7 +4,7 @@
 //  Comptes molt senzills i de la vida real, sense cèntims ni percentatges.
 //  Fàcil: sumes i restes petites · Mig: la compra amb euros rodons · Difícil: una mica més llargs, però sempre de cap.
 // ==========================================================
-const PRODUCTES_CALCUL = [['El pa', 1, 2], ['La llet', 1, 2], ['El cafè', 1, 2], ['Una poma', 1, 1], ['El formatge', 3, 6], ['El peix', 5, 9], ['Les galetes', 2, 3], ['L\'oli', 4, 7], ['La fruita', 2, 4], ['El diari', 1, 2]];
+const PRODUCTES_CALCUL = [['El pa', 1, 2], ['La llet', 1, 2], ['El cafè', 1, 2], ['Una poma', 1, 1], ['El formatge', 3, 6], ['El peix', 5, 9], ['La capsa de galetes', 2, 3], ['L\'oli', 4, 7], ['La fruita', 2, 4], ['El diari', 1, 2]];
 const COSES_CALCUL = ['pomes', 'taronges', 'ous', 'galetes', 'flors', 'llibres'];
 
 const CALCUL_TIPUS = {

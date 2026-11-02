@@ -126,7 +126,7 @@
 
   registrarJoc({
     id: 'memory', pista,
-    tutorial: { titol: 'Memory', cos: '<p>Gira les cartes de dues en dues i <strong>troba les parelles</strong>.</p><div class="exemple"><span>🌻</span><span>🍎</span><span>🌻</span></div><p>Si no coincideixen, es tornen a tapar: recorda on eren! Si les trobes totes ja tens 2 estrelles; amb pocs intents, 3.</p>' },
+    tutorial: { titol: 'Troba les parelles', cos: '<p>Gira les cartes de dues en dues i <strong>troba les parelles</strong>.</p><div class="exemple"><span>🌻</span><span>🍎</span><span>🌻</span></div><p>Si no coincideixen, es tornen a tapar: recorda on eren! Si les trobes totes ja tens 2 estrelles; amb pocs intents, 3.</p>' },
     obrir: ds => {
       dos = ds;
       if (ds) { nivell = 'mig'; reiniciar(); mostrarPantalla('joc-memory'); return; }

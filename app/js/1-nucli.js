@@ -323,7 +323,7 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => {
   if (e.key === 'Tab') {
-    const obert = [...document.querySelectorAll('.modal-fons.actiu, .tutorial-overlay.actiu, .onboarding-overlay.actiu')].pop(); if (!obert) return;
+    const obert = [...document.querySelectorAll('.modal-fons.actiu, .tutorial-overlay.actiu, .onboarding-overlay.actiu, #medallaCapa:not([hidden])')].pop(); if (!obert) return;
     const f = [...obert.querySelectorAll(SELECTOR_FOCUS)].filter(x => x.offsetParent !== null || x === document.activeElement);
     if (!f.length) return;
     const primer = f[0], ultim = f[f.length - 1];
@@ -332,22 +332,23 @@ document.addEventListener('keydown', e => {
     return;
   }
   if (e.key !== 'Escape') return;
+  const med = $('medallaCapa'); if (med && !med.hidden) return;
   const tut = $('tutorialOverlay');
   if (tut && tut.classList.contains('actiu')) { tancarTutorial(); return; }
   const obert = [...document.querySelectorAll('.modal-fons.actiu')].pop();
   if (obert) { if (obert.id === 'modalPausa') reprendreJoc(); else if (obert.id !== 'modalFi') tancarModal(obert.id); }
 });
 
-let _confirmCallback = null;
-MODAL_TANCA.modalConfirm = () => { _confirmCallback = null; };
+let _confirmCallback = null, _confirmCancela = null;
+MODAL_TANCA.modalConfirm = () => { _confirmCallback = null; const c = _confirmCancela; _confirmCancela = null; if (c) c(); };
 function mostrarConfirmacio(titol, text, callback, opcions = {}) {
   setText('confirmTitol', titol); setText('confirmText', text);
   setText('confirmOk', opcions.boto || 'Sí, endavant'); setText('confirmCancela', opcions.cancela || 'Cancel·lar');
   $('confirmOk').className = opcions.perill === false ? 'boto-principal' : 'boto-perill';
-  _confirmCallback = callback; obrirModal('modalConfirm', false);
+  _confirmCallback = callback; _confirmCancela = opcions.enCancelar || null; obrirModal('modalConfirm', false);
 }
 function confirmarAccio() {
-  const cb = _confirmCallback; _confirmCallback = null;
+  const cb = _confirmCallback; _confirmCallback = null; _confirmCancela = null;
   tancarModal('modalConfirm');
   if (typeof cb === 'function') cb();
 }
@@ -783,6 +784,7 @@ const idPantallaActiva = () => (document.querySelector('.screen.active') || {}).
 function mostrarPantalla(id, opcions = {}) {
   if (!$(id)) return;
   const anterior = document.querySelector('.screen.active');
+  document.querySelectorAll('.bola-gran').forEach(x => x.remove());
   if (anterior && anterior.id !== id && anterior.id.startsWith('joc-')) { if (partidaEnCurs()) registraAbandonament(); aturaTimers(); aturarVeu(); enPausa = false; anterior.classList.remove('en-pausa'); }
   document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === id));
   document.body.classList.toggle('jugant', id.startsWith('joc-')); document.body.dataset.pantalla = id;
@@ -800,6 +802,7 @@ function mostrarPantalla(id, opcions = {}) {
 }
 window.addEventListener('hashchange', () => {
   if (_ignoraHash) { _ignoraHash = false; return; }
+  if (tancaCapaPerEnrere()) return;
   const id = (location.hash || '').replace(/^#\/?/, ''), actual = idPantallaActiva();
   if (_navProfunditat > 0) _navProfunditat--;
   if (!id || !$(id) || id.startsWith('joc-')) { if (actual && actual.startsWith('joc-')) { sortirDeJocPerHistorial('inici'); return; } mostrarPantalla('inici', { senseHash: true }); return; }
@@ -811,7 +814,19 @@ function sortirDeJocPerHistorial(destiId) {
   const actual = idPantallaActiva();
   if (partidaAcabada) { mostrarPantalla(destiId, { senseHash: true }); return; }
   _ignoraHash = true; _navProfunditat++; location.hash = '#/' + actual;
-  mostrarConfirmacio('Sortir del joc?', 'Si surts ara perdràs la partida que tens començada.', () => { mostrarPantalla($(destiId) ? destiId : 'inici'); }, { boto: 'Sí, sortir', cancela: 'Continuar jugant' });
+  confirmaSortir(() => { mostrarPantalla($(destiId) ? destiId : 'inici'); });
+}
+function confirmaSortir(surt) {
+  const jaEnPausa = enPausa; pausaTimers();
+  mostrarConfirmacio('Sortir del joc?', 'Si surts ara perdràs la partida que tens començada.', () => { tancarModal('modalPausa'); surt(); }, { boto: 'Sí, sortir', cancela: 'Continuar jugant', enCancelar: () => { if (!jaEnPausa) reprenTimers(); } });
+}
+// A13 i A8. «Enrere» amb una guia o el selector de nivell oberts: es tanca només això i es queda a la mateixa pantalla
+function tancaCapaPerEnrere() {
+  const tut = $('tutorialOverlay').classList.contains('actiu'), dif = $('modalDificultat').classList.contains('actiu');
+  if (!tut && !dif) return false;
+  const h = '#/' + idPantallaActiva(); if (location.hash !== h) { _ignoraHash = true; location.hash = h; }
+  if (tut) { if (!window._tutorialForcat) window._tutorialCallback = null; tancarTutorial(); } else tancarModal('modalDificultat');
+  return true;
 }
 function tornarEnrere() { if (_navProfunditat > 0 && history.length > 1) history.back(); else anarAInici(); }
 function navAnar(id) {
@@ -827,7 +842,7 @@ function tornarMenuActual() { soClic(); mostrarPantalla(modeActual === '2vs2' ? 
 function intentarSortir(forcat) {
   const p = document.querySelector('.screen.active');
   if (forcat === true || partidaAcabada || !p || !p.id.startsWith('joc-') || !partidaEnCurs()) { tornarMenuActual(); return; }
-  mostrarConfirmacio('Sortir del joc?', 'Si surts ara perdràs la partida que tens començada.', tornarMenuActual, { boto: 'Sí, sortir', cancela: 'Continuar jugant' });
+  confirmaSortir(tornarMenuActual);
 }
 // Una partida «en curs» és la que ja ha començat de debò (hi ha hagut alguna interacció després d'obrir-la)
 let _partidaIniciada = false;
@@ -911,7 +926,7 @@ document.addEventListener('click', e => {
 function pausarJoc() {
   if (!enJoc() || enPausa || partidaAcabada) return;
   pausaTimers(); aturarVeu(); _pausesPartida++; const p = $('joc-' + jocActualId); if (p) p.classList.add('en-pausa');
-  mostra('pausaNivell', JOCS_AMB_NIVELL.includes(jocActualId) && !(modeActual === '2vs2'), 'flex');
+  mostra('pausaNivell', JOCS_AMB_NIVELL.includes(jocActualId) && modeActual !== '2vs2' && !(typeof duelNivellForcat === 'function' && duelNivellForcat(jocActualId)), 'flex');
   obrirModal('modalPausa', false);
 }
 function reprendreJoc() {
@@ -927,17 +942,18 @@ function mostrarTutorial(id, callback, forcat) {
   if (forcat) pausaTimers();
   $('tutorialIcona').innerHTML = ico(iconaJoc(id)); $('tutorialIcona').className = 'targeta-ico gran dom-' + dominiJoc(id); setText('tutorialTitol', t.titol);
   const boto = $('tutorialOk'), textFi = forcat ? 'Entesos' : 'Entesos, a jugar';
-  const botoFinal = () => { setText('tutorialOk', textFi); boto.className = 'boto-principal boto-gran boto-ample'; };
+  const botoFinal = () => { setText('tutorialOk', textFi); boto.className = 'boto-principal boto-gran boto-ample'; setTimeout(() => boto.focus({ preventScroll: true }), 40); };
   // Si el joc té guia interactiva, es juga una mini-partida; el botó de sota permet saltar-la. Al final, el resum de sempre.
   if (typeof tutorialInteractiu === 'function' && tutorialInteractiu(id, $('tutorialCos'), t.cos, botoFinal)) { setText('tutorialOk', forcat ? 'Tancar' : 'Saltar i jugar'); boto.className = 'boto-fantasma boto-ample'; }
   else { $('tutorialCos').innerHTML = t.cos; botoFinal(); }
   _focusPrevi.push(document.activeElement);
   $('tutorialOverlay').classList.add('actiu'); _inertFons(true);
-  setTimeout(() => $('tutorialOk').focus(), 40);
+  if (!document.querySelector('#tutorialCos .tut-punts')) setTimeout(() => $('tutorialOk').focus(), 40);
+  window._tutorialForcat = !!forcat;
   window._tutorialCallback = forcat ? () => reprenTimers() : () => { vistos[id] = true; lsSet('mentA_tutorials', vistos); if (callback) callback(); };
 }
 function tancarTutorial() {
-  soClic(); $('tutorialOverlay').classList.remove('actiu'); aturarVeu();
+  soClic(); const ov = $('tutorialOverlay'); ov.classList.remove('actiu'); ov.classList.add('tancant'); setTimeout(() => ov.classList.remove('tancant'), 320); aturarVeu();
   if (!document.querySelector('.modal-fons.actiu')) _inertFons(false);
   const f = _focusPrevi.pop(); if (f && f.focus && document.contains(f)) f.focus({ preventScroll: true });
   const cb = window._tutorialCallback; window._tutorialCallback = null;
@@ -957,7 +973,7 @@ function mostrarModalDificultat(op, callback) {
       <span class="dif-text"><strong>${esc(o.nom)}</strong><small>${esc(o.descripcio)}</small></span>
       ${o.recomanat ? '<span class="badge-recomanat">Recomanat</span>' : ''}`;
     b.onclick = () => {
-      soClic(); tancarModal('modalDificultat');
+      _canviNivellPendent = false; soClic(); tancarModal('modalDificultat');
       if (op.joc) guardarNivellJoc(op.joc, o.id, true);
       setTimeout(() => callback(o.id), 150);
     };
@@ -979,13 +995,19 @@ function triaDificultat(joc, titol, subtitol, descripcions, callback) {
   mostrarModalDificultat({
     joc, titol, subtitol,
     llista: ['facil', 'mig', 'dificil'].map((id, i) => ({ id, nom: NOMS_NIVELL[id], descripcio: descripcions[i], recomanat: reco === id }))
-  }, nivell => { dificultatActual = nivell; callback(nivell); });
+  }, nivell => {
+    if (manual) { const p = $('joc-' + jocActualId); if (p) p.classList.remove('en-pausa'); reprenTimers(); aturaTimers(); iniciPartida(); }
+    dificultatActual = nivell; callback(nivell);
+  });
+  _canviNivellPendent = manual;
 }
+// Si es tanca el selector sense triar (creu, Esc, fora, enrere), el joc continua en pausa on era
+let _canviNivellPendent = false;
+MODAL_TANCA.modalDificultat = () => { if (_canviNivellPendent) { _canviNivellPendent = false; setTimeout(() => obrirModal('modalPausa', false), 60); } };
 // Canvi de nivell des de la pausa o des de la pantalla final
 function canviarNivellJoc() {
   const j = JOCS[jocActualId]; if (!j || !JOCS_AMB_NIVELL.includes(jocActualId)) return;
-  tancarModal('modalPausa'); const p = $('joc-' + jocActualId); if (p) p.classList.remove('en-pausa');
-  reprenTimers(); aturaTimers(); iniciPartida(); _forcarManual = true;
+  tancarModal('modalPausa'); _forcarManual = true;
   j.obrir(false);
 }
 

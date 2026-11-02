@@ -102,10 +102,10 @@ function crearQuiz(cfg) {
       if (c.mode === 'estrategia') {
         if (n === 2) return { text: p.h2 || c.h2 || "Fes-ho per parts, sense pressa.", objectiu: () => el('pregunta') };
         const dues = falses.slice(0, 2);
-        return { text: p.h3 || `La resposta comença per «${String(correcta).charAt(0)}».`, explica: (p.h3 || `La resposta comença per «${String(correcta).charAt(0)}».`) + (p.expl ? ' ' + p.expl : '') + ' He descartat dues opcions.', objectiu: () => bona, aplica: () => dues.forEach(descarta) };
+        return { text: p.h3 || `La resposta comença per «${String(correcta).charAt(0)}».`, explica: [p.h3 || `La resposta comença per «${String(correcta).charAt(0)}».`, p.expl ? p.expl + '.' : '', 'He descartat dues opcions.'].filter(Boolean).map(x => t(x.replace(/\.\.$/, '.'))).join(' '), objectiu: () => bona, aplica: () => dues.forEach(descarta) };
       }
       if (n === 2) { const f = falses[0]; return f ? { text: "Aquesta opció no pot ser. L'he descartada.", objectiu: () => f, aplica: () => descarta(f) } : null; }
-      return { text: `La resposta és «${correcta}».`, explica: `La resposta és «${correcta}».${p.expl ? ' ' + p.expl : ''}`, objectiu: () => bona, aplica: () => { if (bona) bona.classList.add('pista-flash'); } };
+      return { text: `La resposta és «${correcta}».`, explica: t(`La resposta és «${correcta}».`) + (p.expl ? ' ' + t(p.expl) : ''), objectiu: () => bona, aplica: () => { if (bona) bona.classList.add('pista-flash'); } };
     }
   };
 

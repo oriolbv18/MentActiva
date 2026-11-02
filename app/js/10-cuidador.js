@@ -98,7 +98,7 @@ function pinOblidat() {
 }
 
 // ---------- Entrar i sortir de l'Espai del Cuidador ----------
-const PANTALLES_PROTEGIDES = ['cuidador', 'configuracio', 'resumFamilia', 'testCognitiu'];
+const PANTALLES_PROTEGIDES = ['cuidador', 'configuracio', 'resumFamilia', 'testCognitiu', 'medallesEdita'];
 function pantallaProtegida(id) {
   if (!PANTALLES_PROTEGIDES.includes(id) || cuidadorObert || modeLectura) return false;
   if (!teCuidadorPin() && ajustes.rol !== 'cuidat' && ajustes.rol !== 'residencia') { cuidadorObert = true; return false; }   // «Jo mateix/a» sense PIN: accés lliure

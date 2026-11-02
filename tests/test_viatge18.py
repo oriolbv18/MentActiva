@@ -17,6 +17,7 @@ def comprova(cond, msg):
 def nou(p, w=390, h=844):
     b = p.chromium.launch(); ctx = b.new_context(bypass_csp=True, viewport={'width': w, 'height': h}, accept_downloads=True); pg = ctx.new_page()
     pg.on('pageerror', lambda e: errors.append('pageerror: ' + str(e))); pg.on('console', lambda m: errors.append('console: ' + m.text) if m.type == 'error' else None)
+    pg.add_init_script("setInterval(() => { const c = document.getElementById('medallaCapa'); if (c && !c.hidden && !window.__medallaManual && typeof tancaMedalla === 'function') tancaMedalla(); }, 200);")
     pg.goto(APP); pg.wait_for_timeout(700); return b, pg
 
 def onboarding(pg, rol, nom, pin):

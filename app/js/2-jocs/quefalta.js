@@ -9,7 +9,7 @@
   let ronda = 0, encerts = 0, objectes = [], falta = null, fase = 'fi', compte = null;
 
   // Compte enrere visible mentre es memoritza: números grans i una barra que s'escurça
-  function pintaCompte(s) { setText('qf-segons', s); $('qf-barra').style.width = (s / TEMPS_MEMORITZAR * 100) + '%'; }
+  function pintaCompte(ms) { setText('qf-segons', Math.ceil(ms / 1000)); $('qf-barra').style.width = (ms / (TEMPS_MEMORITZAR * 1000) * 100) + '%'; }
   function aturaCompte() { aturaTemps(compte); compte = null; $('qf-compte').hidden = true; }
 
   function reiniciar() {
@@ -28,8 +28,8 @@
     setText('qf-num', ronda + 1); setFeedback('qf', ''); $('qf-opcions').innerHTML = '';
     objectes = barreja(EMOJIS_QF).slice(0, OBJECTES); fase = 'memoritzar';
     setText('qf-subtitol', 'Memoritza els objectes…'); pintaGrid();
-    let queden = TEMPS_MEMORITZAR; $('qf-compte').hidden = false; pintaCompte(queden);
-    compte = interval(() => { queden = Math.max(0, queden - 1); pintaCompte(queden); }, 1000);
+    let queden = TEMPS_MEMORITZAR * 1000; $('qf-compte').hidden = false; pintaCompte(queden);
+    compte = interval(() => { queden = Math.max(0, queden - 200); pintaCompte(queden); }, 200);
     temps(() => {
       aturaCompte();
       const pos = enter(0, objectes.length - 1); falta = objectes[pos]; fase = 'endevinar';

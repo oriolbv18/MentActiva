@@ -23,7 +23,6 @@ def prepara(par, joc):
     elif joc == 'nback': click('#nback-iniciar'); par.avanca(2400)
     elif joc == 'span': click('#span-iniciar'); par.avanca(4800)
     elif joc == 'stroop': click('#stroop-iniciar'); par.avanca(200)
-    elif joc == 'fluidesa': click('#fluidesa-iniciar'); par.avanca(300)
     elif joc == 'quefalta': click('#qf-iniciar'); par.avanca(7000)
     elif joc == 'bingo': click('#bingo-comencar'); par.avanca(9000)
     elif joc == 'domino':

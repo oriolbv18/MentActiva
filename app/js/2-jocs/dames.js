@@ -104,7 +104,7 @@
   }
   function pinta() {
     const sel = passos.length ? passos[passos.length - 1] : null;
-    const possibles = new Set(candidats().map(m => m.cami[passos.length]).filter(Boolean).map(([f, c]) => f * N + c));
+    const possibles = new Set(passos.length ? candidats().map(m => m.cami[passos.length]).filter(Boolean).map(([f, c]) => f * N + c) : []);
     const origens = new Set(passos.length ? [] : legals.map(m => m.cami[0][0] * N + m.cami[0][1]));
     // Captura obligatòria: només pot jugar qui ha de menjar. Peces en vermell, la peça rival amb una creu i la casella on s'arriba
     const obligat = !fi && (dos || torn === BLANQUES) && legals.length > 0 && legals[0].caps.length > 0;
@@ -124,7 +124,7 @@
       if (!fosca) { h += '<div class="casella clara"></div>'; continue; }
       const cls = 'casella fosca' + (sel && sel[0] === f && sel[1] === c ? ' seleccionada' : '') + (possibles.has(f * N + c) ? (obligat ? ' possible salt' : ' possible') : '') + (origens.has(f * N + c) && !fi ? (obligat ? ' obliga' : ' movible') : '') + (victimes.has(f * N + c) ? ' victima' : '') + (rastre.get(f * N + c) || '');
       const peca = v ? `<span class="peca ${v > 0 ? 'blanca' : 'negra'}${Math.abs(v) === 2 ? ' rei' : ''}"></span>` : '';
-      h += `<button type="button" class="${cls}" data-f="${f}" data-c="${c}" aria-label="Fila ${f + 1}, columna ${c + 1}">${peca}</button>`;
+      h += `<button type="button" class="${cls}" data-f="${f}" data-c="${c}" aria-label="Fila ${f + 1}, columna ${c + 1}${v ? `, ${Math.abs(v) === 2 ? 'dama' : 'peça'} ${v > 0 ? 'blanca' : 'negra'}${origens.has(f * N + c) && obligat ? ', ha de menjar' : victimes.has(f * N + c) ? ', es pot menjar' : ''}` : ''}">${peca}</button>`;
     }
     morph($('dames-tauler'), h);
     setText('dames-blanques', nb); setText('dames-negres', nn); setText('dames-torn', fi ? '—' : nomTorn(torn));

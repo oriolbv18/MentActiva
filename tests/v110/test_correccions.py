@@ -51,6 +51,9 @@ def main():
         comprova(pg.evaluate("getComputedStyle(document.getElementById('pausaNivell')).display !== 'none' && document.getElementById('pausaNivell').offsetHeight > 0"), 'hi ha el botó «Canviar el nivell» a la pausa')
         pg.evaluate("document.getElementById('pausaNivell').click()"); pg.wait_for_timeout(450)
         comprova(pg.evaluate("document.getElementById('modalDificultat').classList.contains('actiu')"), 'el botó obre el selector de nivell')
+        pg.keyboard.press('Escape'); pg.wait_for_timeout(350)
+        comprova(pg.evaluate("document.getElementById('modalPausa').classList.contains('actiu')"), 'si es tanca el selector sense triar, es torna a la pausa (el joc no es queda penjat)')
+        pg.evaluate("document.getElementById('pausaNivell').click()"); pg.wait_for_timeout(450)
         pg.evaluate("document.querySelector('#modalDificultat .dificultat-btn').click()"); pg.wait_for_timeout(450)
         comprova(not pg.evaluate("document.getElementById('joc-nback').classList.contains('en-pausa')"), 'el joc no queda borrós després de canviar de nivell')
         comprova(pg.evaluate("document.getElementById('nback-iniciar').offsetHeight > 0"), 'el joc torna a estar a punt de començar')
@@ -201,7 +204,7 @@ def main():
         pg.evaluate("aturaTimers(); mostrarPantalla('inici')")
 
         print('19 i 20 · Medalles')
-        pg.evaluate("d = dadesActuals(); d.medalles = []; comprovarMedalles()"); pg.wait_for_timeout(400)
+        pg.evaluate("window.__medallaManual = true; d = dadesActuals(); d.medalles = []; comprovarMedalles()"); pg.wait_for_timeout(400)
         comprova(pg.evaluate("!document.getElementById('medallaCapa').hidden && document.getElementById('medallaCapa').classList.contains('entra')"), 'en guanyar una medalla surt la celebració')
         pg.screenshot(path=str(pathlib.Path(__file__).parent / 'medalla.png'))
         for _ in range(8):

@@ -443,3 +443,16 @@ Object.assign(window.I18N_ES, {
 "dama negra, ha de menjar": "dama negra, tiene que comer",
 "dama negra, es pot menjar": "dama negra, se puede comer"
 });
+Object.assign(window.I18N_ES, {
+"Has jugat {n} dia aquesta setmana": "Has jugado {n} día esta semana",
+"Has jugat {n} dies aquesta setmana": "Has jugado {n} días esta semana",
+"Has jugat <strong>{n} dia</strong> aquesta setmana. Molt bé!": "Has jugado <strong>{n} día</strong> esta semana. ¡Muy bien!",
+"Has jugat <strong>{n} dies</strong> aquesta setmana. Molt bé!": "Has jugado <strong>{n} días</strong> esta semana. ¡Muy bien!",
+"Has jugat <strong>{n} dies</strong> aquesta setmana. Quina constància!": "Has jugado <strong>{n} días</strong> esta semana. ¡Qué constancia!",
+"Última còpia: {x}. El navegador podria esborrar aquestes dades si va just d'espai: fes còpies. Espai total disponible: {m}.": "Última copia: {x}. El navegador podría borrar estos datos si va justo de espacio: haz copias. Espacio total disponible: {m}.",
+"Última còpia: {x}. El navegador no esborrarà aquestes dades si va just d'espai. Espai total disponible: {m}.": "Última copia: {x}. El navegador no borrará estos datos si va justo de espacio. Espacio total disponible: {m}.",
+"Aquestes dades només s'haurien de veure amb el vistiplau de {n} (o de la família o el tutor, si ella no ho pot decidir).": "Estos datos solo deberían verse con el visto bueno de {n} (o de la familia o el tutor, si no puede decidirlo).",
+"Hi està d'acord": "Está de acuerdo",
+"Encara no hi ha prou dades per valorar tendències (calen almenys {n} sessions en {m} setmanes).": "Todavía no hay datos suficientes para valorar tendencias (hacen falta al menos {n} sesiones en {m} semanas).",
+"Una altra estona de jocs": "Otro rato de juegos"
+});

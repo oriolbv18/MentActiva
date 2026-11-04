@@ -50,13 +50,15 @@ def main():
         for j in cat:
             pg.evaluate("document.querySelectorAll('.modal-fons.actiu').forEach(m => tancarModal(m.id)); sessio = null; mostrarPantalla('inici')")
             pg.evaluate(f"assegurarJoc('{j['id']}')"); pg.wait_for_function(f"!!JOCS['{j['id']}']", timeout=8000, polling=50)
-            pg.evaluate(f"obrirJoc('{j['id']}', false)"); pg.wait_for_timeout(500)
+            pg.evaluate(f"obrirJoc('{j['id']}', {'true' if j['id'] == 'bingo' else 'false'})"); pg.wait_for_timeout(500)
             if pg.locator('#modalDificultat.actiu').count(): pg.locator('#dificultatGrid button').nth(0).click(); pg.wait_for_timeout(600)
             if j['id'] == 'bingo':
                 pg.evaluate("bingoOpcio.velocitat('rapida'); bingoOpcio.ajuda('ajuda'); document.getElementById('bingo-comencar').click()"); pg.wait_for_timeout(9000)
-            for ini, espera in (('nback-iniciar', 2500), ('stroop-iniciar', 2500), ('span-iniciar', 1300), ('fluidesa-iniciar', 2500), ('qf-iniciar', 1200), ('seq-iniciar', 1900)):
+            for ini, espera in (('nback-iniciar', 2500), ('stroop-iniciar', 2500), ('span-iniciar', 1500), ('qf-iniciar', 1200), ('seq-iniciar', 1900)):
                 clau = {'qf': 'quefalta', 'seq': 'sequencia'}.get(ini.split('-')[0], ini.split('-')[0])
                 if j['id'] == clau and pg.locator('#' + ini).count(): pg.evaluate(f"document.getElementById('{ini}').click()"); pg.wait_for_timeout(espera)
+            if j['id'] == 'nback':               # la fitxa es gira entre lletra i lletra: es captura amb la lletra a la vista
+                pg.wait_for_function("(() => { const d = document.getElementById('nback-display'); return /^[A-L]$/.test(d.textContent) && !d.classList.contains('girant') && !d.classList.contains('dors'); })()", timeout=8000, polling=50); pg.wait_for_timeout(230)
             if j['id'] == 'memory':              # una parella trobada i una altra carta girada: es veu què passa (es busca la parella de la carta 1 provant)
                 nom = lambda k: pg.evaluate(f"(document.querySelectorAll('#memory-grid .carta')[{k}].getAttribute('aria-label') || '').replace(/^Carta \d+: /, '')")
                 pg.wait_for_timeout(3500); n = pg.evaluate("document.querySelectorAll('#memory-grid .carta').length"); trobada = None

@@ -3,9 +3,9 @@
 //  MentA · CONFIGURACIÓ DEL PRODUCTE
 //  Canvia aquí els valors per a la fase de proves; no cal tocar res més.
 // ==========================================================
-const VERSIO = '1.10.0';
+const VERSIO = '1.10.1';
 const VERSIO_CURTA = '1.10';
-const DATA_VERSIO = '2026-11-02';  // data de la versió (es veu a «Sobre MentA» i al mode pilot)
+const DATA_VERSIO = '2026-11-04';  // data de la versió (es veu a «Sobre MentA» i al mode pilot)
 const CODI_PILOT = 'daniceo';      // codi que activa el mode pilot (Configuració → Mode pilot); no distingeix majúscules. Només el saben l'equip i l'observador.
 // Domini propi (vegeu docs/DOMINI.md). El posa tools/aplica-domini.py; buit = tot funciona amb rutes relatives i file://.
 const DOMINI = 'mentactiva.app';

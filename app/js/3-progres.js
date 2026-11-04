@@ -96,17 +96,22 @@ const TIPUS_MEDALLA = {
   joc: { nom: 'Partides d\'un joc concret', fn: (d, x) => jugades(d, x.joc), desc: (n, x) => `Jugar ${n} partides de ${nomJoc(x.joc)}` }
 };
 const MEDALLES_SENSE_OBJECTIU = ['encerts_80', 'primer_dia'];   // el seu objectiu no és un simple comptador
+const medallesPersValides = d => (Array.isArray(d.medallesPers) ? d.medallesPers : []).filter(x => x && typeof x === 'object' && /^mp_\d+$/.test(String(x.id)));
+function edicioMedalla(d, id) {
+  const e = d.medallesEdit && typeof d.medallesEdit === 'object' ? d.medallesEdit[id] : null; if (!e || typeof e !== 'object') return {};
+  const o = parseInt(e.objectiu, 10);
+  return { nom: typeof e.nom === 'string' ? e.nom.slice(0, 40) : undefined, objectiu: o > 0 ? Math.min(o, 9999) : undefined, oculta: !!e.oculta };
+}
 function medallaPersonal(x) {
-  const tp = TIPUS_MEDALLA[x.tipus] || TIPUS_MEDALLA.partides, o = clamp(+x.objectiu || 1, 1, 9999);
+  const tp = Object.prototype.hasOwnProperty.call(TIPUS_MEDALLA, x.tipus) ? TIPUS_MEDALLA[x.tipus] : TIPUS_MEDALLA.partides, o = clamp(+x.objectiu || 1, 1, 9999);
   return { id: x.id, cat: 'pers', pers: true, nom: String(x.nom || '').slice(0, 40) || t('Medalla'), desc: tp.desc(o, x), prog: d => rec(tp.fn(d, x), o) };
 }
 function medallesDe(d) {
-  const ed = d.medallesEdit || {};
-  const base = MEDALLES.filter(m => !(ed[m.id] && ed[m.id].oculta)).map(m => {
-    const e = ed[m.id]; if (!e || (!e.nom && !e.objectiu)) return m;
+  const base = MEDALLES.filter(m => !edicioMedalla(d, m.id).oculta).map(m => {
+    const e = edicioMedalla(d, m.id); if (!e.nom && !e.objectiu) return m;
     return Object.assign({}, m, { nom: e.nom || m.nom, objectiu: MEDALLES_SENSE_OBJECTIU.includes(m.id) ? undefined : e.objectiu });
   });
-  return (d.medallesPers || []).map(medallaPersonal).concat(base);
+  return medallesPersValides(d).map(medallaPersonal).concat(base);
 }
 function progMedalla(m, d) { const p = m.prog(d), o = m.objectiu || p.objectiu; return { actual: Math.min(p.actual, o), objectiu: o }; }
 const medallaFeta = (m, d) => { const p = progMedalla(m, d); return p.actual >= p.objectiu; };
@@ -141,7 +146,7 @@ function htmlMedalles() {
   const d = dadesActuals(), totes = medallesDe(d);
   return Object.entries(CAT_MEDALLES).map(([cat, nomCat]) => {
     const llista = totes.filter(m => m.cat === cat); if (!llista.length) return '';
-    return `<div class="cat-medalles"><h3>${nomCat}</h3><span class="xip">${llista.filter(m => d.medalles.includes(m.id)).length}/${llista.length}</span></div>
+    return `<div class="cat-medalles"><h2>${nomCat}</h2><span class="xip">${llista.filter(m => d.medalles.includes(m.id)).length}/${llista.length}</span></div>
       <div class="medalles-grid">${llista.map(m => {
         const feta = d.medalles.includes(m.id), p = progMedalla(m, d), nova = _medallesNoves.includes(m.id);
         return `<div class="medalla${feta ? ' obtinguda' : ''}${nova ? ' nova' : ''}"><div class="medalla-ico">${ico(feta ? 'trofeu' : 'cadenat')}</div><div class="nom-m">${esc(m.nom)}</div><div class="desc-m">${esc(m.desc)}</div>
@@ -161,18 +166,18 @@ function obrirEditorMedalles() {
 function renderEditorMedalles() {
   const c = $('medallesEditaCos'); if (!c) return;
   const foc = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.foc : null, y = window.scrollY;
-  const d = dadesActuals(), ed = d.medallesEdit || {}, pers = d.medallesPers || [];
+  const d = dadesActuals(), pers = medallesPersValides(d);
   const opcionsTipus = Object.entries(TIPUS_MEDALLA).map(([k, v]) => `<option value="${k}">${esc(t(v.nom))}</option>`).join('');
   const opcionsJoc = CATALEG_JOCS.map(j => `<option value="${j.id}">${esc(t(j.nom))}</option>`).join('');
-  c.innerHTML = `<div class="panell grup-ajustos"><h3>Crear una medalla</h3>
+  c.innerHTML = `<div class="panell grup-ajustos"><h2>Crear una medalla</h2>
       <label class="etiqueta-camp" for="mdNom">Nom de la medalla</label><input type="text" class="camp-input" id="mdNom" maxlength="40" autocomplete="off" placeholder="Per exemple: Campiona de la Tertúlia">
       <label class="etiqueta-camp" for="mdTipus">Què s'ha de fer?</label><select class="camp-input" id="mdTipus" onchange="medallaTipusCanvi()">${opcionsTipus}</select>
       <div id="mdFilaJoc" hidden><label class="etiqueta-camp" for="mdJoc">Quin joc?</label><select class="camp-input" id="mdJoc">${opcionsJoc}</select></div>
       <label class="etiqueta-camp" for="mdObjectiu">Quantes vegades?</label><input type="number" class="camp-input" id="mdObjectiu" min="1" max="9999" value="10" inputmode="numeric">
-      <button type="button" class="boto-principal boto-ample" onclick="medallaAfegeix()">Afegir la medalla</button></div>
-    ${pers.length ? `<div class="panell grup-ajustos"><h3>Les que has creat</h3>${pers.map(x => { const m = medallaPersonal(x); return `<div class="ajust-fila"><div class="etiqueta-ajust">${esc(m.nom)}<small>${esc(m.desc)}</small></div><button type="button" class="ib" onclick="medallaEsborra('${esc(x.id)}')" aria-label="Esborrar ${esc(m.nom)}">${ico('paperera')}</button></div>`; }).join('')}</div>` : ''}
-    <div class="panell grup-ajustos"><h3>Les predeterminades</h3><p class="ajuda-camp">Pots canviar-los el nom i l'objectiu, o amagar les que no vulguis. Sempre les pots tornar a deixar com eren.</p>
-      ${MEDALLES.map(m => { const e = ed[m.id] || {}, on = !e.oculta, ambObj = !MEDALLES_SENSE_OBJECTIU.includes(m.id), obj = e.objectiu || m.prog(d).objectiu; return `<div class="medalla-edita${on ? '' : ' oculta'}">
+      <button type="button" class="boto-principal boto-ample" data-foc="afegir" onclick="medallaAfegeix()">Afegir la medalla</button></div>
+    ${pers.length ? `<div class="panell grup-ajustos"><h2>Les que has creat</h2>${pers.map(x => { const m = medallaPersonal(x); return `<div class="ajust-fila"><div class="etiqueta-ajust">${esc(m.nom)}<small>${esc(m.desc)}</small></div><button type="button" class="ib" onclick="medallaEsborra('${esc(x.id)}')" aria-label="Esborrar ${esc(m.nom)}">${ico('paperera')}</button></div>`; }).join('')}</div>` : ''}
+    <div class="panell grup-ajustos"><h2>Les predeterminades</h2><p class="ajuda-camp">Pots canviar-los el nom i l'objectiu, o amagar les que no vulguis. Sempre les pots tornar a deixar com eren.</p>
+      ${MEDALLES.map(m => { const e = edicioMedalla(d, m.id), on = !e.oculta, ambObj = !MEDALLES_SENSE_OBJECTIU.includes(m.id), obj = e.objectiu || m.prog(d).objectiu; return `<div class="medalla-edita${on ? '' : ' oculta'}">
         <div class="ajust-fila"><div class="etiqueta-ajust">${esc(e.nom || m.nom)}<small>${esc(m.desc)}</small></div><button type="button" class="toggle${on ? ' actiu' : ''}" role="switch" aria-checked="${on}" aria-label="Mostrar ${esc(e.nom || m.nom)}" data-foc="t-${m.id}" onclick="medallaMostra('${m.id}')"></button></div>
         ${on ? `<div class="medalla-camps"><label>Nom<input type="text" class="camp-input" maxlength="40" value="${esc(e.nom || t(m.nom))}" data-foc="n-${m.id}" onchange="medallaCanvia('${m.id}', 'nom', this.value)"></label>${ambObj ? `<label>Objectiu<input type="number" class="camp-input" min="1" max="9999" value="${obj}" inputmode="numeric" data-foc="o-${m.id}" onchange="medallaCanvia('${m.id}', 'objectiu', this.value)"></label>` : ''}${e.nom || e.objectiu ? `<button type="button" class="boto-fantasma boto-petit" onclick="medallaRestableix('${m.id}')">Deixar com era</button>` : ''}</div>` : ''}</div>`; }).join('')}</div>`;
   if (foc) { const el = c.querySelector(`[data-foc="${foc}"]`); if (el) el.focus({ preventScroll: true }); }
@@ -184,12 +189,12 @@ function medallaAfegeix() {
   const nom = $('mdNom').value.trim(), tipus = $('mdTipus').value, objectiu = clamp(parseInt($('mdObjectiu').value, 10) || 0, 0, 9999);
   if (!nom) { toast('Posa-li un nom a la medalla'); $('mdNom').focus(); return; }
   if (!objectiu) { toast('Escriu quantes vegades, amb un número'); $('mdObjectiu').focus(); return; }
-  const d = dadesActuals(); d.medallesPers = d.medallesPers || [];
+  const d = dadesActuals(); d.medallesPers = medallesPersValides(d);
   d.medallesPers.push({ id: 'mp_' + Date.now(), nom, tipus, objectiu, joc: tipus === 'joc' ? $('mdJoc').value : null });
   guardarDadesUsuari(); soEncert(); toast('Medalla creada', 2200, 'exit'); renderEditorMedalles(); comprovarMedalles();
 }
-function medallaEsborra(id) { mostrarConfirmacio('Esborrar la medalla?', 'Es perdrà aquesta medalla.', () => { const d = dadesActuals(); d.medallesPers = (d.medallesPers || []).filter(x => x.id !== id); d.medalles = d.medalles.filter(x => x !== id); guardarDadesUsuari(); renderEditorMedalles(); }); }
-function medallaEdicio(id) { const d = dadesActuals(); d.medallesEdit = d.medallesEdit || {}; return d.medallesEdit[id] = d.medallesEdit[id] || {}; }
+function medallaEsborra(id) { mostrarConfirmacio('Esborrar la medalla?', 'Es perdrà aquesta medalla.', () => { const d = dadesActuals(); d.medallesPers = medallesPersValides(d).filter(x => x.id !== id); d.medalles = d.medalles.filter(x => x !== id); guardarDadesUsuari(); renderEditorMedalles(); setTimeout(() => { const b = document.querySelector('#medallesEditaCos [data-foc="afegir"]'); if (b) b.focus({ preventScroll: true }); }, 60); }); }
+function medallaEdicio(id) { const d = dadesActuals(); if (!d.medallesEdit || typeof d.medallesEdit !== 'object') d.medallesEdit = {}; const e = d.medallesEdit[id]; return d.medallesEdit[id] = e && typeof e === 'object' ? e : {}; }
 function medallaMostra(id) { const e = medallaEdicio(id); e.oculta = !e.oculta; guardarDadesUsuari(); soClic(); renderEditorMedalles(); }
 function medallaCanvia(id, camp, valor) {
   const e = medallaEdicio(id);

@@ -44,6 +44,7 @@ def sessio_guiada(pg):
     for k in range(3):
         joc = pg.evaluate("sessio.jocs[sessio.idx]"); pg.wait_for_function(f"!!JOCS['{joc}']", timeout=8000)
         pg.evaluate("document.getElementById('tutorialOverlay').classList.contains('actiu') && tancarTutorial()"); pg.wait_for_timeout(300)
+        pg.wait_for_function(f"idPantallaActiva() === 'joc-{joc}'", timeout=8000); pg.wait_for_timeout(100)   # el joc ha d'haver arrencat de debò
         pg.evaluate(f"finalitzarPartida('{joc}', 8, 2, '')"); pg.wait_for_timeout(1500)
         pant = pg.evaluate("idPantallaActiva()")
         if k < 2:

@@ -17,6 +17,9 @@ def main():
         o = ARREL / r; t = d / r; t.parent.mkdir(parents=True, exist_ok=True); shutil.copytree(o, t) if o.is_dir() else shutil.copy(o, t)
     run = lambda *a: subprocess.run([sys.executable, str(d / 'tools' / a[0]), *a[1:]], capture_output=True, text=True, encoding='utf-8')
     llegeix = lambda p: (d / p).read_text(encoding='utf-8')
+    # el repositori real ja té el domini aplicat: la prova parteix de l'estat sense domini
+    if (ARREL / 'tools' / '.domini').exists(): shutil.copy(ARREL / 'tools' / '.domini', d / 'tools' / '.domini')
+    run('aplica-domini.py', '--treu')
     idx0 = llegeix('index.html')
     comprova('__DOMINI__' not in idx0 and 'EL-TEU-DOMINI' not in idx0, 'sense domini: la landing no porta cap marcador')
     comprova('application/ld+json' not in idx0, 'sense domini: no hi ha JSON-LD (abans tenia https://__DOMINI__/, una URL no vàlida)')

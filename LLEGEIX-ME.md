@@ -1,4 +1,6 @@
-# MentA v1.9.3 · Llegeix-me
+# MentA v1.10 · Llegeix-me
+
+**Novetat de la 1.10 (l'app):** els 21 punts de les proves de l'Oriol: tutorial interactiu als 17 jocs, «Troba l'intrús», comptes i sèries molt més senzills, medalles animades i modificables, càmera a l'àlbum, Dames i Bingo redissenyats, «Els meus jocs» a triar. Publicada a <https://mentactiva.app>. Vegeu `CHANGELOG-1.10.md`.
 
 **Novetat de la 1.9.3 (només la web, «aparador lliure i moviment amb sentit»):** l'aparador de jocs ja no és un *marquee* que es mou sol: és **una fila que es controla** (roda, arrossegar amb el ratolí, fletxes, teclat, dit) i el hover només eleva la carta. A més, set moviments amb propòsit (fets escalonats, compte del «17 jocs», mòbil viu amb direcció, premuda i subratllat, transició entre pàgines, l'Elefant reacciona al toc), la salutació del hero segons l'hora i un «Torna a dalt». Vegeu `CHANGELOG-1.9.3.md`, `docs/web-premium/MOVIMENT-1.9.3.md`, `docs/web-premium/BASE-1.9.2.md` i `docs/MESURA-US.md`.
 
@@ -86,6 +88,13 @@ python tests/test_parella.py                    # Jugar amb algú: tocs, llavor,
 python tests/bingo/test_bingo.py                # bingo: cartrons, bombo, cantades, rivals, 2 jugadors
 python tests/onboarding/test_onboarding.py      # onboarding: una sola vegada, passos, scroll
 python tests/layout/auditoria-botons.py         # auditoria de botons i caselles (~40 min; --rapid per a una versió curta)
+```
+
+## Proves noves de la 1.10
+```
+python tests/v110/test_correccions.py  # els 21 punts
+python tests/v110/test_mobil.py        # tots els jocs i tutorials a 360x740 (lletra normal i gegant): cada toc ha de ser possible per a una persona
+python tests/v110/test_dades.py        # medalles, jocs triats, còpies hostils, Bingo a dos amb tocs reals
 ```
 
 ## Proves noves de la 1.9

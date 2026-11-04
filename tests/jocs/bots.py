@@ -95,8 +95,8 @@ def dames(par, rng, dos=False, nivell=None):
     for _ in range(900):
         if par.acabada(): break
         if compta(par, '#dames-tauler .casella.possible'): clica(par, '#dames-tauler .casella.possible', rng.randrange(compta(par, '#dames-tauler .casella.possible'))); par.avanca(900); continue
-        n = compta(par, '#dames-tauler .casella.movible')
-        if n: clica(par, '#dames-tauler .casella.movible', rng.randrange(n)); par.avanca(100)
+        n = compta(par, '#dames-tauler .casella.movible, #dames-tauler .casella.obliga')
+        if n: clica(par, '#dames-tauler .casella.movible, #dames-tauler .casella.obliga', rng.randrange(n)); par.avanca(100)
         else: par.avanca(1300)
     par.avanca(900)
 

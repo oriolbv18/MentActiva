@@ -36,7 +36,7 @@ const JOCS_WEB = [
   "desc": "Quina paraula no és del grup?",
   "domini": "llenguatge",
   "dominiNom": "Llenguatge",
-  "min": 2,
+  "min": 3,
   "dos": false,
   "individual": true
  },
@@ -133,12 +133,12 @@ const JOCS_WEB = [
  {
   "id": "bingo",
   "nom": "Bingo",
-  "desc": "Línia i bingo, amb rivals",
+  "desc": "Línia i bingo per a dos",
   "domini": "atencio",
   "dominiNom": "Atenció",
   "min": 8,
   "dos": true,
-  "individual": true
+  "individual": false
  },
  {
   "id": "tertulia",

@@ -624,7 +624,7 @@ body.focus .mode-targeta:not(:hover) { filter: grayscale(.85); }
 .medalla .barra-progres { width: 100%; height: .5rem; margin-top: .2rem; }
 .medalla .prog-text { font-size: .72rem; font-weight: 700; color: var(--text-suau); }
 .cat-medalles { display: flex; align-items: center; gap: .5rem; margin-top: 1rem; }
-.cat-medalles h3 { font-size: 1.0625rem; }
+.cat-medalles h2 { font-size: 1.0625rem; }
 .accions-informe { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: .6rem; margin-top: 1.2rem; }
 .salut-xec-resum { display: grid; grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr)); gap: .4rem; text-align: center; }
 .salut-xec-resum div { padding: .5rem .2rem; border-radius: var(--radi-m); background: var(--superficie-2); font-size: var(--t-xs); font-weight: 700; color: var(--text-suau); }
@@ -1579,3 +1579,15 @@ html[data-zoom="extragran"] .lat-info:has(.dames-obligat:not([hidden])) .joc-inf
 /* Medalla guanyada: sempre hi cap */
 .medalla-targeta { max-height: 100%; overflow-y: auto; }
 @media (max-height: 560px) { .medalla-gran { width: 4.5rem; height: 4.5rem; margin-bottom: 0; } .medalla-disc { width: 3.4rem; height: 3.4rem; } .medalla-disc .ico { width: 1.9rem; height: 1.9rem; } .medalla-targeta { padding: .7rem 1rem; } .medalla-targeta > * + * { margin-top: .2rem; } }
+
+/* v1.10.1: al mòbil amb lletra molt gran, als jocs de tauler guanya el tauler (el títol ja se sap) */
+@media (max-width: 420px) {
+  html[data-zoom="extragran"] :is(#joc-sudoku, #joc-bingo, #joc-dames, #joc-sopa, #joc-domino, #joc-memory) .barra-titol,
+  html[data-zoom="gegant"] :is(#joc-sudoku, #joc-bingo, #joc-dames, #joc-sopa, #joc-domino, #joc-memory) .barra-titol { display: none; }
+  html[data-zoom="extragran"] #joc-sudoku .joc-info, html[data-zoom="gegant"] #joc-sudoku .joc-info { flex-wrap: nowrap; font-size: .72rem; }
+  html[data-zoom="extragran"] #joc-sudoku .joc-info .item, html[data-zoom="gegant"] #joc-sudoku .joc-info .item { padding: .1rem .35rem; }
+  html[data-zoom="extragran"] .sudoku-num, html[data-zoom="gegant"] .sudoku-num { min-height: 2.75rem; }
+}
+/* Els jocs amb teclat a baix: la bafarada de l'Elefant surt per sobre del teclat, no a sobre */
+body[data-pantalla="joc-paraules"] .el-wrap[data-rol="flotant"] .el-globus { bottom: calc(100% + 15rem); }
+body[data-pantalla="joc-paraules"] .el-wrap[data-rol="flotant"] .el-globus::after { display: none; }

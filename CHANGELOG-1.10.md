@@ -44,7 +44,7 @@ Provat amb scripts (`tests/v110/test_mobil.py` i `test_dades.py`), sense agents,
 - **Corregit (important):** una còpia de seguretat manipulada feia petar la pantalla de medalles i podia executar codi a l'editor. Ara les dades de medalles es validen en llegir-les.
 - **Corregit:** la bafarada de l'Elefant tapava el teclat d'«Endevina la paraula»; el Sudoku difícil amb lletra gegant tenia caselles de 25 px (ara més grans: al mòbil, als jocs de tauler amb lletra molt gran, el títol deixa lloc al tauler).
 - **Corregit:** l'editor de medalles perdia el focus de teclat en crear o esborrar; encapçalaments en ordre a les medalles.
-- **Captures de la web** regenerades amb els jocs nous.
+- **Captures i vídeo de la portada de la web** regenerats amb l'app nova.
 
 ## Pendent
 - **Punt 18:** confirmar amb l'Oriol que vol el Bingo només a «Jugar amb algú».

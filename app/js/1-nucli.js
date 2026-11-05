@@ -725,8 +725,19 @@ const CATALEG_JOCS = [
   { id: 'bingo', nom: 'Bingo', cat: 'taula', domini: 'atencio', min: 8, nomesDos: true, desc: 'Línia i bingo per a dos', dos: { nom: 'Bingo', desc: 'Qui fa bingo primer guanya' } },
   { id: 'tertulia', nom: 'La Tertúlia', cat: 'cultura', domini: 'memoria', min: 5, desc: 'Cultura general', dos: { nom: 'La Tertúlia', desc: 'Qui encerta més guanya' } },
   { id: 'refranys', nom: 'Refranys populars', cat: 'cultura', domini: 'llenguatge', min: 4, desc: 'Completa les dites', dos: { nom: 'Refranys', desc: 'Qui encerta més guanya' } },
-  { id: 'paraules', nom: 'Endevina la paraula', tecnic: 'Penjat amb pistes', cat: 'cultura', domini: 'llenguatge', min: 5, desc: 'Endevina la paraula amb pistes', dos: { nom: 'Paraules', desc: 'Qui encerta més guanya' } }
+  { id: 'paraules', nom: 'Endevina la paraula', tecnic: 'Penjat amb pistes', cat: 'cultura', domini: 'llenguatge', min: 5, desc: 'Endevina la paraula amb pistes', dos: { nom: 'Paraules', desc: 'Qui encerta més guanya' } },
+  { id: 'encreuats', nom: 'Mots encreuats', cat: 'cultura', domini: 'llenguatge', min: 6, desc: 'Escriu les paraules amb les pistes' },
+  { id: 'associa', nom: 'Què va amb què?', tecnic: 'Associació de paraules', cat: 'cultura', domini: 'llenguatge', min: 3, desc: 'Uneix les paraules que van juntes' }
 ];
+// El que cal fer en cada joc, en una frase: és el que diu l'Elefant quan es toca el «?» enmig d'una partida (S03, S04, S06)
+const FER_JOC = {
+  nback: 'Mira la lletra i digues si és la mateixa d\'abans.', stroop: 'Toca el color de la tinta, no el que diu la paraula.', span: 'Mira els números i després toca\'ls en el mateix ordre.',
+  fluidesa: 'Toca la paraula que no és del grup.', calcul: 'Fes el compte i toca la resposta.', seqlog: 'Mira la sèrie i toca el que ve després.', quefalta: 'Mira els dibuixos i després digues quin falta.',
+  sudoku: 'Toca una casella buida i posa-hi un número que no estigui repetit a la fila, la columna ni el quadrat.', memory: 'Toca dues cartes i busca les que són iguals.', sequencia: 'Mira quins colors s\'encenen i toca\'ls en el mateix ordre.',
+  sopa: 'Busca les paraules de la llista dins de la graella i toca la primera i l\'última lletra.', domino: 'Toca una fitxa que encaixi amb un dels dos extrems.', dames: 'Toca una peça teva i després la casella on vols moure-la.',
+  bingo: 'Si el número de la bola és al teu cartró, toca\'l.', tertulia: 'Llegeix la pregunta i toca la resposta.', refranys: 'Llegeix el començament del refrany i toca com acaba.', paraules: 'Llegeix la pista i toca les lletres de la paraula.',
+  encreuats: 'Toca una pista i escriu la paraula amb les lletres de sota.', associa: 'Toca una paraula de l\'esquerra i després la que hi va a la dreta.'
+};
 const infoJoc = id => CATALEG_JOCS.find(j => j.id === id);
 const nomJoc = id => (infoJoc(id) || { nom: id }).nom;                                   // nom humà (Mode Persona)
 const nomTecnicJoc = id => { const j = infoJoc(id); return !j ? id : (j.tecnic && j.tecnic !== j.nom ? `${j.nom} (${j.tecnic})` : j.nom); };   // nom per al cuidador
@@ -870,7 +881,7 @@ function registraAbandonament() {
   guardarDadesUsuari(); if (typeof registrarUsAnonim === 'function') registrarUsAnonim('abandona', { joc: jocActualId, durada });
 }
 // Els fitxers dels jocs es carreguen només quan s'obren (primera càrrega més ràpida); el service worker els té tots a la memòria cau
-const FITXERS_JOC = { tertulia: ['_quiz', 'tertulia'], refranys: ['_quiz', 'refranys'], calcul: ['_quiz', 'calcul'], seqlog: ['_quiz', 'seqlog'], fluidesa: ['_quiz', 'fluidesa'] };
+const FITXERS_JOC = { tertulia: ['_quiz', 'tertulia-temes', 'tertulia'], refranys: ['_quiz', 'refranys'], calcul: ['_quiz', 'calcul'], seqlog: ['_quiz', 'seqlog'], fluidesa: ['_quiz', 'fluidesa'], encreuats: ['paraules', 'encreuats'] };
 const _scriptsCarregats = {};
 function carregaScript(src) {
   return _scriptsCarregats[src] || (_scriptsCarregats[src] = new Promise((res, rej) => {
@@ -919,7 +930,7 @@ function actualitzarBotoSo() {
 document.addEventListener('click', e => {
   const b = e.target.closest && e.target.closest('[data-accio]'); if (!b) return;
   const a = b.dataset.accio;
-  if (a === 'ajuda') { registraAjuda(); mostrarTutorial(jocActualId, null, true); }
+  if (a === 'ajuda') { registraAjuda(); obrirAjudaJoc(); }
   else if (a === 'pausa') pausarJoc();
   else if (a === 'so') { ajustes.efectesSo = !ajustes.efectesSo; guardarAjustes(); pintarToggles(); actualitzarBotoSo(); if (ajustes.efectesSo) soClic(); toast(ajustes.efectesSo ? 'So activat' : 'So silenciat', 1500); }
 });
@@ -1083,7 +1094,7 @@ function finalitzarPartida(joc, encerts, errors, missatgeExtra, meta = {}) {
 }
 
 // --- Dificultat adaptativa: puja o baixa segons resultat i temps de les últimes partides al mateix nivell ---
-const JOCS_AMB_NIVELL = ['nback', 'memory', 'domino', 'dames', 'sopa', 'sudoku', 'calcul', 'seqlog', 'fluidesa'];
+const JOCS_AMB_NIVELL = ['nback', 'memory', 'domino', 'dames', 'sopa', 'sudoku', 'calcul', 'seqlog', 'fluidesa', 'encreuats', 'associa'];
 const ORDRE_NIVELLS = ['facil', 'mig', 'dificil'];
 function nivellGuardat(joc) {
   const n = (dadesActuals().nivells || {})[joc], max = ORDRE_NIVELLS.indexOf((dadesActuals().plaCuidador || {}).nivellMaxim || 'dificil');

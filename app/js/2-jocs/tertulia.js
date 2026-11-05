@@ -152,8 +152,12 @@ crearQuiz({
   tutorial: { titol: 'La Tertúlia', cos: '<p>Llegeix la pregunta i <strong>toca la resposta correcta</strong>.</p><div class="exemple"><span>?</span><span>A</span><span>B</span><span>C</span></div><p>Si no ho saps, no passa res: veuràs la resposta i podràs repassar els errors al final. Les preguntes no es repeteixen fins que has vist les altres.</p>' },
   dos: true,
   pista: { mode: 'descarta', h1: "Pensa en què has après sobre aquest tema. Descarta primer les opcions que et semblin impossibles." },
-  preparar: dos => trianSenseRepetir(idiomaBanc('tertulia'), (I18N.llengua === 'es' && window.BANCS_ES ? BANCS_ES.tertulia.map(([q, ...o]) => ({ q, o, c: 0 })) : BARALLA_TERTULIA), dos ? 8 : 10).map(p => {
+  preparar: dos => {
+    const n = dos ? 8 : 10, tema = typeof preguntesDelTema === 'function' ? preguntesDelTema(3) : [];   // 3 preguntes del tema de la setmana
+    setText('tertulia-tema', typeof temaSetmana === 'function' ? t(`Aquesta setmana: ${t(temaSetmana().tema.nom)}`) : '');
+    return barreja(tema.concat(trianSenseRepetir(idiomaBanc('tertulia'), (I18N.llengua === 'es' && window.BANCS_ES ? BANCS_ES.tertulia.map(([q, ...o]) => ({ q, o, c: 0 })) : BARALLA_TERTULIA), n - tema.length))).map(p => {
     const correcta = p.o[p.c], o = barreja(p.o);
     return { q: p.q, o, c: o.indexOf(correcta) };
   })
+  }
 });

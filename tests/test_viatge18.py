@@ -36,7 +36,7 @@ def tanca_guia(pg):
     if not pg.evaluate("document.getElementById('guiaCapa').hidden"):
         passos = 0
         while not pg.evaluate("document.getElementById('guiaCapa').hidden") and passos < 6: pg.click('#guiaSeguent'); pg.wait_for_timeout(250); passos += 1
-        comprova(passos in (2, 3), f'la guia de primer ús té 3 passos ({passos} tocs)')
+        comprova(passos in (3, 4), f'la guia de primer ús té 4 passos ({passos} tocs)')
 
 def sessio_guiada(pg):
     pg.click('#btnJugar'); pg.wait_for_timeout(900)

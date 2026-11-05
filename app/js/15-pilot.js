@@ -31,7 +31,7 @@ function aplicaPilot() {
   const on = pilotActiu();
   mostra('pilotFormActiva', !on, 'block'); mostra('pilotPanellActiu', on, 'block');
   const b = $('banerPilot'); if (b) { b.hidden = !on; if (on) b.innerHTML = `<div class="avis-caixa"><svg class="ico" aria-hidden="true"><use href="#i-info"/></svg><span><strong>Mode pilot</strong> · v${esc(VERSIO)} · ${esc(avuiISO())}. Sense noms ni fotos.</span></div>`; }
-  const llista = $('pilotLlista'); if (llista && on) llista.innerHTML = usuaris.length ? usuaris.map(u => `<div class="ajust-fila"><div class="etiqueta-ajust">${esc(u.nom)}<small>${(u.dades.totalPartides || 0)} partides · SUS ${u.dades.pilot && u.dades.pilot.sus != null ? u.dades.pilot.sus : '—'}</small></div><button type="button" class="boto-secundari boto-petit" onclick="pilotObreSUS('${esc(u.id)}')">Escala SUS</button></div>`).join('') : '<p class="ajuda-camp">Encara no hi ha cap participant.</p>';
+  const llista = $('pilotLlista'); if (llista && on) llista.innerHTML = usuaris.length ? usuaris.map(u => `<div class="ajust-fila"><div class="etiqueta-ajust">${esc(u.nom)}<small>${(u.dades.totalPartides || 0)} partides · SUS ${u.dades.pilot && u.dades.pilot.sus != null ? u.dades.pilot.sus : '—'}</small></div><button type="button" class="boto-secundari boto-petit" aria-pressed="${!!(u.dades.pilot && u.dades.pilot.senseAjuda)}" onclick="pilotSenseAjuda('${esc(u.id)}')">${u.dades.pilot && u.dades.pilot.senseAjuda ? 'Ha començat sol/a' : 'Marcar: ha començat sol/a'}</button><button type="button" class="boto-secundari boto-petit" onclick="pilotObreSUS('${esc(u.id)}')">Escala SUS</button></div>`).join('') : '<p class="ajuda-camp">Encara no hi ha cap participant.</p>';
   const mem = $('memory-fotos'); if (mem && on) mem.style.display = 'none';
 }
 const codiSeguent = () => { const n = usuaris.filter(u => /^P\d{2,}$/.test(u.nom)).length + 1; let c; let k = n; do { c = 'P' + String(k++).padStart(2, '0'); } while (usuaris.some(u => u.nom === c)); return c; };
@@ -61,6 +61,9 @@ function pilotRegistraPrimerJoc() {
   d.pilot.primerJocS = Math.round((Date.now() - _tAcces) / 100) / 10; d.pilot.primerJocTocs = _tocsAcces; d.pilot.primerJocData = new Date().toISOString(); guardarDadesUsuari();
 }
 
+// L'observador anota si ha començat a jugar sense ajuda (mètrica del Lean Canvas)
+function pilotSenseAjuda(id) { const u = usuaris.find(x => x.id === id); if (!u) return; u.dades.pilot = u.dades.pilot || {}; u.dades.pilot.senseAjuda = !u.dades.pilot.senseAjuda; guardarUsuaris(); aplicaPilot(); }
+
 // ---------- Escala SUS ----------
 let _susUsuari = null;
 function pilotObreSUS(id) {
@@ -82,17 +85,21 @@ function pilotDesaSUS() {
 function pilotResultats() {
   return usuaris.filter(u => !u.demo).map(u => {
     const d = u.dades, h = d.historial || [], p = d.pilot || {}, aj = h.reduce((t, x) => t + (x.ajudesUsades || 0), 0), ambPista = h.filter(x => x.pistes).length, pista3 = h.filter(x => x.pistes && x.pistes.nivell >= 3).length;
-    const onb = lsGet(CLAU_ONB, null) || {};
+    const onb = lsGet(CLAU_ONB, null) || {}, ab = d.abandonaments || [], dilluns = iso => { const dt = new Date(iso + 'T12:00:00'); dt.setDate(dt.getDate() - ((dt.getDay() + 6) % 7)); return isoData(dt); }, perSetmana = {}, cnt = {}, cntAb = {};
+    h.forEach(x => { (perSetmana[dilluns(x.data)] = perSetmana[dilluns(x.data)] || new Set()).add(x.data); cnt[x.joc] = (cnt[x.joc] || 0) + 1; }); ab.forEach(x => { cntAb[x.joc] = (cntAb[x.joc] || 0) + 1; });
+    const primer = o => Object.keys(o).sort((a, b) => o[b] - o[a])[0] || null;
     return { codi: u.nom, partides: d.totalPartides || 0, dies: (d.diesJugats || []).length, encerts_pct: (d.totalEncerts + d.totalErrors) ? Math.round(d.totalEncerts / (d.totalEncerts + d.totalErrors) * 100) : null,
       temps_primer_joc_s: p.primerJocS ?? null, tocs_primer_joc: p.primerJocTocs ?? null, partides_amb_pista: ambPista, partides_pista_nivell3: pista3, ajudes_totals: aj, abandonaments: (d.abandonaments || []).length,
-      onboarding_completat: !!(onb.data && !onb.saltat), sus: p.sus ?? null, medalles: (d.medalles || []).length };
+      onboarding_completat: !!(onb.data && !onb.saltat), sus: p.sus ?? null, medalles: (d.medalles || []).length,
+      sessions_iniciades: h.length + ab.length, sessions_completades: h.length, setmanes_actives: Object.keys(perSetmana).length, setmanes_amb_repeticio: Object.values(perSetmana).filter(s => s.size >= 2).length, joc_mes_jugat: primer(cnt), joc_mes_abandonat: primer(cntAb),
+      amb_algu: (d.social || []).filter(s => s.mode !== 'grup').length, grup: (d.social || []).filter(s => s.mode === 'grup').length, ha_comencat_sense_ajuda: p.senseAjuda ?? null };
   });
 }
 function pilotExporta() {
   const files = pilotResultats(); if (!files.length) { toast('Encara no hi ha participants.', 3500); return; }
   const resum = { app: 'MentA', versio: VERSIO, data: avuiISO(), participants: files.length, sus_mitjana: (() => { const s = files.map(f => f.sus).filter(x => x != null); return s.length ? Math.round(s.reduce((a, b) => a + b, 0) / s.length * 10) / 10 : null; })(),
     temps_primer_joc_mitjana_s: (() => { const s = files.map(f => f.temps_primer_joc_s).filter(x => x != null); return s.length ? Math.round(s.reduce((a, b) => a + b, 0) / s.length * 10) / 10 : null; })(),
-    onboarding_completat_pct: Math.round(files.filter(f => f.onboarding_completat).length / files.length * 100), pistes_pct: Math.round(files.filter(f => f.partides_amb_pista > 0).length / files.length * 100), nota: 'Dades anònimes: només codis de participant, sense noms ni fotos.' };
+    onboarding_completat_pct: Math.round(files.filter(f => f.onboarding_completat).length / files.length * 100), pistes_pct: Math.round(files.filter(f => f.partides_amb_pista > 0).length / files.length * 100), sense_ajuda_pct: Math.round(files.filter(f => f.ha_comencat_sense_ajuda).length / files.length * 100), completades_pct: (() => { const i = files.reduce((t, f) => t + f.sessions_iniciades, 0); return i ? Math.round(files.reduce((t, f) => t + f.sessions_completades, 0) / i * 100) : null; })(), nota: 'Dades anònimes: només codis de participant, sense noms ni fotos.' };
   const cols = Object.keys(files[0]), csv = [cols.join(','), ...files.map(f => cols.map(c => f[c] == null ? '' : f[c]).join(','))].join('\n');
   baixaFitxer(`MentA-pilot-${avuiISO()}.json`, JSON.stringify({ resum, participants: files }, null, 1), 'application/json');
   setTimeout(() => baixaFitxer(`MentA-pilot-${avuiISO()}.csv`, '﻿' + csv, 'text/csv;charset=utf-8'), 600);

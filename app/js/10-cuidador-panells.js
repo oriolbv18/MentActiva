@@ -4,7 +4,7 @@
 //  Resum · Evolució · Jocs · Salut i ànim · Notes · Pla · Informe · (Residència) · Ajustos
 // ==========================================================
 let pestanyaCu = 'resum', evolSetmanes = 12;
-const TABS_CU = [['resum', 'Resum'], ['evolucio', 'Evolució'], ['jocs', 'Jocs'], ['salut', 'Salut i ànim'], ['notes', 'Notes'], ['pla', 'Pla'], ['informe', 'Informe'], ['residencia', 'Residència'], ['ajustos', 'Ajustos']];
+const TABS_CU = [['resum', 'Resum'], ['informe', 'Informe'], ['evolucio', 'Evolució'], ['jocs', 'Jocs'], ['salut', 'Salut i ànim'], ['notes', 'Notes'], ['pla', 'Pla'], ['residencia', 'Residència'], ['ajustos', 'Ajustos']];
 const tabsVisibles = () => TABS_CU.filter(([id]) => (id !== 'residencia' || ajustes.rol === 'residencia') && (!modeLectura || !['notes', 'pla', 'ajustos', 'residencia'].includes(id)));
 
 // ---------- Estructura ----------
@@ -69,7 +69,10 @@ function cuResum(d, s) {
   const banners = [];
   if (c === 'pendent') banners.push(`<div class="avis-caixa"><svg class="ico" aria-hidden="true"><use href="#i-info"/></svg><span><strong>Falta confirmar el consentiment.</strong> Aquestes dades només s'haurien de veure amb el vistiplau de ${esc(u.nom)} (o de la família o el tutor, si ella no ho pot decidir).</span><span class="botons-banner"><button type="button" class="boto-principal boto-petit" onclick="establirConsent('si')">Hi està d'acord</button><button type="button" class="boto-secundari boto-petit" onclick="establirConsent('tutor')">Ho gestiona la família</button><button type="button" class="boto-fantasma boto-petit" onclick="establirConsent('no')">No ho vol</button></span></div>`);
   if (!modeLectura && (ultResum == null || ultResum >= 7) && d.totalPartides) banners.push(`<div class="avis-caixa"><svg class="ico" aria-hidden="true"><use href="#i-compartir"/></svg><span>${ultResum == null ? 'Encara no has enviat cap resum a la família.' : `Fa ${ultResum} dies que no s'envia el resum a la família.`} Avui toca?</span><button type="button" class="boto-principal boto-petit" onclick="compartirResumFamilia()">Enviar el resum</button></div>`);
+  const diesSense = jocsSenseJugarDies(d);
+  if (!modeLectura && diesSense != null && diesSense >= 3) banners.push(`<div class="avis-caixa"><svg class="ico" aria-hidden="true"><use href="#i-info"/></svg><span>Fa ${diesSense} dies que ${esc(u.nom)} no juga. Un missatge sol ajudar.</span><button type="button" class="boto-principal boto-petit" onclick="cuRecordatori()">Enviar-li un missatge</button></div>`);
   if (!modeLectura && typeof htmlAvisCopia === 'function') { const ac = htmlAvisCopia(); if (ac) banners.push(ac); }
+  const accions = `<div class="cu-accions"><button type="button" class="boto-principal boto-gran" onclick="informeCuidadorPDF('professional')">${ico('document')}Informe per al metge (PDF)</button><button type="button" class="boto-secundari boto-gran" onclick="informeCuidadorPDF('familia')">${ico('document')}Informe per a la família (PDF)</button></div>`;
   const frase = `<div class="semafor-gran ${s.estat}" role="status">${ico(SEMAFOR_ICO[s.estat][0])}<div><strong>${SEMAFOR_ICO[s.estat][1]}</strong><p>${esc(s.frase)}</p></div></div>`;
   const trTxt = a28.tr ? (a28.tr / 1000).toFixed(1).replace('.', ',') + ' s' : '—', varTxt = a28.variab != null ? a28.variab.toFixed(2).replace('.', ',') : '—';
   const kpis = `<div class="kpis">
@@ -81,8 +84,32 @@ function cuResum(d, s) {
     ${infoKpi('Variabilitat', varTxt, tendCu(a28.variab, p28.variab, { invers: true, decimals: 2 }), 'Com de regular és el temps de reacció dins d\'una partida (0 = molt regular). Més variabilitat pot indicar distracció o cansament; només és informatiu si es manté.', null)}
   </div>`;
   const avisos = s.avisos.length ? `<h2 class="titol-seccio">Aspectes a vigilar</h2>` + s.avisos.map(a => `<div class="avis-cu ${a.nivell}"><div class="avis-cu-cap">${ico(a.nivell === 'vermell' ? 'fletxa-avall' : 'info')}<strong>${esc(a.titol)}</strong></div><p>${esc(a.text)}</p><p class="interpreta"><strong>Com interpretar-ho:</strong> ${esc(a.interpreta)}</p>${a.nota ? `<p class="nota-context">Hi ha una nota teva en aquest període: «${esc(a.nota)}»</p>` : ''}</div>`).join('') : (s.estat === 'verd' ? '<p class="ajuda-camp">Cap aspecte a vigilar ara mateix.</p>' : '');
-  const soc = typeof partidesSocials === 'function' ? partidesSocials(d, 28) : 0, social = `<p class="social-cu">${ico('dos')}<span><strong>Activitat social:</strong> ${soc} ${soc === 1 ? 'partida' : 'partides'} amb algú en 28 dies. No compten als indicadors; és un bon senyal que juguin acompanyats.</span></p>`;
-  return banners.join('') + frase + kpis + social + avisos + `<details class="com-calcula"><summary>Com es calcula el semàfor?</summary>${textRegles()}</details>`;
+  const soc = typeof partidesSocials === 'function' ? partidesSocials(d, 28) : 0, social = `<p class="social-cu">${ico('dos')}<span><strong>Activitat social:</strong> ${soc} ${soc === 1 ? 'partida' : 'partides'} amb algú o en grup en 28 dies. No compten als indicadors; és un bon senyal que juguin acompanyats.</span></p>`;
+  return cuBenvinguda() + banners.join('') + frase + accions + kpis + social + avisos + `<details class="com-calcula"><summary>Com es calcula el semàfor?</summary>${textRegles()}</details>`;
+}
+
+// Primera vegada: què és aquest espai (S02 no l'havia vist i S03 no el va entendre a la primera). P06: el familiar és qui ho posa en marxa.
+function cuBenvinguda() {
+  if (lsRawGet('mentA_cu_explicat') || modeLectura) return '';
+  const u = getUsuariActual();
+  return `<div class="panell cu-benvinguda"><h2>Què és aquest espai?</h2><p>Aquí pots veure si ${esc(u.nom)} juga, quant encerta i com evoluciona, sense haver de preguntar-li res ni estar-hi al costat.</p>
+    <ol><li><strong>Posa-ho en marxa:</strong> tria la mida de la lletra i feu una primera partida junts.</li><li><strong>Mira'l un cop per setmana:</strong> el semàfor et diu d'un cop d'ull si tot va com sempre.</li><li><strong>Quan hi hagi visita mèdica:</strong> baixa l'informe i porta'l.</li></ol>
+    <p class="ajuda-camp">MentA està pensada per a persones actives o amb dificultats lleus. Amb un deteriorament avançat cal acompanyament i la valoració d'un professional. No és un tractament ni fa diagnòstics.</p>
+    <button type="button" class="boto-principal" onclick="cuEntesBenvinguda()">Entesos</button></div>`;
+}
+function cuEntesBenvinguda() { soClic(); lsRawSet('mentA_cu_explicat', '1'); renderCuidador(); }
+async function cuRecordatori() {
+  const u = getUsuariActual(), text = t(`Hola, ${u.nom}! Fa uns dies que no jugues a MentA. Et ve de gust fer una partida avui?`);
+  try { if (navigator.share) { await navigator.share({ text, title: 'MentA' }); return; } } catch (e) { if (e && e.name === 'AbortError') return; }
+  try { await navigator.clipboard.writeText(text); toast('Missatge copiat. Enganxa\'l a WhatsApp o a un correu.', 4000, 'exit'); } catch (e) { toast(text, 6000); }
+}
+// Quins jocs agraden i quins no es fan servir mai (S07: per millorar-los o retirar-los)
+function htmlUsJocs(d) {
+  const ocults = (d.plaCuidador || {}).jocsOcults || [], vis = jocsIndividuals().filter(j => !ocults.includes(j.id)), desde = dataMenys(59);
+  const cnt = j => d.historial.filter(h => h.joc === j.id && h.data >= desde).length, ord = vis.map(j => ({ j, n: cnt(j) })).sort((a, b) => b.n - a.n);
+  if (!d.historial.length) return '';
+  const mes = ord.filter(x => x.n).slice(0, 3), mai = ord.filter(x => !x.n);
+  return `<div class="panell"><h3>Què li agrada</h3><p><strong>Els que més juga (60 dies):</strong> ${mes.map(x => `${esc(x.j.nom)} (${x.n})`).join(', ') || 'encara cap'}.</p>${mai.length ? `<p><strong>No els ha jugat:</strong> ${mai.slice(0, 6).map(x => esc(x.j.nom)).join(', ')}${mai.length > 6 ? '…' : ''}.</p><p class="ajuda-camp">Si un joc no li agrada, el pots amagar aquí sota: així té menys coses per triar.</p>` : ''}</div>`;
 }
 
 // ---------- EVOLUCIÓ ----------
@@ -115,7 +142,7 @@ function cuJocs(d) {
     const trs = s.map(h => h.tempsReaccioMediana).filter(Boolean), dur = s.map(h => h.durada).filter(Boolean), aj = s.reduce((t, h) => t + (h.ajudesUsades || 0), 0), ab = (d.abandonaments || []).filter(a => a.joc === j.id).length;
     return `<tr><th scope="row">${esc(nomTecnicJoc(j.id))}</th><td>${JOCS_AMB_NIVELL.includes(j.id) ? NOMS_NIVELL[nivellGuardat(j.id)] : '—'}</td><td>${s.length}</td><td>${millor}</td><td>${mit}%</td><td>${tend}</td><td>${trs.length ? (mediana(trs) / 1000).toFixed(1).replace('.', ',') + ' s' : '—'}</td><td>${dur.length ? formatDurada(Math.round(mitjana(dur))) : '—'}</td><td>${aj}</td><td>${ab}</td></tr>`;
   }).join('');
-  return `<div class="taula-wrap" role="region" aria-label="Taula de jocs" tabindex="0"><table class="taula-cu"><caption class="nomes-lector">Resum per joc</caption><thead><tr><th scope="col">Joc</th><th scope="col">Nivell</th><th scope="col">Partides</th><th scope="col">Millor punt.</th><th scope="col">Mitjana</th><th scope="col">Tendència</th><th scope="col">Reacció</th><th scope="col">Durada</th><th scope="col">Ajudes</th><th scope="col">Abandons</th></tr></thead><tbody>${files}</tbody></table></div>
+  return htmlUsJocs(d) + `<div class="taula-wrap" role="region" aria-label="Taula de jocs" tabindex="0"><table class="taula-cu"><caption class="nomes-lector">Resum per joc</caption><thead><tr><th scope="col">Joc</th><th scope="col">Nivell</th><th scope="col">Partides</th><th scope="col">Millor punt.</th><th scope="col">Mitjana</th><th scope="col">Tendència</th><th scope="col">Reacció</th><th scope="col">Durada</th><th scope="col">Ajudes</th><th scope="col">Abandons</th></tr></thead><tbody>${files}</tbody></table></div>
     <p class="ajuda-camp">«Ajudes» són pistes, desfer i obertures del «?» durant la partida. «Abandons» són partides deixades a mitges (no compten com a resultat). El nivell s'ajusta sol (adaptatiu) dins del màxim que fixi el pla.</p>`;
 }
 
@@ -199,7 +226,7 @@ function cuInforme(d) {
   return `<div class="panell grup-ajustos"><h3>Informes en PDF</h3>
       <p class="ajuda-camp">Els dos porten l'avís de no-diagnòstic. «Per a la família» és en llenguatge senzill; «per al professional» és més precís (taules i tendències).</p>
       <button type="button" class="boto-principal boto-ample"${bloq} onclick="informeCuidadorPDF('familia')">${ico('document')}Informe per a la família</button>
-      <button type="button" class="boto-secundari boto-ample"${bloq} onclick="informeCuidadorPDF('professional')">${ico('document')}Informe per al professional</button>
+      <button type="button" class="boto-secundari boto-ample"${bloq} onclick="informeCuidadorPDF('professional')">${ico('document')}Informe per al metge o professional</button>
       <button type="button" class="boto-fantasma boto-ample"${bloq} onclick="informeCuidadorImprimir()">Imprimir o desar en PDF</button></div>
     <div class="panell grup-ajustos"><h3>Compartir i exportar</h3>
       <button type="button" class="boto-secundari boto-ample"${bloq} onclick="compartirResumFamilia()">${ico('compartir')}Compartir el resum</button>
@@ -217,47 +244,7 @@ function exportaPaquetLectura() {
   baixaFitxer(`MentA-lectura-${u.nom.replace(/[^\w-]+/g, '_')}-${avuiISO()}.json`, JSON.stringify(paquet), 'application/json'); registraAcces('exporta', 'paquet de lectura'); toast('Paquet descarregat. No inclou el diari personal ni les fotos.', 5000, 'exit');
 }
 
-// Informes PDF (jsPDF local, carregat sota demanda)
-async function informeCuidadorPDF(variant) {
-  if (modeLectura || estatConsent() === 'no') { if (estatConsent() === 'no') return; }
-  const ok = await carregaJsPDF(); if (!ok) { toast('No s\'ha pogut preparar el PDF. Prova l\'alternativa d\'impressió.', 4500, 'error'); return; }
-  const d = dadesActuals(), u = getUsuariActual(), s = calculaSemafor(d), pro = variant === 'professional', doc = pdfNou({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  const V = [19, 74, 44], T = [36, 31, 25], S = [90, 81, 70]; let y = 42;
-  doc.setFillColor(...V); doc.rect(0, 0, 210, 30, 'F'); try { doc.addImage(LOGO_PDF, 'PNG', 12, 5, 20, 20); } catch (e) { /* sense logo */ }
-  doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(19); doc.text(pro ? 'MentA · Informe orientatiu per al professional' : 'MentA · Com li va a ' + u.nom, 38, 15);
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.text(`${u.nom} · generat el ${new Date().toLocaleDateString(localeApp())} · període: últimes 8 setmanes`, 38, 22);
-  const sec = t => { if (y > 258) { doc.addPage(); y = 20; } doc.setTextColor(...V); doc.setFont('helvetica', 'bold'); doc.setFontSize(13); doc.text(t, 14, y); y += 7; doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(...T); };
-  const par = (k, v) => { if (y > 275) { doc.addPage(); y = 20; } doc.setTextColor(...S); doc.text(k, 14, y); doc.setTextColor(...T); doc.setFont('helvetica', 'bold'); doc.text(String(v), 80, y); doc.setFont('helvetica', 'normal'); y += 6; };
-  const text = (t, w = 180) => { const l = doc.splitTextToSize(t, w); l.forEach(x => { if (y > 278) { doc.addPage(); y = 20; } doc.text(x, 14, y); y += 5; }); y += 2; };
-  const a28 = agrega(d, 0, 27), p28 = agrega(d, 28, 55), ws = Array.from({ length: 8 }, (_, i) => setmanaDades(d, 7 - i));
-  sec('Resum'); doc.setFont('helvetica', 'bold'); text({ verd: 'Constància estable i resultats dins del seu nivell habitual.', groc: s.frase, vermell: s.frase, gris: s.frase }[s.estat]); doc.setFont('helvetica', 'normal');
-  par('Estat del semàfor', { verd: 'Verd · tot en ordre', groc: 'Groc · convé fixar-s\'hi', vermell: 'Vermell · canvis sostinguts', gris: 'Sense prou dades' }[s.estat]);
-  par('Dies actius (últims 28 dies)', `${a28.dies} (anteriors 28: ${p28.dies})`); par('Minuts jugats (28 dies)', a28.minuts);
-  if (pro) { par('Precisió global (28 dies)', a28.pct != null ? Math.round(a28.pct) + '%' : '—'); par('Temps de reacció (mediana)', a28.tr ? (a28.tr / 1000).toFixed(2) + ' s' : '—'); par('Variabilitat del temps de reacció', a28.variab != null ? a28.variab.toFixed(2) : '—'); par('Abandonaments (28 dies)', a28.ab); y += 2; }
-  sec(pro ? 'Evolució setmanal' : 'Setmana a setmana');
-  const gx = 20, gy = y + 36, gw = 170, gh = 32; doc.setDrawColor(200, 200, 200); doc.line(gx, gy, gx + gw, gy);
-  ws.forEach((w, i) => { const bw = 12, x = gx + 6 + i * (gw / 8), h = w.pct ? gh * w.pct / 100 : 0; doc.setFillColor(...V); if (h) doc.rect(x, gy - h, bw, h, 'F'); doc.setTextColor(...S); doc.setFontSize(8); doc.text(w.k === 0 ? 'Ara' : '-' + w.k + 's', x + bw / 2, gy + 4, { align: 'center' }); if (w.pct != null) doc.text(Math.round(w.pct) + '%', x + bw / 2, gy - h - 1.5, { align: 'center' }); });
-  doc.setFontSize(10); y = gy + 12;
-  if (pro) {
-    sec('Taula setmanal'); doc.setFont('helvetica', 'bold'); ['Setmana', 'Partides', 'Dies', 'Min', 'Precisió', 'T. reacc.', 'Abandons'].forEach((c, i) => doc.text(c, [14, 46, 68, 84, 100, 126, 156][i], y)); doc.setFont('helvetica', 'normal'); y += 6;
-    ws.forEach(w => { if (y > 278) { doc.addPage(); y = 20; } [w.k === 0 ? 'Últims 7 d.' : 'Fa ' + w.k + ' set.', w.n, w.dies, w.minuts, w.pct != null ? Math.round(w.pct) + '%' : '—', w.tr ? (w.tr / 1000).toFixed(2) + ' s' : '—', w.abandonades].forEach((c, i) => doc.text(String(c), [14, 46, 68, 84, 100, 126, 156][i], y)); y += 5.5; }); y += 4;
-    sec('Resultat per àrees (28 dies)'); DOMINIS.forEach(k => { const v = pctDomini(d, k, dataMenys(27), avuiISO()); par(NOMS_DOMINI[k], v.v == null ? 'Dades insuficients' : v.v + '% (' + v.n + ' partides)'); });
-    sec('Regles aplicades al semàfor'); doc.setFontSize(9); text(`Mínim ${SEMAFOR.minSessions} sessions en 8 setmanes. Línia base: mitjana de les 4 setmanes anteriors de la mateixa persona. Groc: precisió -${Math.round(SEMAFOR.precisioGroc * 100)}% durant ${SEMAFOR.setmanesGroc} setmanes, o constància ≤${Math.round(SEMAFOR.constanciaGroc * 100)}% de la base, o ≥${SEMAFOR.diesSenseJugarGroc} dies sense jugar, o >${Math.round(SEMAFOR.abandonamentsGroc * 100)}% d'abandonaments, o temps de reacció +${Math.round(SEMAFOR.tempsReaccioGroc * 100)}%. Vermell: precisió -${Math.round(SEMAFOR.precisioVermell * 100)}% durant ${SEMAFOR.setmanesVermell} setmanes o ≥${SEMAFOR.diesSenseJugarVermell} dies sense jugar.`.replace(/≤/g, '<=').replace(/≥/g, '>='), 180); doc.setFontSize(10);
-  } else {
-    sec('Com es troba'); const hist = (d.salut && d.salut.historial) || {}, anims = [...Array(14)].map((_, k) => (hist[dataMenys(k)] || {}).anim).filter(Boolean);
-    text(anims.length ? `En els últims 14 dies ha anotat el seu ànim ${anims.length} vegades: ${['Bé', 'Normal', 'Baix', 'Cansat'].map(a => `${anims.filter(x => x === a).length} «${a.toLowerCase()}»`).join(', ')}.` : 'Encara no ha anotat com es troba.');
-    text(s.avisos.length ? 'Aspectes a tenir en compte: ' + s.avisos.map(a => a.titol).join('; ') + '.' : 'No hi ha cap aspecte que calgui vigilar ara mateix.');
-  }
-  if ((d.notes || []).length) { sec('Observacions del cuidador'); [...d.notes].sort((a, b) => a.data.localeCompare(b.data)).slice(-10).forEach(n => text(`${n.data}${n.autor ? ' (' + n.autor + ')' : ''}: ${n.text}`)); }
-  const t = d.tests.slice(-4); if (pro && t.length) { sec('Mini-test de memòria (joc orientatiu)'); t.forEach(x => par(x.data, `${x.punts}/${x.total}`)); }
-  if (y > 246) { doc.addPage(); y = 20; }
-  doc.setFillColor(244, 239, 231); doc.roundedRect(14, y, 182, 30, 2, 2, 'F'); doc.setFontSize(9); doc.setTextColor(...S);
-  doc.text(doc.splitTextToSize('Avís important. Aquests indicadors són orientatius i mesuren el rendiment en uns jocs, no la salut. MentA no és un dispositiu sanitari ni fa diagnòstics. Si observeu canvis que us preocupen, consulteu un professional de la salut.', 172), 19, y + 7);
-  doc.setFontSize(8); doc.text(`Generat per MentA v${VERSIO_CURTA} al dispositiu del cuidador. Les dades no s'han enviat enlloc.`, 14, 289);
-  const url = URL.createObjectURL(doc.output('blob')), a = document.createElement('a');
-  a.href = url; a.download = `MentA-informe-${pro ? 'professional' : 'familia'}-${u.nom.replace(/[^\w-]+/g, '_')}-${avuiISO()}.pdf`; a.style.display = 'none'; document.body.appendChild(a); a.click(); setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 1500);
-  registraAcces('informe', variant); soVictoria(); toast('Informe descarregat', 2800, 'exit');
-}
+// Els informes PDF són a 19-informe.js
 function informeCuidadorImprimir() { registraAcces('informe', 'impressió'); informeImprimir(); }
 
 // ---------- AJUSTOS ----------

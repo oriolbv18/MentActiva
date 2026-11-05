@@ -221,7 +221,7 @@ def prova_span(p, partides):
             par.avanca(100); passes += 1
             d = par.js("(() => { const e = document.querySelector('#span-display .span-digit.gran'); if (e && !e._vist) { e._vist = 1; return e.textContent; } return null; })()")
             if d is not None: digits.append(d)
-        if len(digits) != 3: errors.append(f'span: al nivell 3 s\'han mostrat {len(digits)} dígits {digits}')
+        if len(digits) != 2: errors.append(f'span: al nivell inicial s\'han mostrat {len(digits)} dígits {digits}')
         correcte = rng.random() < .5; ent = list(digits)
         if not correcte: ent[-1] = str((int(ent[-1]) + 1) % 10)
         for d in ent: par.js(f"document.querySelector('#span-input [data-d=\"{d}\"]').click()"); par.avanca(40)

@@ -24,6 +24,28 @@ def quiz(par, rng, joc, dos=False, nivell=None):
     par.avanca(900)
 
 
+def associa(par, rng, dos=False, nivell=None):
+    for _ in range(120):
+        if par.acabada(): break
+        n = compta(par, '#associa-esq .associa-fitxa:not(:disabled)')
+        if n:
+            clica(par, '#associa-esq .associa-fitxa:not(:disabled)', 0); par.avanca(40)
+            m = compta(par, '#associa-dre .associa-fitxa:not(:disabled)')
+            clica(par, '#associa-dre .associa-fitxa:not(:disabled)', rng.randrange(m)); par.avanca(60)
+        else: par.avanca(1000)
+    par.avanca(900)
+
+
+def encreuats(par, rng, dos=False, nivell=None):
+    for _ in range(300):
+        if par.acabada(): break
+        e = par.js("JOCS.encreuats._estat()")
+        if not e: par.avanca(300); continue
+        l = 'Q' if rng.random() < .04 else e
+        par.js(f"document.querySelector('#enc-teclat [data-enc={l}]').click()"); par.avanca(40)
+    par.avanca(1500)
+
+
 def paraules(par, rng, dos=False, nivell=None):
     for _ in range(600):
         if par.acabada(): break
@@ -213,14 +235,14 @@ def stroop(par, rng, dos=False, nivell=None):
 def span(par, rng, dos=False, nivell=None):
     par.js("document.getElementById('span-iniciar').click()")
     nivells_a_encertar = rng.randint(0, 4)
-    for ronda in range(nivells_a_encertar + 1):
+    for ronda in range(nivells_a_encertar + 2):   # cada nivell dona una segona oportunitat
         digits, passes = [], 0
         while not compta(par, '#span-input .span-tap') and passes < 400:
             par.avanca(100); passes += 1
             d = par.js("(() => { const e = document.querySelector('#span-display .span-digit.gran'); if (e && !e._vist) { e._vist = 1; return e.textContent; } return null; })()")
             if d is not None: digits.append(d)
         for k, d in enumerate(digits):
-            if ronda == nivells_a_encertar and k == len(digits) - 1: d = str((int(d) + 1) % 10)
+            if ronda >= nivells_a_encertar and k == len(digits) - 1: d = str((int(d) + 1) % 10)
             par.js(f"document.querySelector('#span-input [data-d=\"{d}\"]').click()"); par.avanca(40)
         par.avanca(1500)
         if par.acabada(): break
@@ -256,4 +278,6 @@ BOTS = {
     'span': (span, False, False),
     'fluidesa': (lambda p, r, d=False, n=None: quiz(p, r, 'fluidesa', d), False, False),
     'quefalta': (quefalta, False, False),
+    'associa': (associa, False, False),
+    'encreuats': (encreuats, False, False),
 }

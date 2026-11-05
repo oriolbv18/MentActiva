@@ -12,6 +12,16 @@
 const COLORS_TUT = { vermell: 'background:#d94f4f;color:#fff', verd: 'background:#2e8b57;color:#fff', blau: 'background:#3a86c8;color:#fff', groc: 'background:#e0a800;color:#2d1904', taronja: 'background:#f08a24;color:#2d1904' };
 const filaTut = (...x) => `<div class="tut-fila">${x.map(v => `<span class="tut-x">${v}</span>`).join('')}</div>`;
 const TUTORIALS = {
+  associa: [
+    { text: 'Toca una paraula de l\'esquerra. Comencem per Cullera.', fitxes: ['Cullera', 'Agulla'], bona: 0, ok: 'Ara busca la seva parella.' },
+    { text: 'Amb què va la cullera?', fitxes: ['Fil', 'Forquilla'], bona: 1, ok: 'Això és: la cullera va amb la forquilla.' },
+    { text: 'Si dues paraules no van juntes, no passa res: torna-ho a provar.' }
+  ],
+  encreuats: [
+    { text: 'Aquesta és la pista: «Moble per menjar». Té 5 lletres.', mostra: filaTut('?', '?', '?', '?', '?') },
+    { text: 'Quina paraula és?', fitxes: ['TAULA', 'CADIRA'], bona: 0, ok: 'Molt bé! L\'escriuràs amb les lletres de sota.' },
+    { text: 'Si et quedes encallat, toca «Posa\'m una lletra». No passa res.' }
+  ],
   memory: [
     { text: 'Les cartes estan girades. Toca la carta marcada.', fitxes: [{ t: '?', r: '🌻', a: 'Carta tapada' }, { t: '?', r: '🍎', a: 'Carta tapada' }, { t: '?', r: '🌻', a: 'Carta tapada' }, { t: '?', r: '🍎', a: 'Carta tapada' }], bona: 0, ok: 'És un gira-sol. Recorda on és!' },
     { text: 'Ara busca l\'altre gira-sol. Toca la carta marcada.', fitxes: [{ t: '🌻', cls: 'oberta', a: 'Gira-sol' }, { t: '?', r: '🍎', a: 'Carta tapada' }, { t: '?', r: '🌻', a: 'Carta tapada' }, { t: '?', r: '🍎', a: 'Carta tapada' }], bona: 2, ok: 'Són iguals! La parella queda descoberta.' },

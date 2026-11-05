@@ -1,5 +1,7 @@
 # MentA v1.10 · Llegeix-me
 
+**Novetat de la 2.0 (l'app i la web):** el que es va triar de les entrevistes: Mots encreuats i Què va amb què? (19 jocs), tema de la setmana, l'Elefant explica cada joc, informe PDF complet i activitat de grup. Detall a `CHANGELOG-2.0.md`.
+
 **Novetat de la 1.10 (l'app):** els 21 punts de les proves de l'Oriol: tutorial interactiu als 17 jocs, «Troba l'intrús», comptes i sèries molt més senzills, medalles animades i modificables, càmera a l'àlbum, Dames i Bingo redissenyats, «Els meus jocs» a triar. Publicada a <https://mentactiva.app>. Vegeu `CHANGELOG-1.10.md`.
 
 **Novetat de la 1.9.3 (només la web, «aparador lliure i moviment amb sentit»):** l'aparador de jocs ja no és un *marquee* que es mou sol: és **una fila que es controla** (roda, arrossegar amb el ratolí, fletxes, teclat, dit) i el hover només eleva la carta. A més, set moviments amb propòsit (fets escalonats, compte del «17 jocs», mòbil viu amb direcció, premuda i subratllat, transició entre pàgines, l'Elefant reacciona al toc), la salutació del hero segons l'hora i un «Torna a dalt». Vegeu `CHANGELOG-1.9.3.md`, `docs/web-premium/MOVIMENT-1.9.3.md`, `docs/web-premium/BASE-1.9.2.md` i `docs/MESURA-US.md`.
@@ -101,7 +103,7 @@ python tests/v110/test_dades.py        # medalles, jocs triats, còpies hostils,
 ```
 python tests/usuaris/test_usuaris.py     # error de les llistes d'usuaris
 python tests/elefant/test_elefant.py     # Elefant: lloc, presència, ofertes
-python tests/pistes/test_pistes.py       # pistes als 17 jocs
+python tests/pistes/test_pistes.py       # pistes als 19 jocs
 python tests/copia/test_copia.py         # còpia de seguretat i importació hostil
 python tests/pilot/test_pilot.py         # mode pilot
 python tests/domini/test_domini.py       # script de domini
@@ -114,7 +116,7 @@ python tests/layout/auditoria-botons.py  # 0 incidències (MENTA_IDIOMA=es per a
 ## La web d'aterratge (1.9.2): com treballar-hi
 ```
 python tools/audit-web.py --sortida docs/web-premium/audit   # a més: LCP, tasques llargues en fer scroll, pes de la pàgina, imatges trencades
-python tests/web/test_aparador_control.py              # aparador: 17 jocs en < 10 s, hover sense efecte, teclat, tàctil, CLS (MENTA_ARREL=<ruta> per provar una altra versió)
+python tests/web/test_aparador_control.py              # aparador: 19 jocs en < 10 s, hover sense efecte, teclat, tàctil, CLS (MENTA_ARREL=<ruta> per provar una altra versió)
 python tests/web/test_moviment_reduit.py               # prefers-reduced-motion: cap animació que es mogui
 python tests/web/test_sense_js.py                      # sense JavaScript: pàgina completa i legible
 python tests/web/test_premium.py                       # mòbil viu, vídeo, ulls de l'Elefant, bento, rendiment, break-ui (vídeo que no carrega, Save-Data)

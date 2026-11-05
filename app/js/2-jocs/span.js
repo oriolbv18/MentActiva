@@ -5,8 +5,8 @@
 //  Cada encert n'afegeix un més.
 // ==========================================================
 (() => {
-  const NIVELL_INICIAL = 3, PAUSA_DIGIT = 1100, BUIT_DIGIT = 250;
-  let seq = [], entrada = [], nivell = NIVELL_INICIAL, millor = 0, bloquejat = true;
+  const NIVELL_INICIAL = 2, PAUSA_DIGIT = 1300, BUIT_DIGIT = 250;   // comença amb 2 números i dona una segona oportunitat a cada nivell (S08)
+  let seq = [], entrada = [], nivell = NIVELL_INICIAL, millor = 0, bloquejat = true, segona = false;
 
   function pintaTeclat() {
     $('span-input').innerHTML = Array.from({ length: 10 }, (_, i) => `<button type="button" class="span-tap" data-d="${i}">${i}</button>`).join('');
@@ -14,7 +14,7 @@
   const pintaEntrada = () => { morph($('span-display'), entrada.map(d => `<div class="span-digit">${d}</div>`).join('')); };
 
   function reiniciar() {
-    seq = []; entrada = []; nivell = NIVELL_INICIAL; bloquejat = true;
+    seq = []; entrada = []; nivell = NIVELL_INICIAL; bloquejat = true; segona = false;
     millor = parseInt(lsRawGet('mentA_spanMillor') || '0', 10) || 0;
     setText('span-nivell', nivell); setText('span-millor', millor);
     $('span-display').innerHTML = ''; $('span-input').innerHTML = ''; setFeedback('span', '');
@@ -47,16 +47,18 @@
     if (entrada.every((v, i) => v === seq[i])) {
       soEncert(); vibrar([40, 30, 40]); setFeedback('span', 'Correcte! Pugem de nivell!', 'correcte');
       if (nivell > millor) { millor = nivell; lsRawSet('mentA_spanMillor', millor); setText('span-millor', millor); }
-      nivell++; temps(nouNivell, 1200);
+      nivell++; segona = false; temps(nouNivell, 1200);
     } else {
       soError(); vibrar(200); elefantTrist();
+      if (!segona) { segona = true; setFeedback('span', `Gairebé! Eren ${seq.join(' ')}. Tornem-hi amb uns altres.`, 'incorrecte'); $('span-input').innerHTML = ''; temps(nouNivell, 2400); return; }
+      segona = false;
       setFeedback('span', `Era ${seq.join(' ')}. Has arribat al nivell ${nivell}.`, 'incorrecte');
       const arribat = nivell;
       $('span-input').innerHTML = ''; $('span-iniciar').textContent = 'Tornar a jugar'; mostra('span-iniciar', true);
       nivell = NIVELL_INICIAL;
-      // objectiu orientatiu: recordar 8 dígits
+      // objectiu orientatiu: recordar 7 dígits
       const assolit = arribat - 1;
-      finalitzarPartida('span', Math.max(0, assolit - NIVELL_INICIAL + 1), 1, `Has recordat fins a ${assolit} dígits`, { pct: Math.min(100, assolit / 8 * 100), puntuacio: assolit * 10 });
+      finalitzarPartida('span', Math.max(0, assolit - NIVELL_INICIAL + 1), 1, `Has recordat fins a ${assolit} dígits`, { pct: Math.min(100, assolit / 7 * 100), puntuacio: assolit * 10 });
     }
   }
   $('span-iniciar').addEventListener('click', comencar);

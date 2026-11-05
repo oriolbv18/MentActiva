@@ -17,7 +17,7 @@ PANTALLES = ['inici', 'meusJocs', 'comVaig', 'sessioDescans', 'sessioFi', 'selec
              'album', 'missatgeria', 'calFamiliar', 'privadesa', 'condicions', 'sobre', 'feedback']
 PESTANYES = []
 JOCS = ['tertulia', 'refranys', 'paraules', 'memory', 'sequencia', 'domino', 'dames', 'sopa',
-        'nback', 'stroop', 'span', 'fluidesa', 'calcul', 'seqlog', 'quefalta', 'sudoku', 'bingo']
+        'nback', 'stroop', 'span', 'fluidesa', 'calcul', 'seqlog', 'quefalta', 'sudoku', 'bingo', 'associa', 'encreuats']
 
 INIT = """
 try {

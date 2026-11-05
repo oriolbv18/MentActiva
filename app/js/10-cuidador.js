@@ -62,7 +62,7 @@ document.addEventListener('keydown', e => {
 function pintaPunts() { document.querySelectorAll('#pinPunts i').forEach((p, i) => p.classList.toggle('ple', i < _pin.digits.length)); }
 function demanaPin(mode, cb) {
   construeixTeclatPin(); _pin = Object.assign(_pin, { mode, digits: '', primer: '', cb });
-  const t = { entrar: ['Espai del cuidador', 'Escriu el PIN de 4 xifres.'], crear: ['Crea un PIN', 'Tria 4 xifres que només sàpigues tu o el cuidador.'], confirmar: ['Repeteix el PIN', 'Torna a escriure les mateixes 4 xifres.'], verificar: ['PIN actual', 'Escriu el PIN actual per continuar.'] }[mode];
+  const t = { entrar: ['Família i cuidador', 'Escriu el PIN de 4 xifres.'], crear: ['Crea un PIN', 'Tria 4 xifres que només sàpigues tu o el cuidador.'], confirmar: ['Repeteix el PIN', 'Torna a escriure les mateixes 4 xifres.'], verificar: ['PIN actual', 'Escriu el PIN actual per continuar.'] }[mode];
   setText('pinTitol', t[0]); setText('pinText', t[1]); setText('pinError', ''); pintaPunts();
   mostra('pinOblidat', mode === 'entrar' || mode === 'verificar', 'inline-flex');
   obrirModal('modalPin', false);
@@ -98,7 +98,7 @@ function pinOblidat() {
 }
 
 // ---------- Entrar i sortir de l'Espai del Cuidador ----------
-const PANTALLES_PROTEGIDES = ['cuidador', 'configuracio', 'resumFamilia', 'testCognitiu', 'medallesEdita'];
+const PANTALLES_PROTEGIDES = ['cuidador', 'configuracio', 'resumFamilia', 'testCognitiu', 'medallesEdita', 'grupActivitat'];
 function pantallaProtegida(id) {
   if (!PANTALLES_PROTEGIDES.includes(id) || cuidadorObert || modeLectura) return false;
   if (!teCuidadorPin() && ajustes.rol !== 'cuidat' && ajustes.rol !== 'residencia') { cuidadorObert = true; return false; }   // «Jo mateix/a» sense PIN: accés lliure
@@ -123,7 +123,7 @@ function reiniciaInactivitatCuidador() {
 }
 ['pointerdown', 'keydown'].forEach(ev => document.addEventListener(ev, () => { if (cuidadorObert) reiniciaInactivitatCuidador(); }, true));
 // En sortir del cuidador cap a una pantalla de la persona, es tanca la sessió del cuidador
-const _pantallesCuidadorSessio = ['cuidador', 'configuracio', 'resumFamilia', 'privadesa', 'condicions', 'sobre', 'feedback', 'testCognitiu', 'album', 'missatgeria', 'calFamiliar'];
+const _pantallesCuidadorSessio = ['cuidador', 'configuracio', 'resumFamilia', 'privadesa', 'condicions', 'sobre', 'feedback', 'testCognitiu', 'album', 'missatgeria', 'calFamiliar', 'grupActivitat'];
 const _mostrarPantallaOriginal = mostrarPantalla;
 mostrarPantalla = function (id, opcions) {
   if (pantallaProtegida(id)) return;

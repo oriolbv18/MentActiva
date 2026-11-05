@@ -169,5 +169,25 @@ const JOCS_WEB = [
   "min": 5,
   "dos": true,
   "individual": true
+ },
+ {
+  "id": "encreuats",
+  "nom": "Mots encreuats",
+  "desc": "Escriu les paraules amb les pistes",
+  "domini": "llenguatge",
+  "dominiNom": "Llenguatge",
+  "min": 6,
+  "dos": false,
+  "individual": true
+ },
+ {
+  "id": "associa",
+  "nom": "Què va amb què?",
+  "desc": "Uneix les paraules que van juntes",
+  "domini": "llenguatge",
+  "dominiNom": "Llenguatge",
+  "min": 3,
+  "dos": false,
+  "individual": true
  }
 ];

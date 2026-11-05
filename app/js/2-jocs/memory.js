@@ -6,7 +6,7 @@
 //  només s'anima la carta que es gira i les parelles encertades queden quietes).
 // ==========================================================
 (() => {
-  const EMOJIS = [['🌻', 'girasol'], ['🌼', 'margarida'], ['🌷', 'tulipa'], ['🌹', 'rosa'], ['🍀', 'trèvol'], ['🌳', 'arbre'], ['🍎', 'poma'], ['🐦', 'ocell'], ['🐶', 'gos'],
+  const EMOJIS = [['☕', 'cafè'], ['🌙', 'lluna'], ['🏠', 'casa'], ['⛵', 'barca'], ['⚽', 'pilota'], ['🎈', 'globus'], ['🔔', 'campana'], ['📚', 'llibre'], ['🌻', 'girasol'], ['🌼', 'margarida'], ['🌷', 'tulipa'], ['🌹', 'rosa'], ['🍀', 'trèvol'], ['🌳', 'arbre'], ['🍎', 'poma'], ['🐦', 'ocell'], ['🐶', 'gos'],
     ['🐱', 'gat'], ['🦋', 'papallona'], ['🍓', 'maduixa'], ['🌈', 'arc de Sant Martí'], ['⭐', 'estrella'], ['🌸', 'flor de cirerer'], ['🐟', 'peix'], ['🍇', 'raïm'], ['🍋', 'llimona']];
   // parelles, columnes, files per nivell
   const NIVELLS = { facil: { parelles: 4, cols: 4, files: 2 }, mig: { parelles: 8, cols: 4, files: 4 }, dificil: { parelles: 12, cols: 6, files: 4 } };

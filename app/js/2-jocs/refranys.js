@@ -77,6 +77,13 @@ const BARALLA_REFRANYS = [
   { inici: 'La pressa', correcta: 'és mala consellera', falses: ['és bona amiga', 'ens fa guanyar temps'] },
   { inici: 'Qui espera,', correcta: 'desespera', falses: ['guanya', 'descansa'] },
   { inici: 'Tots els rius', correcta: 'van a parar a la mar', falses: ['neixen a la muntanya', 'porten aigua clara'] },
+  { inici: "Cel rogent,", correcta: "pluja o vent", falses: ["sol ardent", "bon temps"] },
+  { inici: "Feina feta", correcta: "no fa destorb", falses: ["no té preu", "és ben feta"] },
+  { inici: "Val més un boig conegut", correcta: "que un savi per conèixer", falses: ["que un amic llunyà", "que cent diners"] },
+  { inici: "Qui paga,", correcta: "mana", falses: ["plora", "descansa"] },
+  { inici: "Quan el riu sona,", correcta: "aigua porta", falses: ["fa fred", "és de nit"] },
+  { inici: "A poc a poc", correcta: "i bona lletra", falses: ["es fa tard", "no s'arriba"] },
+  { inici: "Bon vent", correcta: "i barca nova", falses: ["i bona sort", "i mar en calma"] }
 ];
 
 crearQuiz({

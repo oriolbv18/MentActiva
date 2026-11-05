@@ -148,6 +148,8 @@
 <symbol id="i-j-calcul" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></symbol>
 <symbol id="i-j-seqlog" viewBox="0 0 24 24"><circle cx="5.5" cy="16.5" r="2.3"/><circle cx="12" cy="12" r="2.3"/><circle cx="18.5" cy="7.5" r="2.3"/><path d="M7.5 15l2.6-1.9M14 10.6l2.6-1.8" stroke-dasharray="1.5 2"/></symbol>
 <symbol id="i-j-quefalta" viewBox="0 0 24 24"><path d="M2 12s3.8-7 10-7 10 7 10 7-3.8 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-j-encreuats" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18M15 9v12M9 15h12"/></symbol>
+<symbol id="i-j-associa" viewBox="0 0 24 24"><rect x="2.5" y="4" width="7" height="5" rx="1.5"/><rect x="14.5" y="15" width="7" height="5" rx="1.5"/><path d="M9.5 6.5c5 0 0 11 5 11"/></symbol>
 <symbol id="i-j-sudoku" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></symbol>
 <!-- Icones d'interfície noves -->
 <symbol id="i-pausa" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" stroke-width="3"/></symbol>
@@ -315,7 +317,7 @@
         <button type="button" class="ajust-rapid" id="btnSoRapid" onclick="alternaSoRapid()" aria-pressed="true"><svg class="ico" aria-hidden="true"><use href="#i-volum"/></svg><span id="btnSoText">So</span></button>
         <button type="button" class="ajust-rapid" onclick="obrirModal('modalAjuda')"><svg class="ico" aria-hidden="true"><use href="#i-pregunta"/></svg><span>Ajuda</span></button>
       </div>
-      <button type="button" class="btn-cadenat" id="btnCuidador" onclick="obrirEspaiCuidador()" aria-label="Espai del cuidador (amb PIN)"><svg class="ico" aria-hidden="true"><use href="#i-cadenat"/></svg><span>Cuidador</span></button>
+      <button type="button" class="btn-cadenat" id="btnCuidador" onclick="obrirEspaiCuidador()" aria-label="Espai de la família i del cuidador"><svg class="ico" aria-hidden="true"><use href="#i-cadenat"/></svg><span>Família i cuidador</span></button>
     </div>
   </section>
 
@@ -456,6 +458,7 @@
     </div>
     <div class="joc-cos cos-quiz">
       <div id="tertulia-marcador-2v2" class="marcador-zona"></div>
+      <p class="tema-setmana" id="tertulia-tema"></p>
       <div class="joc-info"><span class="item">Pregunta <strong id="tertulia-num">1</strong>/<span id="tertulia-total">0</span></span><span class="item">Encerts <strong id="tertulia-encerts">0</strong></span></div>
       <div class="zona-pregunta"><div class="pregunta-text " id="tertulia-pregunta">…</div></div>
       <div class="opcions" id="tertulia-opcions"></div>
@@ -666,6 +669,40 @@
       <p class="feedback" id="span-feedback" aria-live="polite"></p>
       <button type="button" class="boto-principal boto-joc" id="span-iniciar">Començar</button>
     </div>
+  </section>
+
+  <section id="joc-associa" class="screen screen-joc">
+    <div class="barra-joc">
+      <button type="button" class="ib" onclick="intentarSortir()" aria-label="Sortir del joc"><svg class="ico" aria-hidden="true"><use href="#i-enrere"/></svg></button>
+      <div class="barra-titol"><h1>Què va amb què?</h1><p>Uneix les paraules que van juntes</p></div>
+    </div>
+    <div class="joc-cos">
+      <div class="joc-info"><span class="item">Ronda <strong id="associa-ronda">1</strong>/<span id="associa-rondes">2</span></span><span class="item">Encerts <strong id="associa-encerts">0</strong></span></div>
+      <div class="associa-taula"><div class="associa-col" id="associa-esq"></div><div class="associa-col" id="associa-dre"></div></div>
+      <p class="feedback" id="associa-feedback" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section id="joc-encreuats" class="screen screen-joc">
+    <div class="barra-joc">
+      <button type="button" class="ib" onclick="intentarSortir()" aria-label="Sortir del joc"><svg class="ico" aria-hidden="true"><use href="#i-enrere"/></svg></button>
+      <div class="barra-titol"><h1>Mots encreuats</h1><p>Toca una pista i escriu la paraula</p></div>
+    </div>
+    <div class="joc-cos cos-encreuats">
+      <div class="joc-info"><span class="item">Fetes <strong id="enc-fetes">0</strong>/<span id="enc-total">0</span></span></div>
+      <div class="enc-graella" id="enc-graella"></div>
+      <div class="enc-pistes" id="enc-pistes"></div>
+      <p class="feedback" id="encreuats-feedback" aria-live="polite"></p>
+      <div class="teclat" id="enc-teclat"></div>
+      <button type="button" class="boto-secundari boto-ample" id="enc-lletra"><svg class="ico" aria-hidden="true"><use href="#i-pregunta"/></svg>Posa'm una lletra</button>
+    </div>
+  </section>
+
+  <!-- ===== ACTIVITAT DE GRUP (v2.0) ===== -->
+  <section id="grupActivitat" class="screen" aria-labelledby="titolGrup">
+    <button type="button" class="btn-enrere" onclick="grupTanca()"><svg class="ico" aria-hidden="true"><use href="#i-enrere"/></svg>Tornar al panell</button>
+    <h1 class="joc-titol" id="titolGrup">Activitat de grup</h1>
+    <div id="grupCos"></div>
   </section>
 
   <section id="joc-fluidesa" class="screen screen-joc">
@@ -1174,12 +1211,23 @@
   </div>
 </div>
 <!-- Pausa -->
+<div class="modal-fons" id="modalAjudaJoc" role="dialog" aria-modal="true" aria-labelledby="titolAjudaJoc">
+  <div class="modal modal-confirm">
+    <h2 id="titolAjudaJoc">Què he de fer?</h2>
+    <p class="modal-text ajuda-joc-fer" id="ajudaJocFer"></p>
+    <button type="button" class="boto-principal boto-gran boto-ample" onclick="ajudaJocSeguir()"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg>Entesos</button>
+    <button type="button" class="boto-secundari boto-ample" id="ajudaJocPista" onclick="ajudaJocPista()">Una pista</button>
+    <button type="button" class="boto-secundari boto-ample" onclick="ajudaJocTutorial()">Com es juga</button>
+    <button type="button" class="boto-fantasma boto-ample" onclick="ajudaJocSortir()">Sortir del joc</button>
+  </div>
+</div>
 <div class="modal-fons" id="modalPausa" role="dialog" aria-modal="true" aria-labelledby="titolPausa">
   <div class="modal modal-confirm">
     <h2 id="titolPausa">Joc en pausa</h2>
     <p class="modal-text">El temps està aturat. Quan vulguis, continuem.</p>
     <button type="button" class="boto-principal boto-gran boto-ample" onclick="reprendreJoc()"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg>Continuar</button>
     <button type="button" class="boto-secundari boto-ample" id="pausaNivell" onclick="canviarNivellJoc()"><svg class="ico" aria-hidden="true"><use href="#i-diana"/></svg>Canviar el nivell</button>
+    <button type="button" class="boto-secundari boto-ample" onclick="alternaSoRapid()"><svg class="ico" aria-hidden="true"><use href="#i-volum"/></svg>Activar o silenciar el so</button>
     <button type="button" class="boto-secundari boto-ample" onclick="tancarModal('modalPausa');reiniciarJocActual()"><svg class="ico" aria-hidden="true"><use href="#i-reiniciar"/></svg>Tornar a començar</button>
     <button type="button" class="boto-fantasma boto-ample" onclick="tancarModal('modalPausa');intentarSortir(true)">Sortir al menú</button>
   </div>
@@ -1277,6 +1325,8 @@
 <script src="js/13-onboarding.js" defer></script>
 <script src="js/14-copia.js" defer></script>
 <script src="js/15-pilot.js" defer></script>
+<script src="js/18-grup.js" defer></script>
+<script src="js/19-informe.js" defer></script>
 <script src="js/bingo-cants.js" defer></script>
 <script src="js/5-init.js" defer></script>
 </body>

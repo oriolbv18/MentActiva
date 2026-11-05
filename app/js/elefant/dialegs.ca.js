@@ -37,7 +37,7 @@ const DIALEGS_CA = {
   pausa: ['Fes el que et calgui. Ho tinc tot guardat.', 'Pausa. Aquí t\'espero.', 'Descansa una mica, {nom}.'],
   sortir_joc: ['Cap problema, ho deixem aquí. Tornes quan vulguis.', 'Entesos. Un altre dia seguim.'],
   // ---------- Pistes ----------
-  pista_oferta: ['Vols una pista?', 'Et poso una mà? Només si ho vols.', 'Una pista, potser?', 'Vols que t\'ajudi una miqueta?'],
+  pista_oferta: ['Vols una pista?', 'Et dono un cop de mà? Només si ho vols.', 'Una pista, potser?', 'Vols que t\'ajudi una miqueta?'],
   pista_1: ['Una idea:', 'Fixa\'t en això:', 'Et dono una pista:'],
   pista_2: ['Mira, t\'ho assenyalo amb la trompa.', 'És per aquí. Hi has de mirar.', 'Aquí, aquí!'],
   pista_3: ['Va, t\'ho mostro i et ho explico.', 'Et destapo la resposta, i te la raono.', 'Mira, t\'ho resolc un cop, i ho veuràs clar.'],

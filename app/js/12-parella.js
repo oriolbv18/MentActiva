@@ -9,7 +9,7 @@
 //  Les partides amb algú NO entren als indicadors cognitius del cuidador (es desen a part, com a activitat social).
 // ==========================================================
 const CLAU_PARELLA = 'mentA_ultimaParella';
-const JOCS_DUEL = ['calcul', 'stroop', 'span', 'quefalta', 'sopa', 'seqlog', 'sudoku', 'fluidesa'];     // d'1 jugador, amb Duel de puntuació
+const JOCS_DUEL = ['calcul', 'stroop', 'span', 'quefalta', 'sopa', 'seqlog', 'sudoku', 'fluidesa', 'encreuats', 'associa'];     // d'1 jugador, amb Duel de puntuació
 const JOCS_NATIUS_2P = ['memory', 'sequencia', 'domino', 'dames', 'bingo', 'tertulia', 'refranys', 'paraules'];
 const JOCS_JUNTS = ['memory', 'sequencia', 'tertulia'].concat(JOCS_DUEL);
 let parella = { actiu: false, j1: { id: null, nom: 'Jugador 1' }, j2: { id: null, nom: 'Convidat' }, marcador: [0, 0], mode: 'contra', nivells: { 1: 'auto', 2: 'auto' }, ultim: null };

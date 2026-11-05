@@ -168,44 +168,7 @@ function dadesInforme() {
     tests: d.tests.slice(-5), salut: { respiracio: d.salut.respiracio || 0, xecs: d.salut.xecs || 0, diari: d.diari.length }, medalles: d.medalles.length
   };
 }
-async function informeGenerarPDF() {
-  const ok = await carregaJsPDF();
-  if (!ok) { toast('No s\'ha pogut preparar el PDF. T\'obrim la versió per imprimir.', 4500); informeImprimir(); return; }
-  const I = dadesInforme(), doc = pdfNou({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  const V = [19, 74, 44], T = [36, 31, 25], S = [90, 81, 70];
-  doc.setFillColor(...V); doc.rect(0, 0, 210, 30, 'F');
-  try { doc.addImage(LOGO_PDF, 'PNG', 12, 5, 20, 20); } catch (e) { /* sense logo */ }
-  doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(20); doc.text('MentA · Informe de progrés', 38, 15);
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.text(`${I.nom} · ${I.data}`, 38, 22);
-  let y = 42;
-  const sec = t => { if (y > 262) { doc.addPage(); y = 20; } doc.setTextColor(...V); doc.setFont('helvetica', 'bold'); doc.setFontSize(13); doc.text(t, 14, y); y += 7; doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(...T); };
-  const par = (k, v) => { doc.setTextColor(...S); doc.text(k, 14, y); doc.setTextColor(...T); doc.setFont('helvetica', 'bold'); doc.text(String(v), 90, y); doc.setFont('helvetica', 'normal'); y += 6; };
-  sec('Resum');
-  par('Partides jugades', I.totals.partides); par('Dies actius', I.totals.dies); par('Ratxa actual / màxima', `${I.totals.ratxa} / ${I.totals.ratxaMax} dies`);
-  par('Últims 28 dies', `${I.mes.partides} partides en ${I.mes.dies} dies${I.mes.pct != null ? ' · resultat mitjà ' + I.mes.pct + '%' : ''}`);
-  if (I.minutsTotals) par('Temps jugat (des de la v1.7)', I.minutsTotals + ' min'); par('Medalles', I.medalles); y += 4;
-  sec('Resultat mitjà per setmana');
-  const gx = 20, gy = y + 36, gw = 170, gh = 34; doc.setDrawColor(200, 200, 200); doc.line(gx, gy, gx + gw, gy);
-  I.setmanes.forEach((s, i) => { const bw = 12, x = gx + 6 + i * (gw / 8), h = s.v ? gh * s.v / 100 : 0; doc.setFillColor(...V); if (h) doc.rect(x, gy - h, bw, h, 'F'); doc.setTextColor(...S); doc.setFontSize(8); doc.text(s.et, x + bw / 2, gy + 4, { align: 'center' }); if (s.v != null) doc.text(s.v + '%', x + bw / 2, gy - h - 1.5, { align: 'center' }); });
-  doc.setFontSize(10); y = gy + 12;
-  sec('Àrees (últimes 4 setmanes)');
-  I.dominis.forEach(dm => { doc.setTextColor(...T); doc.text(dm.nom, 14, y); doc.setFillColor(225, 225, 215); doc.rect(55, y - 3.5, 100, 4, 'F'); if (dm.v != null) { doc.setFillColor(...V); doc.rect(55, y - 3.5, dm.v, 4, 'F'); } doc.text(dm.v == null ? 'Sense dades suficients' : dm.v + '%', 160, y); y += 7; }); y += 3;
-  sec('Detall per joc');
-  doc.setFont('helvetica', 'bold'); ['Joc', 'Partides', 'Mitjana', 'Millor', 'Estrelles'].forEach((c, i) => doc.text(c, [14, 80, 108, 136, 162][i], y)); doc.setFont('helvetica', 'normal'); y += 6;
-  if (!I.jocs.length) { doc.text('Encara no hi ha dades.', 14, y); y += 8; }
-  I.jocs.forEach(j => { if (y > 275) { doc.addPage(); y = 20; } [j.nom, j.partides, j.mit + '%', j.millor + '%', j.estrelles + ' de 3'].forEach((c, i) => doc.text(String(c), [14, 80, 108, 136, 162][i], y)); y += 6; }); y += 4;
-  sec('Mini-test de memòria i hàbits (orientatiu)');
-  if (I.tests.length) I.tests.forEach(t => { doc.text(`${t.data}: ${t.punts}/${t.total}`, 14, y); y += 6; }); else { doc.text('No s\'ha fet cap mini-test.', 14, y); y += 6; }
-  par('Sessions de respiració', I.salut.respiracio); par('Dies amb xec diari', I.salut.xecs); par('Records al diari', I.salut.diari); y += 4;
-  if (y > 250) { doc.addPage(); y = 20; }
-  doc.setFillColor(244, 239, 231); doc.roundedRect(14, y, 182, 26, 2, 2, 'F'); doc.setFontSize(9); doc.setTextColor(...S);
-  doc.text(doc.splitTextToSize('Avís important. ' + AVIS_LEGAL, 172), 19, y + 7);
-  doc.setFontSize(8); doc.text(`Generat per MentA v${VERSIO_CURTA} al dispositiu de l'usuari. Les dades no s'han enviat enlloc.`, 14, 289);
-  const url = URL.createObjectURL(doc.output('blob')), a = document.createElement('a');
-  a.href = url; a.download = 'MentA-Informe-' + avuiISO() + '.pdf'; a.style.display = 'none'; document.body.appendChild(a); a.click();
-  setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 1500);
-  soVictoria(); tancarModal('modalInforme'); toast('Informe descarregat', 2800, 'exit');
-}
+async function informeGenerarPDF() { tancarModal('modalInforme'); await informeCuidadorPDF('familia', { propi: true }); }
 function informeImprimir() {
   const I = dadesInforme(), z = $('zonaImpressio');
   z.innerHTML = `<h1 style="font-family:var(--font-titols)">MentA · Informe de progrés</h1><p>${esc(I.nom)} · ${esc(I.data)}</p>

@@ -119,3 +119,33 @@ const Pistes = (() => {
   document.addEventListener('keydown', ev => { activitat(); if (ev.key === 'Escape' && E.obertes) tanca(); }, true);
   return { reinicia, activitat, encert, error, demana, resum, ofertaActiva, disponible, tanca, _E: E };
 })();
+
+// ---------- El «?» enmig d'una partida: surt l'Elefant i et diu què has de fer (S03, S04, S06, S08) ----------
+// El temps s'atura mentre parla. Si l'Elefant està apagat, el mateix surt en una finestra.
+let _ajudaOberta = false;
+const textFerJoc = () => { const i = infoJoc(jocActualId); return t(FER_JOC[jocActualId] || (i && i.desc) || ''); };
+const potDemanarPista = () => Pistes.disponible() && modeActual !== '2vs2';
+function ajudaTanca(reprendre = true) {
+  if (!_ajudaOberta) return;
+  _ajudaOberta = false; Pistes._E.ofertaActiva = false; Pistes.activitat();
+  const e = ELEF.inst; if (e) e.callaGlobus();
+  if (reprendre) reprenTimers();
+  elefantTornaAlCostat(250);
+}
+function obrirAjudaJoc() {
+  Pistes.tanca(true); pausaTimers(); _ajudaOberta = true; Pistes._E.ofertaActiva = true;
+  const e = elefantPermes() ? elefantSurt() : null;
+  if (!e) { setText('ajudaJocFer', textFerJoc()); mostra('ajudaJocPista', potDemanarPista(), 'flex'); obrirModal('modalAjudaJoc', false); return; }
+  const accions = [{ text: 'Entesos', principal: true, tanca: false, fer: () => ajudaTanca() }];
+  if (potDemanarPista()) accions.push({ text: 'Una pista', tanca: false, fer: ajudaJocPista });
+  accions.push({ text: 'Com es juga', tanca: false, fer: ajudaJocTutorial }, { text: 'Sortir del joc', tanca: false, fer: ajudaJocSortir });
+  e.estat('content'); e.diu(textFerJoc(), { durada: 0, accions, veu: !!ajustes.elefantVeu });
+}
+function ajudaJocPista() { ajudaTanca(); if ($('modalAjudaJoc').classList.contains('actiu')) tancarModal('modalAjudaJoc'); setTimeout(() => Pistes.demana(), 120); }
+function ajudaJocTutorial() { ajudaTanca(false); if ($('modalAjudaJoc').classList.contains('actiu')) tancarModal('modalAjudaJoc'); mostrarTutorial(jocActualId, null, true); }
+function ajudaJocSortir() { ajudaTanca(false); if ($('modalAjudaJoc').classList.contains('actiu')) tancarModal('modalAjudaJoc'); intentarSortir(true); }
+function ajudaJocSeguir() { ajudaTanca(); if ($('modalAjudaJoc').classList.contains('actiu')) tancarModal('modalAjudaJoc'); }
+MODAL_TANCA.modalAjudaJoc = () => { if (_ajudaOberta) ajudaTanca(); };
+// Tocar el joc o prémer Esc vol dir «ja ho he entès»
+document.addEventListener('pointerdown', ev => { if (_ajudaOberta && !$('modalAjudaJoc').classList.contains('actiu') && !ev.target.closest('.el-globus, #elefantFlotant')) ajudaTanca(); }, true);
+document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && _ajudaOberta && !$('modalAjudaJoc').classList.contains('actiu')) ajudaTanca(); }, true);

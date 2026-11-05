@@ -1,5 +1,5 @@
 """L'aparador de jocs (v1.9.3): «l'usuari mana, el moviment només convida».
-Criteris d'acceptació de la F1 del pla: es poden veure els 17 jocs en < 10 s amb roda, arrossegament o fletxes; el hover no atura ni mou res; res es mou sol
+Criteris d'acceptació de la F1 del pla: es poden veure els 19 jocs en < 10 s amb roda, arrossegament o fletxes; el hover no atura ni mou res; res es mou sol
 després de la primera interacció; teclat complet; objectius ≥ 44 px; moviment reduït = cap deriva; sense JS = scroller natiu amb totes les cartes; cap tasca llarga en arrossegar.
 Amb la variable MENTA_ARREL es pot apuntar a una altra versió (p. ex. la 1.9.2, on aquestes proves han de fallar).  Ús: python tests/web/test_aparador_control.py"""
 import os, pathlib, sys, time
@@ -29,7 +29,7 @@ def main():
         while y < 5200: pg.evaluate(f'window.scrollTo(0,{y})'); pg.wait_for_timeout(110); y += 384        # scroll com el de l'auditoria, fins a l'aparador
         pg.evaluate("document.getElementById('jocs').scrollIntoView()"); pg.wait_for_timeout(2200)
         comprova(pg.evaluate("window.__cls") <= 0.02, f"la invitació de l'aparador no suma CLS ({pg.evaluate('window.__cls'):.3f} ≤ 0,02)")
-        total = pg.evaluate("document.querySelectorAll('#carrusel .l-joc:not(.clon)').length"); comprova(total == 17, f'hi ha 17 jocs ({total})')
+        total = pg.evaluate("document.querySelectorAll('#carrusel .l-joc:not(.clon)').length"); comprova(total == 19, f'hi ha 17 jocs ({total})')
         files = pg.evaluate("document.querySelectorAll('#carrusel .fila').length"); comprova(files == 1, f"una sola fila (no dues en sentits oposats) ({files})")
         # --- cap moviment automàtic sostingut: la fila no es mou sola després de la invitació inicial
         pg.wait_for_timeout(2500)
@@ -40,17 +40,17 @@ def main():
         pg.mouse.move(700, 560); pg.wait_for_timeout(300); h0 = pg.evaluate("document.querySelector('#carrusel .fila').scrollLeft"); pg.mouse.move(760, 570, steps=10); pg.wait_for_timeout(600); h1 = pg.evaluate("document.querySelector('#carrusel .fila').scrollLeft")
         comprova(abs(h1 - h0) < 1, 'el hover no mou la fila')
         comprova(pg.evaluate("getComputedStyle(document.querySelector('#carrusel .l-pista')).animationPlayState") != 'paused' or pg.evaluate("getComputedStyle(document.querySelector('#carrusel .l-pista')).animationName") == 'none', 'el hover no «atura» res (no hi ha res que aturar)')
-        # --- fletxes: els 17 jocs en < 10 s
+        # --- fletxes: els 19 jocs en < 10 s
         t0 = time.time(); vistos = set(pg.evaluate(VISIBLES)); clics = 0
-        while len(vistos) < 17 and clics < 12 and time.time() - t0 < 10:
+        while len(vistos) < 19 and clics < 12 and time.time() - t0 < 10:
             if pg.evaluate("document.getElementById('jocSeg').disabled"): break
             pg.click('#jocSeg'); clics += 1; pg.wait_for_timeout(700); vistos |= set(pg.evaluate(VISIBLES))
-        comprova(len(vistos) == 17 and time.time() - t0 < 10, f'amb les fletxes es veuen els 17 jocs en {time.time() - t0:.1f} s ({len(vistos)}/17, {clics} clics)')
+        comprova(len(vistos) == 19 and time.time() - t0 < 10, f'amb les fletxes es veuen els 19 jocs en {time.time() - t0:.1f} s ({len(vistos)}/17, {clics} clics)')
         for _ in range(3):
             if not pg.evaluate("document.getElementById('jocSeg').disabled"): pg.click('#jocSeg'); pg.wait_for_timeout(700)
         comprova(pg.evaluate("document.getElementById('jocSeg').disabled") and not pg.evaluate("document.getElementById('jocAnt').disabled"), 'a l\'extrem final la fletxa «següent» queda desactivada i l\'«anterior» activa')
         comprova(pg.evaluate("['jocAnt','jocSeg'].every(id => { const r = document.getElementById(id).getBoundingClientRect(); return r.width >= 44 && r.height >= 44 && document.getElementById(id).getAttribute('aria-label'); })"), 'fletxes de ≥ 44 px amb aria-label')
-        comprova('de 17' in pg.inner_text('#jocPos'), f"indicador de posició: «{pg.inner_text('#jocPos').strip()}»")
+        comprova('de 19' in pg.inner_text('#jocPos'), f"indicador de posició: «{pg.inner_text('#jocPos').strip()}»")
         # --- roda del ratolí / trackpad (horitzontal)
         pg.click('#jocAnt'); pg.wait_for_timeout(200)
         for _ in range(4): pg.click('#jocAnt'); pg.wait_for_timeout(500)
@@ -58,15 +58,15 @@ def main():
         cy = pg.evaluate("(() => { const r = document.querySelector('#carrusel .l-joc .mobil').getBoundingClientRect(); return r.top + r.height / 2; })()"); pg.mouse.move(700, cy); t0 = time.time(); vistos = set(pg.evaluate(VISIBLES))
         for _ in range(14):
             pg.mouse.wheel(600, 0); pg.wait_for_timeout(120); vistos |= set(pg.evaluate(VISIBLES))
-        comprova(len(vistos) == 17 and time.time() - t0 < 10, f'amb la roda (horitzontal) es veuen els 17 jocs en {time.time() - t0:.1f} s ({len(vistos)}/17)')
+        comprova(len(vistos) == 19 and time.time() - t0 < 10, f'amb la roda (horitzontal) es veuen els 19 jocs en {time.time() - t0:.1f} s ({len(vistos)}/17)')
         # --- arrossegar amb el ratolí
         pg.evaluate("document.querySelector('#carrusel .fila').scrollLeft = 0"); pg.wait_for_timeout(400); vistos = set(pg.evaluate(VISIBLES)); t0 = time.time()
         for _ in range(10):
             pg.mouse.move(1100, cy); pg.mouse.down()
             for k in range(1, 13): pg.mouse.move(1100 - k * 34, cy); pg.wait_for_timeout(30)           # ≈ 400 px a ≈ 1.100 px/s: un gest humà
             pg.mouse.up(); pg.wait_for_timeout(900); vistos |= set(pg.evaluate(VISIBLES))
-            if len(vistos) == 17: break
-        comprova(len(vistos) == 17 and time.time() - t0 < 10, f'arrossegant amb el ratolí es veuen els 17 jocs en {time.time() - t0:.1f} s ({len(vistos)}/17)')
+            if len(vistos) == 19: break
+        comprova(len(vistos) == 19 and time.time() - t0 < 10, f'arrossegant amb el ratolí es veuen els 19 jocs en {time.time() - t0:.1f} s ({len(vistos)}/17)')
         pg.evaluate("document.querySelector('#carrusel .fila').scrollLeft = 0"); pg.wait_for_timeout(300); a = pg.evaluate("document.querySelector('#carrusel .fila').scrollLeft")
         pg.mouse.move(600, cy); pg.mouse.down(); pg.mouse.move(603, cy + 1); pg.mouse.up(); pg.wait_for_timeout(300)
         comprova(pg.evaluate("document.querySelector('#carrusel .fila').scrollLeft") == a, 'un clic curt (< 6 px) no compta com a arrossegament')
@@ -101,7 +101,7 @@ def main():
         ctx.close()
         # --- sense JS: scroller natiu amb totes les cartes
         ctx = nav.new_context(viewport={'width': 1440, 'height': 900}, java_script_enabled=False); pg = ctx.new_page(); pg.goto(url); pg.wait_for_timeout(600)
-        comprova(pg.evaluate("document.querySelectorAll('#carrusel .l-joc').length") == 17 and pg.evaluate("getComputedStyle(document.querySelector('#carrusel .fila')).overflowX") == 'auto', 'sense JS: la fila és un scroller natiu amb les 17 cartes')
+        comprova(pg.evaluate("document.querySelectorAll('#carrusel .l-joc').length") == 19 and pg.evaluate("getComputedStyle(document.querySelector('#carrusel .fila')).overflowX") == 'auto', 'sense JS: la fila és un scroller natiu amb les 17 cartes')
         ctx.close(); nav.close()
     comprova(not errors, f'cap error de JS ({errors[:2]})')
     print('\nFallades:', len(fallades)); return 1 if fallades else 0

@@ -7,7 +7,7 @@ from comu import Partida
 try: sys.stdout.reconfigure(encoding='utf-8')
 except Exception: pass
 
-JOCS = ['memory', 'sequencia', 'domino', 'dames', 'bingo', 'sopa', 'nback', 'span', 'stroop', 'calcul', 'seqlog', 'quefalta', 'sudoku', 'tertulia', 'refranys', 'paraules', 'fluidesa']
+JOCS = ['associa', 'encreuats', 'memory', 'sequencia', 'domino', 'dames', 'bingo', 'sopa', 'nback', 'span', 'stroop', 'calcul', 'seqlog', 'quefalta', 'sudoku', 'tertulia', 'refranys', 'paraules', 'fluidesa']
 fallades = []
 def comprova(c, m):
     print(('  ✓ ' if c else '  ✗ ') + m)

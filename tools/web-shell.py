@@ -47,7 +47,7 @@ def jocs_html():
         return (f'<li class="l-joc" tabindex="-1" data-id="{j["id"]}" data-domini="{j["domini"]}" data-dos="{1 if j["dos"] else 0}"><div class="mobil baix"><div class="mobil-pantalla"><img src="{src}-360.webp" srcset="{src}-360.webp 360w, {src}.webp 480w" sizes="204px" '
                 f'alt="Captura del joc «{esc(j["nom"])}» en marxa" loading="lazy" decoding="async" width="480" height="862"></div></div><div class="l-joc-text"><strong>{esc(j["nom"])}</strong><small>{esc(j["desc"])}</small>'
                 f'<span class="xips"><span class="xip neutre">{esc(j["dominiNom"])}</span>{"<span class=\"xip neutre\">2 jugadors</span>" if j["dos"] else ""}</span></div></li>')
-    return '<div class="fila" id="filaJocs" tabindex="0" role="region" aria-label="Aparador dels 17 jocs: llisca en horitzontal, arrossega o fes servir les fletxes ← →"><ul class="l-pista" id="galeriaJocs">' + chr(10).join(carta(j) for j in jocs) + '</ul></div>'
+    return '<div class="fila" id="filaJocs" tabindex="0" role="region" aria-label="Aparador dels 19 jocs: llisca en horitzontal, arrossega o fes servir les fletxes ← →"><ul class="l-pista" id="galeriaJocs">' + chr(10).join(carta(j) for j in jocs) + '</ul></div>'
 
 
 def elefant_inline():

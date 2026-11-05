@@ -134,7 +134,8 @@ async function avisarFamilia() {
 const PASSOS_GUIA = [
   { sel: '#btnJugar', text: 'Toca aquí per jugar. Només cal això.' },
   { sel: '#btnJugarAmb', text: 'Si hi ha algú amb tu, juga-hi aquí. Dos tocs i ja esteu jugant.' },
-  { sel: '#xipComVaig', text: 'Aquí veus com vas, sempre amb bones notícies.' }
+  { sel: '#xipComVaig', text: 'Aquí veus com vas, sempre amb bones notícies.' },
+  { sel: '#btnCuidador', text: 'Aquí, qui et cuida pot veure com vas i treure un informe per al metge.' }
 ];
 let _guiaPas = 0, _guiaDarrer = null;
 function iniciarGuiaPrimerUs(forcat) {

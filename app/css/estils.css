@@ -1591,3 +1591,74 @@ html[data-zoom="extragran"] .lat-info:has(.dames-obligat:not([hidden])) .joc-inf
 /* Els jocs amb teclat a baix: la bafarada de l'Elefant surt per sobre del teclat, no a sobre */
 body[data-pantalla="joc-paraules"] .el-wrap[data-rol="flotant"] .el-globus { bottom: calc(100% + 15rem); }
 body[data-pantalla="joc-paraules"] .el-wrap[data-rol="flotant"] .el-globus::after { display: none; }
+
+
+/* ==========================================================
+   v2.0 · Les entrevistes
+   ========================================================== */
+/* Al mòbil, el so va a la pausa perquè hi càpiga el títol del joc */
+@media (max-width: 520px) { .barra-joc [data-accio="so"] { display: none; } .barra-titol h1 { overflow-wrap: anywhere; } }
+.btn-cadenat { border: 2px solid var(--vora); padding: .5rem .9rem; justify-content: center; font-size: 1rem; }
+.ajuda-joc-fer { font-size: 1.25rem; font-weight: 700; line-height: 1.35; color: var(--text); }
+.tema-setmana { text-align: center; font-weight: 700; color: var(--marca-molt-fosc); margin: 0; }
+.tema-setmana:empty { display: none; }
+
+/* Què va amb què? */
+.associa-taula { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; width: 100%; max-width: 40rem; margin-inline: auto; }
+.associa-col { display: flex; flex-direction: column; gap: .55rem; }
+.associa-fitxa { display: flex; align-items: center; justify-content: center; gap: .3rem; min-height: 3.6rem; padding: .4rem .5rem; border-radius: var(--radi-m); background: var(--superficie); border: 2px solid var(--vora); font-weight: 700; font-size: 1.08rem; line-height: 1.15; overflow-wrap: anywhere; color: var(--text); }
+.associa-fitxa.triada { border-color: var(--marca); background: var(--marca-suau); box-shadow: inset 0 0 0 2px var(--marca); }
+.associa-fitxa.feta { background: var(--accio-suau); border-color: var(--accio); color: var(--accio-fosc); }
+.associa-fitxa.feta:disabled { opacity: 1; }
+.associa-fitxa .ico { width: 1.1rem; height: 1.1rem; flex: none; }
+
+/* Mots encreuats */
+.cos-encreuats { gap: .55rem; }
+.enc-graella { display: grid; gap: 3px; justify-content: center; width: 100%; margin-inline: auto; }
+.enc-buit { aspect-ratio: 1; }
+.enc-cel { position: relative; display: flex; align-items: center; justify-content: center; aspect-ratio: 1; min-width: 0; padding: 0; border-radius: .4rem; background: var(--superficie); border: 2px solid var(--vora-forta); color: var(--text); font-weight: 800; font-size: 1.25rem; line-height: 1; }
+.enc-cel small { position: absolute; top: 1px; left: 3px; font-size: .62rem; font-weight: 700; color: var(--text-suau); }
+.enc-cel.sel { background: var(--marca-suau); border-color: var(--marca); }
+.enc-cel.cursor { box-shadow: inset 0 0 0 3px var(--marca); }
+.enc-cel.feta { background: var(--accio-suau); border-color: var(--accio); color: var(--accio-fosc); }
+.enc-pistes { display: flex; flex-direction: column; gap: .35rem; width: 100%; max-width: 36rem; margin-inline: auto; }
+.enc-pista { display: flex; align-items: center; gap: .5rem; min-height: 3rem; padding: .35rem .6rem; border-radius: var(--radi-m); background: var(--superficie); border: 2px solid var(--vora); text-align: left; font-weight: 600; font-size: 1.02rem; line-height: 1.2; color: var(--text); }
+.enc-pista b { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--superficie-2); }
+.enc-pista span { flex: 1; min-width: 0; } .enc-pista small { color: var(--text-suau); font-weight: 600; white-space: nowrap; }
+.enc-pista.sel { border-color: var(--marca); background: var(--marca-suau); }
+.enc-pista.feta { border-color: var(--accio); color: var(--accio-fosc); }
+.enc-pista .ico { flex: none; width: 1.2rem; height: 1.2rem; }
+#enc-teclat { width: 100%; max-width: 36rem; margin-inline: auto; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+#enc-lletra { max-width: 36rem; margin-inline: auto; }
+.enc-pista .enc-seg { display: none; flex: none; margin-left: auto; }
+.enc-seg .ico { width: 1.4rem; height: 1.4rem; }
+@media (max-height: 900px), (max-width: 520px) {
+  .enc-pista:not(.sel) { display: none; }
+  .enc-pista .enc-seg { display: inline-flex; }
+  .cos-encreuats { gap: .3rem; }
+  #joc-encreuats .joc-info { display: none; }
+  #joc-encreuats .feedback { min-height: 0; margin: 0; }
+  #joc-encreuats .feedback:empty { display: none; }
+  #enc-teclat { gap: .22rem; }
+  #enc-teclat .tecla { min-height: 2.35rem; }
+  #enc-lletra { min-height: 2.75rem; }
+}
+
+/* Activitat de grup */
+.mov-pas { text-align: center; font-weight: 700; color: var(--text-suau); }
+.mov-fi { text-align: center; display: flex; flex-direction: column; gap: .7rem; }
+.grup-llista { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(11rem, 100%), 1fr)); gap: .45rem; margin-bottom: .6rem; }
+.grup-persona { display: flex; align-items: center; gap: .6rem; min-height: var(--tactil-gran); padding: .4rem .7rem; border-radius: var(--radi-m); background: var(--superficie); border: 2px solid var(--vora); font-weight: 700; }
+.grup-persona input { width: 1.5rem; height: 1.5rem; flex: none; }
+.grup-persona span { overflow-wrap: anywhere; min-width: 0; }
+.grup-pregunta { font-family: var(--font-titols); font-size: clamp(1.7rem, 5.5vw, 3.2rem); font-weight: 700; line-height: 1.2; text-align: center; color: var(--marca-molt-fosc); margin-block: .6rem 1rem; overflow-wrap: anywhere; }
+.grup-opcions { display: flex; flex-direction: column; gap: .55rem; margin-bottom: 1rem; }
+.grup-opcio { display: flex; align-items: center; justify-content: center; gap: .5rem; min-height: 4rem; padding: .5rem .9rem; border-radius: var(--radi-m); background: var(--superficie); border: 2px solid var(--vora); font-size: clamp(1.25rem, 3.6vw, 2.1rem); font-weight: 700; text-align: center; }
+.grup-opcio.bona { background: var(--accio-suau); border-color: var(--accio); color: var(--accio-fosc); }
+.grup-opcio .ico { flex: none; width: 1.5rem; height: 1.5rem; }
+
+/* Família i cuidador */
+.cu-accions { display: flex; flex-wrap: wrap; gap: .6rem; margin-block: .8rem; }
+.cu-accions > button { flex: 1 1 15rem; justify-content: center; min-width: 0; white-space: normal; }
+.cu-benvinguda { border: 2px solid var(--marca); }
+.cu-benvinguda ol { padding-left: 1.3rem; margin-block: .5rem; display: flex; flex-direction: column; gap: .35rem; }
